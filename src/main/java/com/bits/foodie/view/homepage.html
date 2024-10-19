@@ -2,9 +2,169 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery Service</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            background-color: #ff6347;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+        }
+
+        .navbar a {
+            padding: 14px 20px;
+            display: block;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .hero {
+            background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .hero h2 {
+            font-size: 48px;
+            margin: 0;
+        }
+
+        .services {
+            display: flex;
+            justify-content: space-around;
+            padding: 40px;
+            background-color: #f3f3f3;
+        }
+
+        .service {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 30%;
+        }
+
+        .service img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .service h3 {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+
+        .service p {
+            color: #555;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        .order-btn {
+            display: inline-block;
+            background-color: #ff6347;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .order-btn:hover {
+            background-color: #ff7f50;
+        }
+    </style>
 </head>
 <body>
+
+<!-- Header -->
+<header>
+    <h1>Foodie - Your Food, Delivered Fast</h1>
+</header>
+
+<!-- Navigation Bar -->
+<div class="navbar">
+    <a href="#home">Home</a>
+    <a href="#menu">Menu</a>
+    <a href="#about">About Us</a>
+    <a href="#contact">Contact Us</a>
+</div>
+
+<!-- Hero Section -->
+<section class="hero">
+    <h2>Delicious Meals, Just a Click Away!</h2>
+</section>
+
+<!-- Services Section -->
+<section class="services">
+    <div class="service">
+        <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60" alt="Burgers">
+        <h3>Burgers & Fries</h3>
+        <p>Satisfy your hunger with our range of juicy burgers and crispy fries, delivered right to your doorstep.</p>
+        <a href="#order" class="order-btn">Order Now</a>
+    </div>
+
+    <div class="service">
+        <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60" alt="Pizzas">
+        <h3>Delicious Pizzas</h3>
+        <p>Get a slice of heaven with our wide selection of pizzas, freshly baked and delivered hot.</p>
+        <a href="#order" class="order-btn">Order Now</a>
+    </div>
+
+    <div class="service">
+        <img src="data:image/jpeg;base64,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" alt="Desserts">
+        <h3>Sweet Desserts</h3>
+        <p>End your meal on a sweet note with our delectable selection of cakes, ice creams, and more.</p>
+        <a href="#order" class="order-btn">Order Now</a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2024 BITS Foodie - All Rights Reserved</p>
+    <p>Follow us on:
+        <a href="#" style="color: #ff6347;">Instagram</a> |
+        <a href="#" style="color: #ff6347;">Facebook</a> |
+        <a href="#" style="color: #ff6347;">Twitter</a>
+    </p>
+</footer>
 
 </body>
 </html>
