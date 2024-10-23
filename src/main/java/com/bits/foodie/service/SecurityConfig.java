@@ -15,7 +15,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/home", "/templates/**").permitAll() // Allow public access to these paths
+                        .requestMatchers("/","/css/**", "/home", "/templates/**","/register").permitAll() // Allow public access to these paths
                         .anyRequest().authenticated() // All other paths require authentication
                 )
                 .formLogin(form -> form

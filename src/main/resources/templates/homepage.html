@@ -1,129 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Delivery Service</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-        }
-
-        header {
-            background-color: #ff6347;
-            padding: 20px;
-            text-align: center;
-            color: white;
-        }
-
-        header h1 {
-            margin: 0;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: center;
-            background-color: #333;
-        }
-
-        .navbar a {
-            padding: 14px 20px;
-            display: block;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-        }
-
-        .navbar a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-
-        .hero {
-            background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80');
-            background-size: cover;
-            background-position: center;
-            height: 400px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-shadow: 2px 2px 4px #000;
-        }
-
-        .hero h2 {
-            font-size: 48px;
-            margin: 0;
-        }
-
-        .services {
-            display: flex;
-            justify-content: space-around;
-            padding: 40px;
-            background-color: #f3f3f3;
-        }
-
-        .service {
-            text-align: center;
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 30%;
-        }
-
-        .service img {
-            width: 100%;
-            border-radius: 10px;
-        }
-
-        .service h3 {
-            margin-top: 20px;
-            font-size: 24px;
-        }
-
-        .service p {
-            color: #555;
-        }
-
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-        }
-
-        .order-btn {
-            display: inline-block;
-            background-color: #ff6347;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-
-        .order-btn:hover {
-            background-color: #ff7f50;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" /> <!-- Link to CSS file -->
 </head>
 <body>
 
-<!-- Header -->
-<header>
-    <h1>Foodie - Your Food, Delivered Fast</h1>
-</header>
-
-<!-- Navigation Bar -->
-<div class="navbar">
-    <a href="login.html">Login</a>
-    <a href="register.html">Register</a>
-</div>
+<!-- Include the header (navigation bar) -->
+<div th:replace="fragments/header :: div"></div>
 
 <!-- Hero Section -->
 <section class="hero">
@@ -157,17 +43,8 @@
     </div>
 </section>
 
-<!-- Footer -->
-<footer>
-    <a href="#about" style="color: #ff6347;">About Us</a>
-    <a href="#contact" style="color: #ff6347;">Contact Us</a>
-    <p>&copy; 2024 BITS Foodie - All Rights Reserved</p>
-    <p>Follow us on:
-        <a href="#" style="color: #ff6347;">Instagram</a> |
-        <a href="#" style="color: #ff6347;">Facebook</a> |
-        <a href="#" style="color: #ff6347;">Twitter</a>
-    </p>
-</footer>
+<!-- Include the footer -->
+<div th:replace="fragments/footer :: footer"></div>
 
 </body>
 </html>

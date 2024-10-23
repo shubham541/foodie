@@ -15,4 +15,14 @@ public class HomeController {
     public String homepage() {
         return "homepage";  // Spring will look for index.html in src/main/resources/templates/ or static/
     }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";  // Spring will look for index.html in src/main/resources/templates/ or static/
+    }
+
+    @GetMapping("/register")
+    public String register() {
+        return "register";  // Spring will look for index.html in src/main/resources/templates/ or static/
+    }
 }

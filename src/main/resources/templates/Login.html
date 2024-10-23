@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" /> <!-- Link to CSS file -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -76,6 +77,9 @@
 </head>
 <body>
 
+<!-- Include the header (navigation bar) -->
+<div th:replace="fragments/header :: div"></div>
+
 <div class="form-container">
     <h2>Login</h2>
     <form id="login-form">
@@ -100,10 +104,14 @@
             <input type="submit" value="Login">
         </div>
         <div class="toggle-link">
-            Don't have an account? <a href="register.html">Register</a>
+            Don't have an account? <a href="register">Register</a>
         </div>
     </form>
 </div>
+
+<!-- Include the footer -->
+<div th:replace="fragments/footer :: footer"></div>
+
 
 </body>
 </html>
