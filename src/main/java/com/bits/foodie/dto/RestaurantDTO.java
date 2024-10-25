@@ -10,7 +10,6 @@ import java.util.List;
 @Getter
 @Setter
 public class RestaurantDTO {
-    private String restaurantId;
     private String restaurantName;
     private String restaurantEmail;
     private String password;
@@ -28,7 +27,7 @@ public class RestaurantDTO {
     private double timeConsumedPerOrderInMinutes;
 
 
-    public RestaurantDTO(String password, String restaurantName, String restaurantEmail, String restaurantAdd, String role, String cuisineType, boolean isVegOnly, LocalTime openingHours, LocalTime closingHours, List<String> deliveryZones) {
+    public RestaurantDTO(String restaurantName, String restaurantEmail,String password, String restaurantAdd, String role, String cuisineType, boolean isVegOnly, LocalTime openingHours, LocalTime closingHours, List<String> deliveryZones) {
         this.password = password;
         this.restaurantName = restaurantName;
         this.restaurantEmail = restaurantEmail;

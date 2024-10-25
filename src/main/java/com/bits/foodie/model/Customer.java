@@ -13,17 +13,10 @@ import java.util.List;
 public class Customer {
 
     @Id
-    @Column(name = "customer_id", length = 45)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int customerId;
-
-    @Column(name = "customer_name")
     private String customerName;
-
-    @Column(name = "customer_email")
     private String customerEmail;
-
-    @Column(name = "password")
     private String password;
 
     //private List<Address> addresses;

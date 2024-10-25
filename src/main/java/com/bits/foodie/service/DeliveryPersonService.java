@@ -1,4 +1,7 @@
 package com.bits.foodie.service;
 
-public class DeliveryPersonService {
+import com.bits.foodie.dto.DeliveryPersonDTO;
+
+public interface DeliveryPersonService {
+    String addDeliveryPerson(DeliveryPersonDTO deliveryPersonDTO);
 }

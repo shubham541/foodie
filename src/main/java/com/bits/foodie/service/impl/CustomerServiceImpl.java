@@ -1,11 +1,10 @@
 package com.bits.foodie.service.impl;
 
 import com.bits.foodie.dto.CustomerDTO;
-import com.bits.foodie.dto.RegisterDTO;
 import com.bits.foodie.dto.LoginDTO;
 import com.bits.foodie.model.Customer;
 import com.bits.foodie.response.LoginResponse;
-import com.bits.foodie.repository.CustomerRepo;
+import com.bits.foodie.repository.CustomerRepository;
 import com.bits.foodie.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,7 +16,7 @@ import java.util.Optional;
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
-    private CustomerRepo customerRepo;
+    private CustomerRepository customerRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -30,20 +29,20 @@ public class CustomerServiceImpl implements CustomerService {
                 customerDTO.getCustomerName(),
                 customerDTO.getCustomerEmail(),
                 this.passwordEncoder.encode(customerDTO.getPassword()));
-        customerRepo.save(customer);
+        customerRepository.save(customer);
         return customer.getCustomerName();
     }
 
     @Override
     public LoginResponse loginCustomer(LoginDTO loginDTO) {
         String msg = "";
-        Customer customer = customerRepo.findByCustomerEmail(loginDTO.getCustomerEmail());
+        Customer customer = customerRepository.findByCustomerEmail(loginDTO.getCustomerEmail());
         if (customer != null && loginDTO.getRole().equals(customer.getRole())) {
             String password = loginDTO.getPassword();
             String encodedPassword = customer.getPassword();
             boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
             if (isPwdRight) {
-                Optional<Customer> customer1 = customerRepo.findOneByCustomerEmailAndPassword(customer.getCustomerEmail(), customer.getPassword());
+                Optional<Customer> customer1 = customerRepository.findOneByCustomerEmailAndPassword(customer.getCustomerEmail(), customer.getPassword());
                 if (customer1.isPresent()) {
                     return new LoginResponse("Login Success", true);
                 } else {

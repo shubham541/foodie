@@ -155,7 +155,10 @@
             </div>
             <div class="form-group">
                 <label for="delivery-zone">Delivery Zone</label>
-                <input type="text" id="delivery-zone" name="deliveryZone" placeholder="Enter delivery zone">
+                <div id="delivery-zone-container">
+                    <input type="text" id="delivery-zone" placeholder="Enter delivery zone">
+                </div>
+                <button type="button" onclick="addDeliveryZone()">Add Another Zone</button>
             </div>
         </div>
 
@@ -174,6 +177,34 @@
       document.getElementById('delivery-fields').style.display = role === 'deliveryPerson' ? 'block' : 'none';
       document.getElementById('restaurant-fields').style.display = role === 'restaurant' ? 'block' : 'none';
     }
+
+    let deliveryZoneCount = 0; // To keep track of the number of delivery zone inputs
+
+    function addDeliveryZone() {
+        deliveryZoneCount++; // Increment the count for each new input
+        const container = document.getElementById('delivery-zone-container');
+
+        const newInput = document.createElement('input');
+        newInput.type = 'text';
+        newInput.id = `delivery-zone-${deliveryZoneCount}`; // Unique ID for each input
+        newInput.className = 'delivery-zone';
+        newInput.placeholder = 'Enter delivery zone';
+
+        container.appendChild(newInput);
+    }
+
+    function collectDeliveryZones() {
+        const deliveryZones = [];
+        const inputs = document.querySelectorAll('.delivery-zone'); // Select all inputs with the 'delivery-zone' class
+        inputs.forEach(function(input) { // Use a function to access the 'input' variable within the correct scope
+            const zone = input.value.trim();
+            if (zone) {
+                deliveryZones.push(zone); // Add only non-empty zones to the array
+            }
+        });
+        return deliveryZones; // Return the list of delivery zones
+    }
+
 
     document.getElementById('register-form').addEventListener('submit', async function(event) {
       event.preventDefault();
@@ -195,7 +226,7 @@
       } else if (role === 'deliveryPerson') {
         formData.devEmail = document.getElementById('register-email').value;
         formData.devName = document.getElementById('register-name').value;
-        formData.contactNumber = document.getElementById('contact-number').value;
+        formData.contactDetails = document.getElementById('contact-number').value;
         formData.vehicleType = document.getElementById('vehicle-type').value;
       } else if (role === 'restaurant') {
         formData.restaurantEmail = document.getElementById('register-email').value;
@@ -205,8 +236,8 @@
         formData.pureVeg = document.getElementById('pure-veg').value;
         formData.openingHours = document.getElementById('opening-hours').value;
         formData.closingHours = document.getElementById('closing-hours').value;
-        formData.deliveryZone = document.getElementById('delivery-zone').value;
-      }
+        formData.deliveryZones = collectDeliveryZones(); // Call the function to get delivery zones
+          }
 
       try {
         const response = await fetch('http://localhost:8080/api/v1/customer/save', {

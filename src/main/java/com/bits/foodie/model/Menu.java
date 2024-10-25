@@ -1,5 +1,6 @@
 package com.bits.foodie.model;
 
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 

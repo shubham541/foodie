@@ -6,9 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DeliveryPersonDTO {
-    private String devId;
-    private String devEmail;
-    private String devName;
+    private String deliveryPersonEmail;
+    private String deliveryPersonName;
     private String password;
     private String contactDetails;
     private String vehicleType;
@@ -17,9 +16,9 @@ public class DeliveryPersonDTO {
     private boolean isActive;
 
 
-    public DeliveryPersonDTO(String devEmail, String devName, String password, String contactDetails, String vehicleType, String role) {
-        this.devEmail = devEmail;
-        this.devName = devName;
+    public DeliveryPersonDTO(String deliveryPersonEmail, String deliveryPersonName, String password, String contactDetails, String vehicleType, String role) {
+        this.deliveryPersonEmail = deliveryPersonEmail;
+        this.deliveryPersonName = deliveryPersonName;
         this.password = password;
         this.contactDetails = contactDetails;
         this.vehicleType = vehicleType;
