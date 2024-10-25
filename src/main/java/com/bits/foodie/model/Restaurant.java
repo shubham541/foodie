@@ -11,6 +11,7 @@ import java.util.List;
 public class Restaurant {
     private String restaurantId;
     private String restaurantName;
+    private String restaurantEmail;
     private String restaurantAdd;
     private Menu menu;
     private String role;

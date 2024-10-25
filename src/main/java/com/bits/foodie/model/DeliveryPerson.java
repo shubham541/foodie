@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class DeliveryPerson {
     private String devId;
+    private String devEmail;
     private String devName;
     private String contactDetails;
     private String vehicleType;

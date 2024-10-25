@@ -8,6 +8,7 @@ import lombok.Setter;
 public class Admin {
     private String adminId;
     private String adminName;
+    private String adminEmail;
     private String role;
 
     public void deactivateUser() {
