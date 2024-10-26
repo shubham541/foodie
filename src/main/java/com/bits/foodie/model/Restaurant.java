@@ -2,6 +2,7 @@ package com.bits.foodie.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalTime;
@@ -11,6 +12,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table
+@NoArgsConstructor
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

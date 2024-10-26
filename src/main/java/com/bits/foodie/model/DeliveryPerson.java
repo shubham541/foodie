@@ -2,12 +2,14 @@ package com.bits.foodie.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
 @Table
+@NoArgsConstructor
 public class DeliveryPerson {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

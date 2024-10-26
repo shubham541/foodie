@@ -27,30 +27,6 @@ public class DeliveryPersonServiceImpl implements DeliveryPersonService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
-    //@Override
-    public LoginResponse loginCustomer(LoginDTO loginDTO) {
-        String msg = "";
-        Customer customer = customerRepository.findByCustomerEmail(loginDTO.getCustomerEmail());
-        if (customer != null && loginDTO.getRole().equals(customer.getRole())) {
-            String password = loginDTO.getPassword();
-            String encodedPassword = customer.getPassword();
-            boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
-            if (isPwdRight) {
-                Optional<Customer> customer1 = customerRepository.findOneByCustomerEmailAndPassword(customer.getCustomerEmail(), customer.getPassword());
-                if (customer1.isPresent()) {
-                    return new LoginResponse("Login Success", true);
-                } else {
-                    return new LoginResponse("Login failed", false);
-                }
-            } else {
-                return new LoginResponse("Password Not Match", false);
-            }
-        } else {
-            return new LoginResponse("Email not exists", false);
-        }
-    }
-
     @Override
     public String addDeliveryPerson(DeliveryPersonDTO deliveryPersonDTO) {
         DeliveryPerson deliveryPerson = new DeliveryPerson(
@@ -62,5 +38,28 @@ public class DeliveryPersonServiceImpl implements DeliveryPersonService {
                 deliveryPersonDTO.getRole());
         deliveryPersonRepository.save(deliveryPerson);
         return deliveryPerson.getDeliveryPersonName();
+    }
+
+    @Override
+    public LoginResponse loginDeliveryPerson(LoginDTO loginDTO) {
+        String msg = "";
+        DeliveryPerson deliveryPerson = deliveryPersonRepository.findByDeliveryPersonEmail(loginDTO.getDeliveryPersonEmail());
+        if (deliveryPerson != null && loginDTO.getRole().equalsIgnoreCase(deliveryPerson.getRole())) {
+            String password = loginDTO.getPassword();
+            String encodedPassword = deliveryPerson.getPassword();
+            boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
+            if (isPwdRight) {
+                Optional<DeliveryPerson> deliveryPerson1 = deliveryPersonRepository.findOneByDeliveryPersonEmailAndPassword(deliveryPerson.getDeliveryPersonEmail(), deliveryPerson.getPassword());
+                if (deliveryPerson1.isPresent()) {
+                    return new LoginResponse("Login Success", true);
+                } else {
+                    return new LoginResponse("Login failed", false);
+                }
+            } else {
+                return new LoginResponse("Password Not Match", false);
+            }
+        } else {
+            return new LoginResponse("Email not exists", false);
+        }
     }
 }

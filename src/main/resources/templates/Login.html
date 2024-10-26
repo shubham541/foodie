@@ -112,6 +112,55 @@
 <!-- Include the footer -->
 <div th:replace="fragments/footer :: footer"></div>
 
+<script>
+    document.getElementById("login-form").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Get selected role and form values
+        const role = document.getElementById("login-role").value;
+        const email = document.getElementById("login-email").value;
+        const password = document.getElementById("login-password").value;
+
+        // Define login data structure based on role
+        let loginData = { password: password }; // Base structure
+
+        // Set role-specific email and field names
+        if (role === "customer") {
+            loginData = { role:role,customerEmail: email, password: password };
+        } else if (role === "admin") {
+            loginData = {  role:role, adminEmail: email, password: password };
+        } else if (role === "restaurant") {
+            loginData = {  role:role, restaurantEmail: email, password: password };
+        } else if (role === "deliveryPerson") {
+            loginData = {  role:role, deliveryPersonEmail: email, password: password };
+        }
+
+        // Send the data to the backend
+        fetch("http://localhost:8080/api/v1/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(loginData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Login failed");
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert("Login successful!");
+            // Redirect user or perform actions based on role
+            console.log(data);
+        })
+        .catch(error => {
+            alert("Error: " + error.message);
+            console.error("Login error:", error);
+        });
+    });
+</script>
+
 
 </body>
 </html>

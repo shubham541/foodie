@@ -37,7 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
     public LoginResponse loginCustomer(LoginDTO loginDTO) {
         String msg = "";
         Customer customer = customerRepository.findByCustomerEmail(loginDTO.getCustomerEmail());
-        if (customer != null && loginDTO.getRole().equals(customer.getRole())) {
+        if (customer != null && loginDTO.getRole().equalsIgnoreCase(customer.getRole())) {
             String password = loginDTO.getPassword();
             String encodedPassword = customer.getPassword();
             boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);

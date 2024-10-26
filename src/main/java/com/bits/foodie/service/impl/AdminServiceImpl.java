@@ -32,17 +32,28 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    //@Override
-    public LoginResponse loginCustomer(LoginDTO loginDTO) {
+    @Override
+    public String addAdmin(AdminDTO adminDTO) {
+        Admin admin = new Admin(
+                adminDTO.getAdminName(),
+                adminDTO.getAdminEmail(),
+                adminDTO.getRole(),
+                this.passwordEncoder.encode(adminDTO.getPassword()));
+        adminRepository.save(admin);
+        return admin.getAdminName();
+    }
+
+    @Override
+    public LoginResponse loginAdmin(LoginDTO loginDTO) {
         String msg = "";
-        Customer customer = customerRepository.findByCustomerEmail(loginDTO.getCustomerEmail());
-        if (customer != null && loginDTO.getRole().equals(customer.getRole())) {
+        Admin admin = adminRepository.findByAdminEmail(loginDTO.getAdminEmail());
+        if (admin != null && loginDTO.getRole().equalsIgnoreCase(admin.getRole())) {
             String password = loginDTO.getPassword();
-            String encodedPassword = customer.getPassword();
+            String encodedPassword = admin.getPassword();
             boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
             if (isPwdRight) {
-                Optional<Customer> customer1 = customerRepository.findOneByCustomerEmailAndPassword(customer.getCustomerEmail(), customer.getPassword());
-                if (customer1.isPresent()) {
+                Optional<Admin> admin1 = adminRepository.findOneByAdminEmailAndPassword(admin.getAdminEmail(), admin.getPassword());
+                if (admin1.isPresent()) {
                     return new LoginResponse("Login Success", true);
                 } else {
                     return new LoginResponse("Login failed", false);
@@ -53,16 +64,5 @@ public class AdminServiceImpl implements AdminService {
         } else {
             return new LoginResponse("Email not exists", false);
         }
-    }
-
-    @Override
-    public String addAdmin(AdminDTO adminDTO) {
-        Admin admin = new Admin(
-                adminDTO.getAdminName(),
-                adminDTO.getAdminEmail(),
-                adminDTO.getRole(),
-                this.passwordEncoder.encode(adminDTO.getPassword()));
-        adminRepository.save(admin);
-        return admin.getAdminName();
     }
 }
