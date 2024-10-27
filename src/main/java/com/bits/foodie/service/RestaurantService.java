@@ -1,11 +1,11 @@
 package com.bits.foodie.service;
 
-import com.bits.foodie.dto.LoginDTO;
+import com.bits.foodie.dto.payload.LoginRequestDTO;
 import com.bits.foodie.dto.RestaurantDTO;
-import com.bits.foodie.response.LoginResponse;
+import com.bits.foodie.dto.response.ResponseDTO;
 
 public interface RestaurantService {
-    String addRestaurant(RestaurantDTO restaurantDTO);
+    ResponseDTO addRestaurant(RestaurantDTO restaurantDTO);
 
-    LoginResponse loginRestaurant(LoginDTO loginDTO);
+    ResponseDTO loginRestaurant(LoginRequestDTO loginRequestDTO);
 }

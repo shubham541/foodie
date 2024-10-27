@@ -2,6 +2,7 @@ package com.bits.foodie.dto;
 
 import com.bits.foodie.model.Menu;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalTime;
@@ -9,12 +10,14 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class RestaurantDTO {
+    private int restaurantId;
     private String restaurantName;
     private String restaurantEmail;
     private String password;
     private String restaurantAdd;
-    private Menu menu;
+    private MenuDTO menu;
     private String role;
     private String CuisineType;
     private boolean isVegOnly;

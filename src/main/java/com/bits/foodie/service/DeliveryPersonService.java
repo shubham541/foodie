@@ -1,11 +1,11 @@
 package com.bits.foodie.service;
 
 import com.bits.foodie.dto.DeliveryPersonDTO;
-import com.bits.foodie.dto.LoginDTO;
-import com.bits.foodie.response.LoginResponse;
+import com.bits.foodie.dto.payload.LoginRequestDTO;
+import com.bits.foodie.dto.response.ResponseDTO;
 
 public interface DeliveryPersonService {
-    String addDeliveryPerson(DeliveryPersonDTO deliveryPersonDTO);
+    ResponseDTO addDeliveryPerson(DeliveryPersonDTO deliveryPersonDTO);
 
-    LoginResponse loginDeliveryPerson(LoginDTO loginDTO);
+    ResponseDTO loginDeliveryPerson(LoginRequestDTO loginRequestDTO);
 }

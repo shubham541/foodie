@@ -1,11 +1,12 @@
-package com.bits.foodie.dto;
+package com.bits.foodie.dto.payload;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginDTO {
+public class LoginRequestDTO {
+    private int loginId;
     private String role;
     private String customerEmail;
     private String adminEmail;
@@ -13,6 +14,6 @@ public class LoginDTO {
     private String deliveryPersonEmail;
     private String password;
 
-    public LoginDTO() {
+    public LoginRequestDTO() {
     }
 }

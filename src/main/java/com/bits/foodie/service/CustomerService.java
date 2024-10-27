@@ -1,13 +1,17 @@
 package com.bits.foodie.service;
 
 import com.bits.foodie.dto.CustomerDTO;
-import com.bits.foodie.dto.RegisterDTO;
-import com.bits.foodie.dto.LoginDTO;
-import com.bits.foodie.response.LoginResponse;
+import com.bits.foodie.dto.payload.LoginRequestDTO;
+import com.bits.foodie.dto.response.ResponseDTO;
+import com.bits.foodie.model.Customer;
 
 
 public interface CustomerService {
-    String addCustomer(CustomerDTO customerDTO);
+    ResponseDTO addCustomer(CustomerDTO customerDTO);
 
-    LoginResponse loginCustomer(LoginDTO loginDTO);
+    ResponseDTO loginCustomer(LoginRequestDTO loginRequestDTO);
+
+    Customer updateCustomer(CustomerDTO customerDTO);
+
+    Customer fetchCustomerById(int customerId);
 }

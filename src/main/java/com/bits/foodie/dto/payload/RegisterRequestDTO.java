@@ -1,5 +1,6 @@
-package com.bits.foodie.dto;
+package com.bits.foodie.dto.payload;
 
+import com.bits.foodie.dto.CartDTO;
 import com.bits.foodie.model.Address;
 import com.bits.foodie.model.Card;
 import com.bits.foodie.model.Menu;
@@ -11,7 +12,9 @@ import java.util.List;
 
 @Getter
 @Setter
-public class RegisterDTO {
+public class RegisterRequestDTO {
+
+    private int registerId;
 
     //Common attributes
     private String name;
@@ -27,8 +30,8 @@ public class RegisterDTO {
     private List<Address> addresses;
     private List<Card> savedPaymentDetails;
     //Content type issue with REST API with Cart class - Need to check
-//   private Cart cart;
-//   private List<Cart> history;
+   private CartDTO cart;
+   private List<CartDTO> history;
 
     //Delivery Person Attributes
     private String devId;

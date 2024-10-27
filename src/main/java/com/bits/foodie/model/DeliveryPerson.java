@@ -14,6 +14,8 @@ public class DeliveryPerson {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int deliveryPersonId;
+
+    @Column(unique = true)
     private String deliveryPersonEmail;
     private String deliveryPersonName;
     private String contactDetails;

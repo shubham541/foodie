@@ -1,13 +1,11 @@
 package com.bits.foodie.service.impl;
 
-import com.bits.foodie.dto.CustomerDTO;
 import com.bits.foodie.dto.DeliveryPersonDTO;
-import com.bits.foodie.dto.LoginDTO;
-import com.bits.foodie.model.Customer;
+import com.bits.foodie.dto.payload.LoginRequestDTO;
 import com.bits.foodie.model.DeliveryPerson;
 import com.bits.foodie.repository.CustomerRepository;
 import com.bits.foodie.repository.DeliveryPersonRepository;
-import com.bits.foodie.response.LoginResponse;
+import com.bits.foodie.dto.response.ResponseDTO;
 import com.bits.foodie.service.DeliveryPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,7 +26,7 @@ public class DeliveryPersonServiceImpl implements DeliveryPersonService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public String addDeliveryPerson(DeliveryPersonDTO deliveryPersonDTO) {
+    public ResponseDTO addDeliveryPerson(DeliveryPersonDTO deliveryPersonDTO) {
         DeliveryPerson deliveryPerson = new DeliveryPerson(
                 deliveryPersonDTO.getDeliveryPersonEmail(),
                 deliveryPersonDTO.getDeliveryPersonName(),
@@ -37,29 +35,29 @@ public class DeliveryPersonServiceImpl implements DeliveryPersonService {
                 deliveryPersonDTO.getVehicleType(),
                 deliveryPersonDTO.getRole());
         deliveryPersonRepository.save(deliveryPerson);
-        return deliveryPerson.getDeliveryPersonName();
+        return new ResponseDTO("Registration Successful", true);
     }
 
     @Override
-    public LoginResponse loginDeliveryPerson(LoginDTO loginDTO) {
+    public ResponseDTO loginDeliveryPerson(LoginRequestDTO loginRequestDTO) {
         String msg = "";
-        DeliveryPerson deliveryPerson = deliveryPersonRepository.findByDeliveryPersonEmail(loginDTO.getDeliveryPersonEmail());
-        if (deliveryPerson != null && loginDTO.getRole().equalsIgnoreCase(deliveryPerson.getRole())) {
-            String password = loginDTO.getPassword();
+        DeliveryPerson deliveryPerson = deliveryPersonRepository.findByDeliveryPersonEmail(loginRequestDTO.getDeliveryPersonEmail());
+        if (deliveryPerson != null && loginRequestDTO.getRole().equalsIgnoreCase(deliveryPerson.getRole())) {
+            String password = loginRequestDTO.getPassword();
             String encodedPassword = deliveryPerson.getPassword();
             boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
             if (isPwdRight) {
                 Optional<DeliveryPerson> deliveryPerson1 = deliveryPersonRepository.findOneByDeliveryPersonEmailAndPassword(deliveryPerson.getDeliveryPersonEmail(), deliveryPerson.getPassword());
                 if (deliveryPerson1.isPresent()) {
-                    return new LoginResponse("Login Success", true);
+                    return new ResponseDTO("Login Success", true);
                 } else {
-                    return new LoginResponse("Login failed", false);
+                    return new ResponseDTO("Login failed", false);
                 }
             } else {
-                return new LoginResponse("Password Not Match", false);
+                return new ResponseDTO("Password Not Match", false);
             }
         } else {
-            return new LoginResponse("Email not exists", false);
+            return new ResponseDTO("Email not exists", false);
         }
     }
 }

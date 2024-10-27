@@ -1,7 +1,9 @@
 package com.bits.foodie.controller;
 
 import com.bits.foodie.dto.*;
-import com.bits.foodie.response.LoginResponse;
+import com.bits.foodie.dto.payload.LoginRequestDTO;
+import com.bits.foodie.dto.payload.RegisterRequestDTO;
+import com.bits.foodie.dto.response.ResponseDTO;
 import com.bits.foodie.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,15 +15,15 @@ public class RestaurantController {
     @Autowired
     RestaurantService restaurantService;
 
-    public void saveRestaurant(@RequestBody RegisterDTO registerDTO) {
-        RestaurantDTO restaurantDTO = new RestaurantDTO(registerDTO.getRestaurantName(), registerDTO.getRestaurantEmail(), registerDTO.getPassword(),
-                registerDTO.getRestaurantAdd(), registerDTO.getRole(), registerDTO.getCuisineType(), registerDTO.isVegOnly(),
-                registerDTO.getOpeningHours(), registerDTO.getClosingHours(), registerDTO.getDeliveryZones());
-        restaurantService.addRestaurant(restaurantDTO);
+    public ResponseDTO saveRestaurant(@RequestBody RegisterRequestDTO registerRequestDTO) {
+        RestaurantDTO restaurantDTO = new RestaurantDTO(registerRequestDTO.getRestaurantName(), registerRequestDTO.getRestaurantEmail(), registerRequestDTO.getPassword(),
+                registerRequestDTO.getRestaurantAdd(), registerRequestDTO.getRole(), registerRequestDTO.getCuisineType(), registerRequestDTO.isVegOnly(),
+                registerRequestDTO.getOpeningHours(), registerRequestDTO.getClosingHours(), registerRequestDTO.getDeliveryZones());
+        return restaurantService.addRestaurant(restaurantDTO);
 
     }
 
-    public LoginResponse loginRestaurant(@RequestBody LoginDTO loginDTO) {
-        return restaurantService.loginRestaurant(loginDTO);
+    public ResponseDTO loginRestaurant(@RequestBody LoginRequestDTO loginRequestDTO) {
+        return restaurantService.loginRestaurant(loginRequestDTO);
     }
 }

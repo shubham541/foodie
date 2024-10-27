@@ -1,11 +1,15 @@
 package com.bits.foodie.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class DeliveryPersonDTO {
+
+    private int deliveryPersonId;
     private String deliveryPersonEmail;
     private String deliveryPersonName;
     private String password;

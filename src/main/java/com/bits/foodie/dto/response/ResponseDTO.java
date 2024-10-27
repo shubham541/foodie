@@ -1,4 +1,4 @@
-package com.bits.foodie.response;
+package com.bits.foodie.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginResponse {
+public class ResponseDTO {
     String message;
     Boolean status;
 

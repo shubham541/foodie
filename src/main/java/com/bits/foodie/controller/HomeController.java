@@ -1,7 +1,8 @@
 package com.bits.foodie.controller;
 
-import com.bits.foodie.dto.*;
-import com.bits.foodie.response.LoginResponse;
+import com.bits.foodie.dto.payload.LoginRequestDTO;
+import com.bits.foodie.dto.payload.RegisterRequestDTO;
+import com.bits.foodie.dto.response.ResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,34 +46,37 @@ public class HomeController {
 
     @ResponseBody
     @PostMapping(path = "api/v1/save")
-    public void saveCustomer(@RequestBody RegisterDTO registerDTO) {
-        String role = registerDTO.getRole();
+    public ResponseEntity<?> saveCustomer(@RequestBody RegisterRequestDTO registerRequestDTO) {
+        String role = registerRequestDTO.getRole();
+        ResponseDTO registerResponseDTO = null;
         if (role.equalsIgnoreCase("Customer")) {
-            customerController.saveCustomer(registerDTO);
+            registerResponseDTO= customerController.saveCustomer(registerRequestDTO);
         } else if (role.equalsIgnoreCase("Admin")) {
-            adminController.saveAdmin(registerDTO);
+            registerResponseDTO= adminController.saveAdmin(registerRequestDTO);
         } else if (role.equalsIgnoreCase("DeliveryPerson")) {
-            deliveryPersonController.saveDeliveryPerson(registerDTO);
+            registerResponseDTO= deliveryPersonController.saveDeliveryPerson(registerRequestDTO);
         } else if (role.equalsIgnoreCase("Restaurant")) {
-            restaurantController.saveRestaurant(registerDTO);
+            registerResponseDTO= restaurantController.saveRestaurant(registerRequestDTO);
         }
+        return registerResponseDTO != null && registerResponseDTO.getStatus() ?
+                ResponseEntity.ok(registerResponseDTO) : new ResponseEntity<>("Registration Successful", HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @ResponseBody
     @PostMapping(path = "api/v1/login")
-    public ResponseEntity<?> loginCustomer(@RequestBody LoginDTO loginDTO) {
-        String role = loginDTO.getRole();
-        LoginResponse loginResponse = null;
+    public ResponseEntity<?> loginCustomer(@RequestBody LoginRequestDTO loginRequestDTO) {
+        String role = loginRequestDTO.getRole();
+        ResponseDTO loginResponseDTO = null;
         if (role.equalsIgnoreCase("Customer")) {
-            loginResponse = customerController.loginCustomer(loginDTO);
+            loginResponseDTO = customerController.loginCustomer(loginRequestDTO);
         } else if (role.equalsIgnoreCase("Admin")) {
-            loginResponse = adminController.loginAdmin(loginDTO);
+            loginResponseDTO = adminController.loginAdmin(loginRequestDTO);
         } else if (role.equalsIgnoreCase("DeliveryPerson")) {
-            loginResponse = deliveryPersonController.loginDeliveryPerson(loginDTO);
+            loginResponseDTO = deliveryPersonController.loginDeliveryPerson(loginRequestDTO);
         } else if (role.equalsIgnoreCase("Restaurant")) {
-            loginResponse = restaurantController.loginRestaurant(loginDTO);
+            loginResponseDTO = restaurantController.loginRestaurant(loginRequestDTO);
         }
-        return loginResponse != null && loginResponse.getStatus() ?
-                ResponseEntity.ok(loginResponse) : new ResponseEntity<>("Invalid email or password", HttpStatus.UNAUTHORIZED);
+        return loginResponseDTO != null && loginResponseDTO.getStatus() ?
+                ResponseEntity.ok(loginResponseDTO) : new ResponseEntity<>("Invalid email or password", HttpStatus.UNAUTHORIZED);
     }
 }

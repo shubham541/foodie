@@ -16,15 +16,25 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int customerId;
     private String customerName;
+
+    @Column(unique = true)
     private String customerEmail;
     private String password;
-
-    //private List<Address> addresses;
-    //private List<Card> savedPaymentDetails;
     private String role;
-    //private Cart cart;
     private boolean isActive;
-    // private List<Cart> history;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Address> addresses;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Card> savedPaymentDetails;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Cart> history;
 
     public Customer(String role, String customerName, String customerEmail, String password) {
         this.role = role;

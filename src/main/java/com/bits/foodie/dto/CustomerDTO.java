@@ -1,26 +1,26 @@
 package com.bits.foodie.dto;
 
-import com.bits.foodie.model.Address;
-import com.bits.foodie.model.Card;
-import com.bits.foodie.model.Cart;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class CustomerDTO {
 
+    private int customerId;
     private String customerName;
     private String customerEmail;
     private String password;
-    private List<Address> addresses;
-    private List<Card> savedPaymentDetails;
+    private List<AddressDTO> addresses;
+    private List<CardDTO> savedPaymentDetails;
     private String role;
-    private Cart cart;
+    private CartDTO cart;
     private boolean isActive;
-    private List<Cart> history;
+    private List<CartDTO> history;
 
     public CustomerDTO(String customerEmail, String customerName, String password,String role) {
         this.customerEmail = customerEmail;
