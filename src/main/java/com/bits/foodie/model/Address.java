@@ -1,5 +1,6 @@
 package com.bits.foodie.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,5 +24,6 @@ public class Address {
     //Extra attribute for joins
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonBackReference // Prevents infinite recursion
     private Customer customer; //Foreign key column in Card
 }

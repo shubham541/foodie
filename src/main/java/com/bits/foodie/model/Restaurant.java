@@ -27,6 +27,7 @@ public class Restaurant {
     private String password;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "menu_id")
     private Menu menu;
 
     private String role;

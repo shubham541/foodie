@@ -1,8 +1,10 @@
 package com.bits.foodie.service.impl;
 
+import com.bits.foodie.dto.MenuDTO;
 import com.bits.foodie.dto.payload.LoginRequestDTO;
 import com.bits.foodie.dto.RestaurantDTO;
-import com.bits.foodie.model.Restaurant;
+import com.bits.foodie.mappers.MenuMapper;
+import com.bits.foodie.model.*;
 import com.bits.foodie.repository.CustomerRepository;
 import com.bits.foodie.repository.RestaurantRepository;
 import com.bits.foodie.dto.response.ResponseDTO;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,9 +26,11 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
-
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private MenuMapper menuMapper;
 
 
     @Override
@@ -66,4 +72,43 @@ public class RestaurantServiceImpl implements RestaurantService {
             return new ResponseDTO("Email not exists", false);
         }
     }
+
+    @Override
+    public Restaurant updateRestaurant(RestaurantDTO restaurantDTO) {
+        Restaurant restaurant = restaurantRepository.findByRestaurantEmail(restaurantDTO.getRestaurantEmail());
+        if (restaurant != null) {
+            if (restaurantDTO.getRestaurantName() != null) {
+                restaurant.setRestaurantName(restaurantDTO.getRestaurantName());
+            }
+            if (restaurantDTO.getRestaurantAdd() != null) {
+                restaurant.setRestaurantAdd(restaurantDTO.getRestaurantAdd());
+            }
+            restaurant.setHoursOfOperation(restaurantDTO.getHoursOfOperation());
+            restaurantRepository.save(restaurant);
+        }
+        return restaurant;
+    }
+
+    @Override
+    public Restaurant fetchRestaurantById(int restaurantId) {
+        return restaurantRepository.findByRestaurantId(restaurantId);
+    }
+
+    @Override
+    public Menu fetchMenu(int restaurantId) {
+        Restaurant restaurant = restaurantRepository.findByRestaurantId(restaurantId);
+        return restaurant.getMenu();
+    }
+
+    @Override
+    public Menu UpdateMenu(int restaurantId, MenuDTO menuDTO) {
+        Restaurant restaurant = restaurantRepository.findByRestaurantId(restaurantId);
+        if (restaurant != null) {
+            restaurant.setMenu(menuMapper.mapMenuDTOtoMenu(menuDTO));
+            restaurantRepository.save(restaurant);
+            return restaurant.getMenu();
+        }
+        return null;
+    }
+
 }

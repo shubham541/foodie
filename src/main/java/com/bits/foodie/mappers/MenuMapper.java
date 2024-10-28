@@ -17,18 +17,28 @@ public class MenuMapper {
 
     public Menu mapMenuDTOtoMenu(MenuDTO menuDTO) {
         Menu menu = new Menu();
+        menu.setMenuId(menuDTO.getMenuId());
+
         List<Item> items = menuDTO.getItems().stream()
-                .map(itemMapper::mapItemDTOtoItem)
+                .map(itemDTO -> {
+                    Item item = itemMapper.mapItemDTOtoItem(itemDTO);
+                    item.setMenu(menu);  // Set the back-reference to Menu
+                    return item;
+                })
                 .collect(Collectors.toList());
+
         menu.setItems(items);
         return menu;
     }
 
     public MenuDTO mapMenutoMenuDTO(Menu menu) {
         MenuDTO menuDTO = new MenuDTO();
+        menuDTO.setMenuId(menu.getMenuId());
+
         List<ItemDTO> itemDTOs = menu.getItems().stream()
                 .map(itemMapper::mapItemToItemDTO)
                 .collect(Collectors.toList());
+
         menuDTO.setItems(itemDTOs);
         return menuDTO;
     }

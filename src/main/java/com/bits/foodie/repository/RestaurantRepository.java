@@ -14,4 +14,5 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
 
     Restaurant findByRestaurantEmail(String adminEmail);
 
+    Restaurant findByRestaurantId(int restaurantId);
 }

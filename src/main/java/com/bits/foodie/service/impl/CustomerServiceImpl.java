@@ -76,19 +76,19 @@ public class CustomerServiceImpl implements CustomerService {
             if (customerDTO.getCustomerName() != null) {
                 customer.setCustomerName(customerDTO.getCustomerName());
             }
-            if (customerDTO.getAddresses() != null) {
+            if (!customerDTO.getAddresses().isEmpty()) {
                 List<Address> addresses = new ArrayList<>();
-                for (AddressDTO add : customerDTO.getAddresses()) {
-                    addresses.add(addressMapper.mapAddressDTOtoAddress(add));
-                }
+                customerDTO.getAddresses().forEach(add -> addresses.add(addressMapper.mapAddressDTOtoAddress(add)));
                 customer.setAddresses(addresses);
+            } else {
+                customer.setAddresses(new ArrayList<>());
             }
-            if (customerDTO.getSavedPaymentDetails() != null) {
+            if (!customerDTO.getSavedPaymentDetails().isEmpty()) {
                 List<Card> cards = new ArrayList<>();
-                for (CardDTO card : customerDTO.getSavedPaymentDetails()) {
-                    cards.add(cardMapper.mapCardDTOtoCard(card));
-                }
+                customerDTO.getSavedPaymentDetails().forEach(card -> cards.add(cardMapper.mapCardDTOtoCard(card)));
                 customer.setSavedPaymentDetails(cards);
+            } else {
+                customer.setSavedPaymentDetails(new ArrayList<>());
             }
             customerRepository.save(customer);
         }

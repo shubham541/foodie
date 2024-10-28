@@ -7,7 +7,6 @@ import com.bits.foodie.dto.response.ResponseDTO;
 import com.bits.foodie.model.Customer;
 import com.bits.foodie.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
