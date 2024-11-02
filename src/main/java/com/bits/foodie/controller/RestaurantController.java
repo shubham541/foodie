@@ -6,6 +6,7 @@ import com.bits.foodie.dto.payload.RegisterRequestDTO;
 import com.bits.foodie.dto.response.ResponseDTO;
 import com.bits.foodie.model.Customer;
 import com.bits.foodie.model.Menu;
+import com.bits.foodie.model.Order;
 import com.bits.foodie.model.Restaurant;
 import com.bits.foodie.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,9 @@ public class RestaurantController {
         return restaurantService.fetchAllRestaurants();
     }
 
-    @PatchMapping(path = "/")
-    public Restaurant updateRestaurant(@RequestBody RestaurantDTO restaurantDTO) {
-        return restaurantService.updateRestaurant(restaurantDTO);
+    @PatchMapping(path = "/{restaurantId}")
+    public Restaurant updateRestaurant(@PathVariable("restaurantId") int restaurantId,@RequestBody RestaurantDTO restaurantDTO) {
+        return restaurantService.updateRestaurant(restaurantId,restaurantDTO);
     }
 
     @GetMapping(path = "/id/{restaurantId}")
@@ -55,6 +56,17 @@ public class RestaurantController {
     @PatchMapping(path = "/id/{restaurantId}/menu")
     public Menu updateMenuByRestaurantId(@PathVariable("restaurantId") int restaurantId, @RequestBody MenuDTO menuDTO) {
         return restaurantService.UpdateMenu(restaurantId, menuDTO);
+    }
+
+    @GetMapping(path = "/id/{restaurantId}/viewOrders")
+    public List<Order> viewOrders(@PathVariable("restaurantId") int restaurantId) {
+        return restaurantService.viewOrders(restaurantId);
+    }
+
+    @PatchMapping(path = "/id/{restaurantId}/order/{orderId}/updateOrderStatus")
+    public Order updateOrderStatus(@PathVariable("restaurantId") int restaurantId,
+                                         @PathVariable("orderId") int orderId, @RequestParam(required = true) String status) {
+        return restaurantService.updateOrderStatus(restaurantId, orderId, status);
     }
 
     public List<Restaurant> searchRestaurants(String restaurantName, String cuisineType, Boolean isVegOnly, String foodItemName) {

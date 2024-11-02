@@ -6,23 +6,15 @@ import com.bits.foodie.dto.RestaurantDTO;
 import com.bits.foodie.mappers.MenuMapper;
 import com.bits.foodie.model.*;
 import com.bits.foodie.repository.CustomerRepository;
+import com.bits.foodie.repository.OrderRepository;
 import com.bits.foodie.repository.RestaurantRepository;
 import com.bits.foodie.dto.response.ResponseDTO;
 import com.bits.foodie.service.RestaurantService;
-import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
-import org.springframework.stereotype.Repository;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +26,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
+
+    @Autowired
+    OrderRepository orderRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -83,8 +78,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public Restaurant updateRestaurant(RestaurantDTO restaurantDTO) {
-        Restaurant restaurant = restaurantRepository.findByRestaurantEmail(restaurantDTO.getRestaurantEmail());
+    public Restaurant updateRestaurant(int restaurantId, RestaurantDTO restaurantDTO) {
+        Restaurant restaurant = restaurantRepository.findByRestaurantId(restaurantId);
         if (restaurant != null) {
             if (restaurantDTO.getRestaurantName() != null) {
                 restaurant.setRestaurantName(restaurantDTO.getRestaurantName());
@@ -93,6 +88,8 @@ public class RestaurantServiceImpl implements RestaurantService {
                 restaurant.setRestaurantAdd(restaurantDTO.getRestaurantAdd());
             }
             restaurant.setHoursOfOperation(restaurantDTO.getHoursOfOperation());
+            restaurant.setOpeningHours(restaurantDTO.getOpeningHours());
+            restaurant.setDeliveryZones(restaurantDTO.getDeliveryZones());
             restaurantRepository.save(restaurant);
         }
         return restaurant;
@@ -126,8 +123,24 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public List<Restaurant> searchRestaurant(String restaurantName, String cuisineType, Boolean isVegOnly,String foodItemName) {
-        return restaurantRepository.searchRestaurants(restaurantName, cuisineType, isVegOnly,foodItemName);
+    public List<Restaurant> searchRestaurant(String restaurantName, String cuisineType, Boolean isVegOnly, String foodItemName) {
+        return restaurantRepository.searchRestaurants(restaurantName, cuisineType, isVegOnly, foodItemName);
+    }
+
+    @Override
+    public List<Order> viewOrders(int restaurantId) {
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream().filter(order -> order.getRestaurantId() == restaurantId).toList();
+    }
+
+    @Override
+    public Order updateOrderStatus(int restaurantId, int orderId, String status) {
+        Order order = orderRepository.findByOrderId(orderId);
+        if (order != null && order.getRestaurantId() == restaurantId) {
+            order.setStatus(status);
+            orderRepository.save(order);
+        }
+        return order;
     }
 
 }
