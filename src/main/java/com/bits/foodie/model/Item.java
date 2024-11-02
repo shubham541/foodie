@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Table(name = "item")
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,8 +21,8 @@ public class Item {
 
     //Extra attribute for joins
     @ManyToOne
-    @JoinColumn
-    @JsonBackReference
-    private Menu menu; //Foreign key column in item
+    @JoinColumn(name = "menu_id") // Specify the foreign key column
+    @JsonBackReference // Prevents infinite recursion during serialization
+    private Menu menu; // Foreign key column in Item
 
 }

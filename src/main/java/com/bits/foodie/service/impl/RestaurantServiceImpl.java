@@ -9,9 +9,18 @@ import com.bits.foodie.repository.CustomerRepository;
 import com.bits.foodie.repository.RestaurantRepository;
 import com.bits.foodie.dto.response.ResponseDTO;
 import com.bits.foodie.service.RestaurantService;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +118,16 @@ public class RestaurantServiceImpl implements RestaurantService {
             return restaurant.getMenu();
         }
         return null;
+    }
+
+    @Override
+    public List<Restaurant> fetchAllRestaurants() {
+        return restaurantRepository.findAll();
+    }
+
+    @Override
+    public List<Restaurant> searchRestaurant(String restaurantName, String cuisineType, Boolean isVegOnly,String foodItemName) {
+        return restaurantRepository.searchRestaurants(restaurantName, cuisineType, isVegOnly,foodItemName);
     }
 
 }

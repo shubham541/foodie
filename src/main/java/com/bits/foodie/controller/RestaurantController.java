@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/restaurant")
 public class RestaurantController {
@@ -31,6 +33,10 @@ public class RestaurantController {
         return restaurantService.loginRestaurant(loginRequestDTO);
     }
 
+    public List<Restaurant> fetchAllRestaurants() {
+        return restaurantService.fetchAllRestaurants();
+    }
+
     @PatchMapping(path = "/")
     public Restaurant updateRestaurant(@RequestBody RestaurantDTO restaurantDTO) {
         return restaurantService.updateRestaurant(restaurantDTO);
@@ -46,8 +52,12 @@ public class RestaurantController {
         return restaurantService.fetchMenu(restaurantId);
     }
 
-    @PostMapping(path = "/id/{restaurantId}/menu")
+    @PatchMapping(path = "/id/{restaurantId}/menu")
     public Menu updateMenuByRestaurantId(@PathVariable("restaurantId") int restaurantId, @RequestBody MenuDTO menuDTO) {
         return restaurantService.UpdateMenu(restaurantId, menuDTO);
+    }
+
+    public List<Restaurant> searchRestaurants(String restaurantName, String cuisineType, Boolean isVegOnly, String foodItemName) {
+        return restaurantService.searchRestaurant(restaurantName, cuisineType, isVegOnly, foodItemName);
     }
 }

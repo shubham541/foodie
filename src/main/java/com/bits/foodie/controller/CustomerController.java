@@ -5,15 +5,23 @@ import com.bits.foodie.dto.payload.LoginRequestDTO;
 import com.bits.foodie.dto.payload.RegisterRequestDTO;
 import com.bits.foodie.dto.response.ResponseDTO;
 import com.bits.foodie.model.Customer;
+import com.bits.foodie.model.Order;
+import com.bits.foodie.model.Restaurant;
 import com.bits.foodie.service.CustomerService;
+import org.hibernate.query.QueryParameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/customer")
 public class CustomerController {
     @Autowired
     CustomerService customerService;
+
+    @Autowired
+    RestaurantController restaurantController;
 
     public ResponseDTO saveCustomer(@RequestBody RegisterRequestDTO registerRequestDTO) {
         CustomerDTO customerDTO = new CustomerDTO(registerRequestDTO.getCustomerEmail(), registerRequestDTO.getCustomerName(), registerRequestDTO.getPassword(), registerRequestDTO.getRole());
@@ -34,4 +42,26 @@ public class CustomerController {
         return customerService.fetchCustomerById(customerId);
     }
 
+    @GetMapping(path = "/restaurants")
+    public List<Restaurant> fetchAllRestaurants() {
+        return restaurantController.fetchAllRestaurants();
+    }
+
+    @GetMapping(path = "/restaurants/search")
+    public List<Restaurant> searchMenus(@RequestParam(required = false) String restaurantName,
+                                        @RequestParam(required = false) String cuisineType,
+                                        @RequestParam(required = false) Boolean isVegOnly,
+                                        @RequestParam(required = false) String foodItemName) {
+        return restaurantController.searchRestaurants(restaurantName, cuisineType, isVegOnly, foodItemName);
+    }
+
+    @PostMapping(path = "/id/{customerId}/placeOrder")
+    public Order placeOrder(@PathVariable("customerId") int customerId) {
+        return customerService.placeOrder(customerId);
+    }
+
+    @PostMapping(path = "/id/{customerId}/updateCart")
+    public Customer updateCart(@PathVariable("customerId") int customerId, @RequestBody CartDTO cartDTO) {
+        return customerService.updateCart(customerId, cartDTO);
+    }
 }

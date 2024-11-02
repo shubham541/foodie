@@ -1,16 +1,15 @@
 package com.bits.foodie.service.impl;
 
-import com.bits.foodie.dto.AddressDTO;
-import com.bits.foodie.dto.CardDTO;
+import com.bits.foodie.dto.CartDTO;
 import com.bits.foodie.dto.CustomerDTO;
 import com.bits.foodie.dto.payload.LoginRequestDTO;
 import com.bits.foodie.mappers.AddressMapper;
 import com.bits.foodie.mappers.CardMapper;
-import com.bits.foodie.model.Address;
-import com.bits.foodie.model.Card;
-import com.bits.foodie.model.Customer;
+import com.bits.foodie.mappers.CartMapper;
+import com.bits.foodie.model.*;
 import com.bits.foodie.dto.response.ResponseDTO;
 import com.bits.foodie.repository.CustomerRepository;
+import com.bits.foodie.repository.OrderRepository;
 import com.bits.foodie.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,10 +26,15 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerRepository customerRepository;
 
     @Autowired
+    OrderRepository orderRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     private AddressMapper addressMapper;
+    @Autowired
+    private CartMapper cartMapper;
 
     @Autowired
     private CardMapper cardMapper;
@@ -98,5 +102,37 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer fetchCustomerById(int customerId) {
         return customerRepository.findByCustomerId(customerId);
+    }
+
+    @Override
+    public Customer updateCart(int customerId, CartDTO cartDTO) {
+        cartDTO.updatePrice();
+        Customer customer = customerRepository.findByCustomerId(customerId);
+        Cart cart = cartMapper.mapCartDTOtoCart(cartDTO);
+        cart.setCustomer(customer);
+        customer.setCart(cart);
+        customerRepository.save(customer);
+        return customer;
+    }
+
+    public Order placeOrder(int customerId) {
+        Customer customer = customerRepository.findByCustomerId(customerId);
+        Cart cart = customer.getCart();
+        if (cart.getRestId() > 0 && cart.getPrice() > 0) {
+            Order order = new Order();
+            order.setCart(cart);
+            order.setCustomerId(customerId);
+            order.setRestaurantId(cart.getRestId());
+            order.setAmount(cart.getPrice());
+            order.setStatus("Order Placed");
+            orderRepository.save(order);
+
+            List<Cart> history = customer.getHistory();
+            history.add(cart);
+            customer.setHistory(history);
+            customer.setCart(null);
+            return order;
+        }
+        return null;
     }
 }

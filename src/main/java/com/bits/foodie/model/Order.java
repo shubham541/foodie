@@ -22,8 +22,8 @@ public class Order {
     @OneToOne
     private Cart cart;
 
-    private String customerAdd;
-    private String restaurantAdd;
+    private int customerId;
+    private int restaurantId;
     private double amount;
     private boolean isCancelled;
     private String status;

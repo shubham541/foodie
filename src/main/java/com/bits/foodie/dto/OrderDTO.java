@@ -9,8 +9,8 @@ import lombok.Setter;
 public class OrderDTO {
     private int OrderId;
     private CartDTO cart;
-    private String customerAdd;
-    private String restaurantAdd;
+    private int customerId;
+    private int restaurantId;
     private double amount;
     private boolean isCancelled;
     private String status;

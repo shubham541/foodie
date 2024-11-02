@@ -7,6 +7,8 @@ import com.bits.foodie.dto.response.ResponseDTO;
 import com.bits.foodie.model.Menu;
 import com.bits.foodie.model.Restaurant;
 
+import java.util.List;
+
 public interface RestaurantService {
     ResponseDTO addRestaurant(RestaurantDTO restaurantDTO);
 
@@ -19,4 +21,8 @@ public interface RestaurantService {
     Menu fetchMenu(int restaurantId);
 
     Menu UpdateMenu(int restaurantId, MenuDTO menuDTO);
+
+    List<Restaurant> fetchAllRestaurants();
+
+    List<Restaurant> searchRestaurant(String restaurantName, String cuisineType, Boolean isVegOnly,String foodItemName);
 }

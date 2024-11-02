@@ -1,5 +1,6 @@
 package com.bits.foodie.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,11 +16,13 @@ public class CartItem {
     private int cartItemId;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "item_id")
     private Item item;
 
     private int quantity;
 
     @ManyToOne
     @JoinColumn(name = "cart_id") // Foreign key column in CartItem
+    @JsonBackReference
     private Cart cart;
 }

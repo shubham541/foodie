@@ -28,4 +28,5 @@ public class CustomerDTO {
         this.password = password;
         this.role=role;
     }
+
 }
