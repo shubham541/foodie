@@ -1,13 +1,7 @@
 package com.bits.foodie.mappers;
 
-import com.bits.foodie.dto.AddressDTO;
-import com.bits.foodie.dto.CardDTO;
-import com.bits.foodie.dto.CartDTO;
-import com.bits.foodie.dto.CustomerDTO;
-import com.bits.foodie.model.Address;
-import com.bits.foodie.model.Card;
-import com.bits.foodie.model.Cart;
-import com.bits.foodie.model.Customer;
+import com.bits.foodie.dto.*;
+import com.bits.foodie.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +15,9 @@ public class CustomerMapper {
 
     @Autowired
     CardMapper cardMapper;
+
+    @Autowired
+    OrderMapper orderMapper;
 
     @Autowired
     CartMapper cartMapper;
@@ -49,9 +46,9 @@ public class CustomerMapper {
             customerDTO.setSavedPaymentDetails(cardDTOS);
         }
         if (customer.getHistory() != null) {
-            List<CartDTO> cartDTOs = new ArrayList<>();
-            for (Cart cart : customer.getHistory()) {
-                cartDTOs.add(cartMapper.mapCartToCartDTO(cart));
+            List<OrderDTO> cartDTOs = new ArrayList<>();
+            for (Order order : customer.getHistory()) {
+                cartDTOs.add(orderMapper.mapOrderToOrderDTO(order));
             }
             customerDTO.setHistory(cartDTOs);
         }
@@ -84,9 +81,9 @@ public class CustomerMapper {
             customer.setSavedPaymentDetails(cards);
         }
         if (customerDTO.getHistory() != null) {
-            List<Cart> carts = new ArrayList<>();
-            for (CartDTO cart : customerDTO.getHistory()) {
-                carts.add(cartMapper.mapCartDTOtoCart(cart));
+            List<Order> carts = new ArrayList<>();
+            for (OrderDTO cart : customerDTO.getHistory()) {
+                carts.add(orderMapper.mapOrderDTOtoOrder(cart));
             }
             customer.setHistory(carts);
         }

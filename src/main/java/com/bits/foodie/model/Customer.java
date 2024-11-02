@@ -40,13 +40,17 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonManagedReference
-    private List<Cart> history;
+    private List<Order> history=new ArrayList<>();
 
     public Customer(String role, String customerName, String customerEmail, String password) {
         this.role = role;
         this.customerName = customerName;
         this.customerEmail = customerEmail;
         this.password = password;
+    }
+
+    public void addHistory(Order order) {
+        this.history.add(order);
     }
 
     public Customer() {
@@ -74,19 +78,6 @@ public class Customer {
             for (Card card : savedPaymentDetails) {
                 card.setCustomer(this);  // Set back-reference
                 this.savedPaymentDetails.add(card); // Add new saved payment details
-            }
-        }
-    }
-
-    public void setHistory(List<Cart> history) {
-        // Clear current history
-        this.history.forEach(cart -> cart.setCustomer(null)); // Remove back-reference
-        this.history.clear();
-
-        if (history != null) {
-            for (Cart cart : history) {
-                cart.setCustomer(this);  // Set back-reference
-                this.history.add(cart); // Add new history
             }
         }
     }

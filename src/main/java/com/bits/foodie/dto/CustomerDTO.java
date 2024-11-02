@@ -20,7 +20,7 @@ public class CustomerDTO {
     private String role;
     private CartDTO cart;
     private boolean isActive;
-    private List<CartDTO> history;
+    private List<OrderDTO> history;
 
     public CustomerDTO(String customerEmail, String customerName, String password,String role) {
         this.customerEmail = customerEmail;

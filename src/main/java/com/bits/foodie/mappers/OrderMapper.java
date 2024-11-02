@@ -14,7 +14,6 @@ public class OrderMapper {
         Order order = new Order();
         order.setOrderId(orderDTO.getOrderId());
         order.setCart(cartMapper.mapCartDTOtoCart(orderDTO.getCart()));
-        order.setCustomerId(orderDTO.getCustomerId());
         order.setRestaurantId(orderDTO.getRestaurantId());
         order.setAmount(orderDTO.getAmount());
         order.setCancelled(orderDTO.isCancelled());
@@ -27,7 +26,6 @@ public class OrderMapper {
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setOrderId(order.getOrderId());
         orderDTO.setCart(cartMapper.mapCartToCartDTO(order.getCart()));
-        orderDTO.setCustomerId(order.getCustomerId());
         orderDTO.setRestaurantId(order.getRestaurantId());
         orderDTO.setAmount(order.getAmount());
         orderDTO.setCancelled(order.isCancelled());

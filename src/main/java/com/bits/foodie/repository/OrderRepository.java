@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer> {
     Restaurant findByOrderId(int orderId);
-    Restaurant findByCustomerId(int customerId);
     Restaurant findByRestaurantId(int restaurantId);
 
 }

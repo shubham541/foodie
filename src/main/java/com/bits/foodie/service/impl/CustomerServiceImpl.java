@@ -118,21 +118,34 @@ public class CustomerServiceImpl implements CustomerService {
     public Order placeOrder(int customerId) {
         Customer customer = customerRepository.findByCustomerId(customerId);
         Cart cart = customer.getCart();
-        if (cart.getRestId() > 0 && cart.getPrice() > 0) {
+
+        if (cart != null && cart.getRestId() > 0 && cart.getPrice() > 0) {
             Order order = new Order();
             order.setCart(cart);
-            order.setCustomerId(customerId);
             order.setRestaurantId(cart.getRestId());
             order.setAmount(cart.getPrice());
             order.setStatus("Order Placed");
             orderRepository.save(order);
 
-            List<Cart> history = customer.getHistory();
-            history.add(cart);
-            customer.setHistory(history);
+            // Detach cart from customer by creating a new cart instance for history
+//            Order historyCart = new Order();
+//            historyCart.setOrderId(or);
+//            historyCart.setRestId(cart.getRestId());
+//            historyCart.setPrice(cart.getPrice());
+//            historyCart.setCartItems(new ArrayList<>(cart.getCartItems())); // Copy cart items
+
+            // Add to customer history and detach from main cart reference
+            customer.getHistory().add(order);
+            order.setCustomer(customer);
+
+            // Set the current cart to null in the customer entity
             customer.setCart(null);
+
+            customerRepository.save(customer);
             return order;
         }
         return null;
     }
+
+
 }

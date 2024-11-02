@@ -1,11 +1,7 @@
 package com.bits.foodie.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,12 +18,17 @@ public class Order {
     @OneToOne
     private Cart cart;
 
-    private int customerId;
     private int restaurantId;
     private double amount;
     private boolean isCancelled;
     private String status;
     private double deliveryTimeInMinutes;
+
+    //Extra attribute for joins
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    @JsonBackReference
+    private Customer customer; //Foreign key column in Customer
 
     public void rescheduleOrder() {
         // Logic to reschedule the order
