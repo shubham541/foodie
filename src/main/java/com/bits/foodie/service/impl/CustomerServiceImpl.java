@@ -15,9 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -127,13 +125,6 @@ public class CustomerServiceImpl implements CustomerService {
             order.setStatus("Order Placed");
             orderRepository.save(order);
 
-            // Detach cart from customer by creating a new cart instance for history
-//            Order historyCart = new Order();
-//            historyCart.setOrderId(or);
-//            historyCart.setRestId(cart.getRestId());
-//            historyCart.setPrice(cart.getPrice());
-//            historyCart.setCartItems(new ArrayList<>(cart.getCartItems())); // Copy cart items
-
             // Add to customer history and detach from main cart reference
             customer.getHistory().add(order);
             order.setCustomer(customer);
@@ -145,6 +136,22 @@ public class CustomerServiceImpl implements CustomerService {
             return order;
         }
         return null;
+    }
+
+    @Override
+    public Map<Integer, String> trackOrders(int customerId) {
+        Customer customer = customerRepository.findByCustomerId(customerId);
+        Map<Integer, String> orderIsAndStatusMap = new HashMap<>();
+        if (customer.getHistory() != null) {
+            customer.getHistory().forEach(order -> orderIsAndStatusMap.put(order.getOrderId(), order.getStatus()));
+        }
+        return orderIsAndStatusMap;
+    }
+
+    @Override
+    public List<Order> viewOrderHistory(int customerId) {
+        Customer customer = customerRepository.findByCustomerId(customerId);
+        return customer.getHistory();
     }
 
 

@@ -8,11 +8,11 @@ import com.bits.foodie.model.Customer;
 import com.bits.foodie.model.Order;
 import com.bits.foodie.model.Restaurant;
 import com.bits.foodie.service.CustomerService;
-import org.hibernate.query.QueryParameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/customer")
@@ -63,5 +63,15 @@ public class CustomerController {
     @PostMapping(path = "/id/{customerId}/updateCart")
     public Customer updateCart(@PathVariable("customerId") int customerId, @RequestBody CartDTO cartDTO) {
         return customerService.updateCart(customerId, cartDTO);
+    }
+
+    @GetMapping(path = "/id/{customerId}/trackOrders")
+    public Map<Integer,String> trackOrders(@PathVariable("customerId") int customerId) {
+        return customerService.trackOrders(customerId);
+    }
+
+    @GetMapping(path = "/id/{customerId}/viewOrderHistory")
+    public List<Order> viewOrderHistory(@PathVariable("customerId") int customerId) {
+        return customerService.viewOrderHistory(customerId);
     }
 }
