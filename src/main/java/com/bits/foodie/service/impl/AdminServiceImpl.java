@@ -3,6 +3,7 @@ package com.bits.foodie.service.impl;
 import com.bits.foodie.dto.AdminDTO;
 import com.bits.foodie.dto.payload.LoginRequestDTO;
 import com.bits.foodie.model.Admin;
+import com.bits.foodie.model.Restaurant;
 import com.bits.foodie.repository.AdminRepository;
 import com.bits.foodie.repository.CustomerRepository;
 import com.bits.foodie.repository.DeliveryPersonRepository;
@@ -63,5 +64,23 @@ public class AdminServiceImpl implements AdminService {
         } else {
             return new ResponseDTO("Email not exists", false);
         }
+    }
+
+    @Override
+    public Admin updateAdmin(int adminId, AdminDTO adminDTO) {
+        Admin admin = adminRepository.findByAdminId(adminId);
+//        if (admin != null) {
+//            if (restaurantDTO.getRestaurantName() != null) {
+//                restaurant.setRestaurantName(restaurantDTO.getRestaurantName());
+//            }
+//            if (restaurantDTO.getRestaurantAdd() != null) {
+//                restaurant.setRestaurantAdd(restaurantDTO.getRestaurantAdd());
+//            }
+//            restaurant.setHoursOfOperation(restaurantDTO.getHoursOfOperation());
+//            restaurant.setOpeningHours(restaurantDTO.getOpeningHours());
+//            restaurant.setDeliveryZones(restaurantDTO.getDeliveryZones());
+//            restaurantRepository.save(restaurant);
+//        }
+        return admin;
     }
 }

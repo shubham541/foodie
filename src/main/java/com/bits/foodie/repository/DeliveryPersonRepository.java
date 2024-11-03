@@ -13,4 +13,5 @@ public interface DeliveryPersonRepository extends JpaRepository<DeliveryPerson,I
     Optional<DeliveryPerson> findOneByDeliveryPersonEmailAndPassword(String deliveryPersonEmail, String password);
     DeliveryPerson findByDeliveryPersonEmail(String adminEmail);
 
+    DeliveryPerson findByDeliveryPersonId(int deliveryPersonId);
 }

@@ -4,12 +4,13 @@ import com.bits.foodie.dto.*;
 import com.bits.foodie.dto.payload.LoginRequestDTO;
 import com.bits.foodie.dto.payload.RegisterRequestDTO;
 import com.bits.foodie.dto.response.ResponseDTO;
+import com.bits.foodie.model.Admin;
 import com.bits.foodie.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+@RequestMapping("api/v1/admin")
 public class AdminController {
 
     @Autowired
@@ -22,6 +23,10 @@ public class AdminController {
 
     public ResponseDTO loginAdmin(@RequestBody LoginRequestDTO loginRequestDTO) {
         return adminService.loginAdmin(loginRequestDTO);
+    }
 
+    @PatchMapping(path = "/{adminId}")
+    public Admin updateRestaurant(@PathVariable("adminId") int adminId, @RequestBody AdminDTO adminDTO) {
+        return adminService.updateAdmin(adminId,adminDTO);
     }
 }

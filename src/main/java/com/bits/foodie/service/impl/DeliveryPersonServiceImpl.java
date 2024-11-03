@@ -3,21 +3,30 @@ package com.bits.foodie.service.impl;
 import com.bits.foodie.dto.DeliveryPersonDTO;
 import com.bits.foodie.dto.payload.LoginRequestDTO;
 import com.bits.foodie.model.DeliveryPerson;
+import com.bits.foodie.model.Order;
+import com.bits.foodie.model.Restaurant;
 import com.bits.foodie.repository.CustomerRepository;
 import com.bits.foodie.repository.DeliveryPersonRepository;
 import com.bits.foodie.dto.response.ResponseDTO;
+import com.bits.foodie.repository.OrderRepository;
 import com.bits.foodie.service.DeliveryPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+
+import static com.bits.foodie.utility.FoodieConstants.ORDER_PLACED;
 
 @Service
 public class DeliveryPersonServiceImpl implements DeliveryPersonService {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Autowired
     private DeliveryPersonRepository deliveryPersonRepository;
@@ -59,5 +68,48 @@ public class DeliveryPersonServiceImpl implements DeliveryPersonService {
         } else {
             return new ResponseDTO("Email not exists", false);
         }
+    }
+
+    @Override
+    public DeliveryPerson updateDeliveryPerson(int deliveryPersonId, DeliveryPersonDTO deliveryPersonDTO) {
+        DeliveryPerson deliveryPerson = deliveryPersonRepository.findByDeliveryPersonId(deliveryPersonId);
+        if (deliveryPerson != null) {
+            if (deliveryPersonDTO.getDeliveryPersonName() != null) {
+                deliveryPerson.setDeliveryPersonName(deliveryPersonDTO.getDeliveryPersonName());
+            }
+            if (deliveryPersonDTO.getContactDetails() != null) {
+                deliveryPerson.setContactDetails(deliveryPersonDTO.getContactDetails());
+            }
+            if (deliveryPersonDTO.getVehicleType() != null) {
+                deliveryPerson.setVehicleType(deliveryPersonDTO.getVehicleType());
+            }
+            deliveryPersonRepository.save(deliveryPerson);
+        }
+        return deliveryPerson;
+    }
+
+    @Override
+    public List<Order> viewAvailableDeliveries() {
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream().filter(order -> order.getStatus().equals(ORDER_PLACED)).toList();
+    }
+
+    @Override
+    public Order updateOrderStatus(int deliveryPersonId, int orderId, String status) {
+        Order order = orderRepository.findByOrderId(orderId);
+        if (order != null) {
+            order.setStatus(status);
+            orderRepository.save(order);
+        }
+        return order;
+
+    }
+
+    @Override
+    public DeliveryPerson manageDeliveryAvailability(int deliveryPersonId, boolean availability) {
+        DeliveryPerson deliveryPerson = deliveryPersonRepository.findByDeliveryPersonId(deliveryPersonId);
+        deliveryPerson.setDevAvailable(availability);
+        deliveryPersonRepository.save(deliveryPerson);
+        return deliveryPerson;
     }
 }

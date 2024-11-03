@@ -15,7 +15,7 @@ public class DeliveryPersonDTO {
     private String password;
     private String contactDetails;
     private String vehicleType;
-    private String devAvailable;
+    private boolean devAvailable;
     private String role;
     private boolean isActive;
 

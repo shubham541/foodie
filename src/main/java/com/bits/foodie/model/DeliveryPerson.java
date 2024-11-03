@@ -20,7 +20,7 @@ public class DeliveryPerson {
     private String deliveryPersonName;
     private String contactDetails;
     private String vehicleType;
-    private String devAvailable;
+    private boolean devAvailable;
     private String role;
     private String password;
     private boolean isActive;

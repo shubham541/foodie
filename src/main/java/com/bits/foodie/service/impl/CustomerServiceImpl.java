@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static com.bits.foodie.utility.FoodieConstants.ORDER_PLACED;
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -122,7 +124,7 @@ public class CustomerServiceImpl implements CustomerService {
             order.setCart(cart);
             order.setRestaurantId(cart.getRestId());
             order.setAmount(cart.getPrice());
-            order.setStatus("Order Placed");
+            order.setStatus(ORDER_PLACED);
             orderRepository.save(order);
 
             // Add to customer history and detach from main cart reference

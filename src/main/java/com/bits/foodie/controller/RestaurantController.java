@@ -27,7 +27,6 @@ public class RestaurantController {
                 registerRequestDTO.getRestaurantAdd(), registerRequestDTO.getRole(), registerRequestDTO.getCuisineType(), registerRequestDTO.isVegOnly(),
                 registerRequestDTO.getOpeningHours(), registerRequestDTO.getClosingHours(), registerRequestDTO.getDeliveryZones());
         return restaurantService.addRestaurant(restaurantDTO);
-
     }
 
     public ResponseDTO loginRestaurant(@RequestBody LoginRequestDTO loginRequestDTO) {

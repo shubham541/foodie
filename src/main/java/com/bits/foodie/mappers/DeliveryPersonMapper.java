@@ -14,7 +14,7 @@ public class DeliveryPersonMapper {
         deliveryPerson.setPassword(deliveryPersonDTO.getPassword());
         deliveryPerson.setContactDetails(deliveryPersonDTO.getContactDetails());
         deliveryPerson.setVehicleType(deliveryPersonDTO.getVehicleType());
-        deliveryPerson.setDevAvailable(deliveryPersonDTO.getDevAvailable());
+        deliveryPerson.setDevAvailable(deliveryPersonDTO.isDevAvailable());
         deliveryPerson.setRole(deliveryPersonDTO.getRole());
         deliveryPerson.setActive(deliveryPersonDTO.isActive());
         return deliveryPerson;
@@ -28,7 +28,7 @@ public class DeliveryPersonMapper {
         deliveryPersonDTO.setPassword(deliveryPerson.getPassword());
         deliveryPersonDTO.setContactDetails(deliveryPerson.getContactDetails());
         deliveryPersonDTO.setVehicleType(deliveryPerson.getVehicleType());
-        deliveryPersonDTO.setDevAvailable(deliveryPerson.getDevAvailable());
+        deliveryPersonDTO.setDevAvailable(deliveryPerson.isDevAvailable());
         deliveryPersonDTO.setRole(deliveryPerson.getRole());
         deliveryPersonDTO.setActive(deliveryPerson.isActive());
         return deliveryPersonDTO;

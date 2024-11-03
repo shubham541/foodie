@@ -29,14 +29,13 @@ public class RegisterRequestDTO {
     private String password;
     private List<Address> addresses;
     private List<Card> savedPaymentDetails;
-    //Content type issue with REST API with Cart class - Need to check
-   private CartDTO cart;
-   private List<CartDTO> history;
+    private CartDTO cart;
+    private List<CartDTO> history;
 
     //Delivery Person Attributes
-    private String devId;
-    private String devEmail;
-    private String devName;
+    private String deliveryPersonId;
+    private String deliveryPersonEmail;
+    private String deliveryPersonName;
     private String contactDetails;
     private String vehicleType;
     private String devAvailable;
