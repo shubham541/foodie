@@ -17,15 +17,16 @@ public class DeliveryPersonDTO {
     private String vehicleType;
     private boolean devAvailable;
     private String role;
-    private boolean isActive;
+    private boolean isActive=true;
 
 
-    public DeliveryPersonDTO(String deliveryPersonEmail, String deliveryPersonName, String password, String contactDetails, String vehicleType, String role) {
+    public DeliveryPersonDTO(String deliveryPersonEmail, String deliveryPersonName, String password,
+                             String contactDetails, String vehicleType, String role) {
         this.deliveryPersonEmail = deliveryPersonEmail;
         this.deliveryPersonName = deliveryPersonName;
         this.password = password;
         this.contactDetails = contactDetails;
         this.vehicleType = vehicleType;
-        this.role=role;
+        this.role = role;
     }
 }

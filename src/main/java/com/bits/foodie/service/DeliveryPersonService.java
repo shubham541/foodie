@@ -20,4 +20,6 @@ public interface DeliveryPersonService {
     Order updateOrderStatus(int deliveryPersonId, int orderId, String status);
 
     DeliveryPerson manageDeliveryAvailability(int deliveryPersonId, boolean availability);
+
+    void deactivateDeliveryPerson(int userId);
 }

@@ -27,4 +27,6 @@ public interface CustomerService {
     Map<Integer, String> trackOrders(int customerId);
 
     List<Order> viewOrderHistory(int customerId);
+
+    void deactivateCustomer(int userId);
 }

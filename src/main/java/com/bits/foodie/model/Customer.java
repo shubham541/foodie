@@ -23,7 +23,7 @@ public class Customer {
     private String customerEmail;
     private String password;
     private String role;
-    private boolean isActive;
+    private boolean isActive = true;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonManagedReference // Prevents infinite recursion
@@ -40,7 +40,7 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonManagedReference
-    private List<Order> history=new ArrayList<>();
+    private List<Order> history = new ArrayList<>();
 
     public Customer(String role, String customerName, String customerEmail, String password) {
         this.role = role;

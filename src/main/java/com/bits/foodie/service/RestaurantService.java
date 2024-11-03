@@ -30,4 +30,6 @@ public interface RestaurantService {
     List<Order> viewOrders(int restaurantId);
 
     Order updateOrderStatus(int restaurantId, int orderId, String status);
+
+    void deactivateRestaurant(int userId);
 }

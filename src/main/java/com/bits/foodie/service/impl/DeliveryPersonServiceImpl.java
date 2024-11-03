@@ -112,4 +112,14 @@ public class DeliveryPersonServiceImpl implements DeliveryPersonService {
         deliveryPersonRepository.save(deliveryPerson);
         return deliveryPerson;
     }
+
+    @Override
+    public void deactivateDeliveryPerson(int userId) {
+        DeliveryPerson deliveryPerson = deliveryPersonRepository.findByDeliveryPersonId(userId);
+        if(deliveryPerson!=null){
+            deliveryPerson.setActive(false);
+            deliveryPersonRepository.save(deliveryPerson);
+        }
+
+    }
 }

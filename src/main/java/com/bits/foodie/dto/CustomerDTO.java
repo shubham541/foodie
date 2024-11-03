@@ -19,7 +19,7 @@ public class CustomerDTO {
     private List<CardDTO> savedPaymentDetails;
     private String role;
     private CartDTO cart;
-    private boolean isActive;
+    private boolean isActive=true;
     private List<OrderDTO> history;
 
     public CustomerDTO(String customerEmail, String customerName, String password,String role) {

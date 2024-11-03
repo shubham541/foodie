@@ -11,4 +11,5 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     Order findByOrderId(int orderId);
     Order findByRestaurantId(int restaurantId);
 
+    int countByStatus(String onDelivery);
 }

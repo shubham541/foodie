@@ -143,17 +143,26 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Map<Integer, String> trackOrders(int customerId) {
         Customer customer = customerRepository.findByCustomerId(customerId);
-        Map<Integer, String> orderIsAndStatusMap = new HashMap<>();
+        Map<Integer, String> orderAndStatusMap = new HashMap<>();
         if (customer.getHistory() != null) {
-            customer.getHistory().forEach(order -> orderIsAndStatusMap.put(order.getOrderId(), order.getStatus()));
+            customer.getHistory().forEach(order -> orderAndStatusMap.put(order.getOrderId(), order.getStatus()));
         }
-        return orderIsAndStatusMap;
+        return orderAndStatusMap;
     }
 
     @Override
     public List<Order> viewOrderHistory(int customerId) {
         Customer customer = customerRepository.findByCustomerId(customerId);
         return customer.getHistory();
+    }
+
+    @Override
+    public void deactivateCustomer(int userId) {
+        Customer customer = customerRepository.findByCustomerId(userId);
+        if (customer != null) {
+            customer.setActive(false);
+            customerRepository.save(customer);
+        }
     }
 
 

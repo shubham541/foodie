@@ -40,7 +40,7 @@ public class Restaurant {
     @ElementCollection
     private List<String> deliveryZones;
 
-    private boolean isActive;
+    private boolean isActive = true;
     private int orderCount;
     private double timeConsumedPerOrderInMinutes;
 

@@ -143,4 +143,13 @@ public class RestaurantServiceImpl implements RestaurantService {
         return order;
     }
 
+    @Override
+    public void deactivateRestaurant(int userId) {
+        Restaurant restaurant = restaurantRepository.findByRestaurantId(userId);
+        if (restaurant != null) {
+            restaurant.setActive(false);
+            restaurantRepository.save(restaurant);
+        }
+    }
+
 }

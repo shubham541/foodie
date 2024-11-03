@@ -30,7 +30,4 @@ public class Order {
     @JsonBackReference
     private Customer customer; //Foreign key column in Customer
 
-    public void rescheduleOrder() {
-        // Logic to reschedule the order
-    }
 }

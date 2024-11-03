@@ -12,7 +12,7 @@ public class OrderDTO {
     private int customerId;
     private int restaurantId;
     private double amount;
-    private boolean isCancelled;
+    private boolean isCancelled=false;
     private String status;
     private double deliveryTimeInMinutes;
 

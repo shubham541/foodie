@@ -20,8 +20,10 @@ public class DeliveryPersonController {
     DeliveryPersonService deliveryPersonService;
 
     public ResponseDTO saveDeliveryPerson(@RequestBody RegisterRequestDTO registerRequestDTO) {
-        DeliveryPersonDTO deliveryPersonDTO = new DeliveryPersonDTO(registerRequestDTO.getDeliveryPersonEmail(), registerRequestDTO.getDeliveryPersonName(),
-                registerRequestDTO.getPassword(), registerRequestDTO.getContactDetails(), registerRequestDTO.getVehicleType(), registerRequestDTO.getRole());
+        DeliveryPersonDTO deliveryPersonDTO = new DeliveryPersonDTO(registerRequestDTO.getDeliveryPersonEmail(),
+                registerRequestDTO.getDeliveryPersonName(), registerRequestDTO.getPassword(),
+                registerRequestDTO.getContactDetails(), registerRequestDTO.getVehicleType(),
+                registerRequestDTO.getRole());
         return deliveryPersonService.addDeliveryPerson(deliveryPersonDTO);
     }
 
@@ -51,4 +53,7 @@ public class DeliveryPersonController {
         return deliveryPersonService.manageDeliveryAvailability(deliveryPersonId, availability);
     }
 
+    public void deactivateDeliveryPerson(int userId) {
+        deliveryPersonService.deactivateDeliveryPerson(userId);
+    }
 }

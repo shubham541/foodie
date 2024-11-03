@@ -24,7 +24,8 @@ public class CustomerController {
     RestaurantController restaurantController;
 
     public ResponseDTO saveCustomer(@RequestBody RegisterRequestDTO registerRequestDTO) {
-        CustomerDTO customerDTO = new CustomerDTO(registerRequestDTO.getCustomerEmail(), registerRequestDTO.getCustomerName(), registerRequestDTO.getPassword(), registerRequestDTO.getRole());
+        CustomerDTO customerDTO = new CustomerDTO(registerRequestDTO.getCustomerEmail(), registerRequestDTO.getCustomerName(),
+                registerRequestDTO.getPassword(), registerRequestDTO.getRole());
         return customerService.addCustomer(customerDTO);
     }
 
@@ -66,12 +67,16 @@ public class CustomerController {
     }
 
     @GetMapping(path = "/id/{customerId}/trackOrders")
-    public Map<Integer,String> trackOrders(@PathVariable("customerId") int customerId) {
+    public Map<Integer, String> trackOrders(@PathVariable("customerId") int customerId) {
         return customerService.trackOrders(customerId);
     }
 
     @GetMapping(path = "/id/{customerId}/viewOrderHistory")
     public List<Order> viewOrderHistory(@PathVariable("customerId") int customerId) {
         return customerService.viewOrderHistory(customerId);
+    }
+
+    public void deactivateCustomer(int userId) {
+        customerService.deactivateCustomer(userId);
     }
 }

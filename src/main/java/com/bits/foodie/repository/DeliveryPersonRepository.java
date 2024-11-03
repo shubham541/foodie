@@ -14,4 +14,6 @@ public interface DeliveryPersonRepository extends JpaRepository<DeliveryPerson,I
     DeliveryPerson findByDeliveryPersonEmail(String adminEmail);
 
     DeliveryPerson findByDeliveryPersonId(int deliveryPersonId);
+
+    int countByIsActive(boolean b);
 }

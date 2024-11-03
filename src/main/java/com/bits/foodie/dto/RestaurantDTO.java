@@ -1,6 +1,5 @@
 package com.bits.foodie.dto;
 
-import com.bits.foodie.model.Menu;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,13 +29,15 @@ public class RestaurantDTO {
     private double timeConsumedPerOrderInMinutes;
 
 
-    public RestaurantDTO(String restaurantName, String restaurantEmail,String password, String restaurantAdd, String role, String cuisineType, boolean isVegOnly, LocalTime openingHours, LocalTime closingHours, List<String> deliveryZones) {
+    public RestaurantDTO(String restaurantName, String restaurantEmail, String password,
+                         String restaurantAdd, String role, String cuisineType, boolean isVegOnly,
+                         LocalTime openingHours, LocalTime closingHours, List<String> deliveryZones) {
         this.password = password;
         this.restaurantName = restaurantName;
         this.restaurantEmail = restaurantEmail;
         this.restaurantAdd = restaurantAdd;
         this.role = role;
-        CuisineType = cuisineType;
+        this.CuisineType = cuisineType;
         this.isVegOnly = isVegOnly;
         this.openingHours = openingHours;
         this.closingHours = closingHours;

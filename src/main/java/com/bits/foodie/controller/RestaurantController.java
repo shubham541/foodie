@@ -4,13 +4,11 @@ import com.bits.foodie.dto.*;
 import com.bits.foodie.dto.payload.LoginRequestDTO;
 import com.bits.foodie.dto.payload.RegisterRequestDTO;
 import com.bits.foodie.dto.response.ResponseDTO;
-import com.bits.foodie.model.Customer;
 import com.bits.foodie.model.Menu;
 import com.bits.foodie.model.Order;
 import com.bits.foodie.model.Restaurant;
 import com.bits.foodie.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -70,5 +68,9 @@ public class RestaurantController {
 
     public List<Restaurant> searchRestaurants(String restaurantName, String cuisineType, Boolean isVegOnly, String foodItemName) {
         return restaurantService.searchRestaurant(restaurantName, cuisineType, isVegOnly, foodItemName);
+    }
+
+    public void deactivateRestaurant(int userId) {
+        restaurantService.deactivateRestaurant(userId);
     }
 }

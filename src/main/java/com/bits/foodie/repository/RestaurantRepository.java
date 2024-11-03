@@ -32,4 +32,6 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
             @Param("isVegOnly") Boolean isVegOnly,
             @Param("foodItemName") String foodItemName // Add food item parameter
     );
+
+    int countByIsActive(boolean b);
 }
