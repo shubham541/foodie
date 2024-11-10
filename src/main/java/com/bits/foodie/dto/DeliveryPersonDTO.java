@@ -1,5 +1,7 @@
 package com.bits.foodie.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,15 +12,29 @@ import lombok.Setter;
 public class DeliveryPersonDTO {
 
     private int deliveryPersonId;
-    private String deliveryPersonEmail;
-    private String deliveryPersonName;
-    private String password;
-    private String contactDetails;
-    private String vehicleType;
-    private boolean devAvailable;
-    private String role;
-    private boolean isActive=true;
 
+    @NotNull(message = "Delivery person email is required")
+    @Email(message = "Delivery person email must be valid")
+    private String deliveryPersonEmail;
+
+    @NotNull(message = "Delivery person name is required")
+    private String deliveryPersonName;
+
+    @NotNull(message = "Password is required")
+    private String password;
+
+    @NotNull(message = "Contact details are required")
+    private String contactDetails;
+
+    @NotNull(message = "Vehicle type is required")
+    private String vehicleType;
+
+    private boolean devAvailable;
+
+    @NotNull(message = "Role is required")
+    private String role;
+
+    private boolean isActive = true;
 
     public DeliveryPersonDTO(String deliveryPersonEmail, String deliveryPersonName, String password,
                              String contactDetails, String vehicleType, String role) {
