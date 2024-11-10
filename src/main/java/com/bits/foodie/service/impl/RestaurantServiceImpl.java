@@ -152,4 +152,17 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
     }
 
+    @Override
+    public Menu updateMenu(int restaurantId, MenuDTO menuDTO) { // Change to 'updateMenu'
+        Restaurant restaurant = restaurantRepository.findByRestaurantId(restaurantId);
+        if (restaurant != null) {
+            restaurant.setMenu(menuMapper.mapMenuDTOtoMenu(menuDTO));
+            restaurantRepository.save(restaurant);
+            return restaurant.getMenu();
+        }
+        return null;
+    }
+
+
+
 }

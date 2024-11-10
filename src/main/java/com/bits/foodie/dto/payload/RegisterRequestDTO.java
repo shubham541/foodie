@@ -4,6 +4,8 @@ import com.bits.foodie.dto.CartDTO;
 import com.bits.foodie.model.Address;
 import com.bits.foodie.model.Card;
 import com.bits.foodie.model.Menu;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +20,7 @@ public class RegisterRequestDTO {
 
     //Common attributes
     private String name;
+    @Email(message = "Email must be valid")
     private String email;
     private String role;
     private boolean isActive;
@@ -25,6 +28,7 @@ public class RegisterRequestDTO {
     //Customer Attributes
     private int customerId;
     private String customerName;
+    @Email(message = "Email must be valid")
     private String customerEmail;
     private String password;
     private List<Address> addresses;
@@ -42,7 +46,9 @@ public class RegisterRequestDTO {
 
     //Restaurant Attributes
     private String restaurantId;
+    @NotNull(message = "Restaurant name is required")
     private String restaurantName;
+    @Email(message = "Email must be valid")
     private String restaurantEmail;
     private String restaurantAdd;
     private Menu menu;

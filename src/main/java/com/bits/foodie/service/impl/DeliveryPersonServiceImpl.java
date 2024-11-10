@@ -2,6 +2,7 @@ package com.bits.foodie.service.impl;
 
 import com.bits.foodie.dto.DeliveryPersonDTO;
 import com.bits.foodie.dto.payload.LoginRequestDTO;
+import com.bits.foodie.exception.ResourceNotFoundException;
 import com.bits.foodie.model.DeliveryPerson;
 import com.bits.foodie.model.Order;
 import com.bits.foodie.model.Restaurant;
@@ -120,6 +121,11 @@ public class DeliveryPersonServiceImpl implements DeliveryPersonService {
             deliveryPerson.setActive(false);
             deliveryPersonRepository.save(deliveryPerson);
         }
+    }
 
+    @Override
+    public DeliveryPerson findById(int id) {
+        return deliveryPersonRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("DeliveryPerson not found with id " + id));
     }
 }
