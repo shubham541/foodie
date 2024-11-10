@@ -10,6 +10,7 @@ import com.bits.foodie.service.AdminService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -122,11 +123,13 @@ public class AdminController {
         return adminService.rescheduleOrder(orderId, status);
     }
 
+    @PreAuthorize("hasRole('Admin')")
     @GetMapping(path = "/generateReports")
     public Map<String, String> generateReports() {
         return adminService.generateReports();
     }
 
+    @PreAuthorize("hasRole('Admin')")
     @GetMapping("/platformActivity")
     public PlatformActivityDTO getPlatformActivity() {
         return adminService.getPlatformActivitySummary();
