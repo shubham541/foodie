@@ -12,18 +12,17 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class HomeController {
     @Autowired
-    CustomerController customerController;
+    private CustomerController customerController;
 
     @Autowired
-    DeliveryPersonController deliveryPersonController;
+    private DeliveryPersonController deliveryPersonController;
 
     @Autowired
-    RestaurantController restaurantController;
-
+    private RestaurantController restaurantController;
 
     @GetMapping("/")
     public String home() {
-        return "homepage";  // Redirecting to /home if you want a different route
+        return "homepage";  // Redirects to /home if a different route is preferred
     }
 
     @GetMapping("/home")
@@ -45,31 +44,49 @@ public class HomeController {
     @PostMapping(path = "api/v1/save")
     public ResponseEntity<?> saveUser(@RequestBody RegisterRequestDTO registerRequestDTO) {
         String role = registerRequestDTO.getRole();
-        ResponseDTO registerResponseDTO = null;
-        if (role.equalsIgnoreCase("Customer")) {
-            registerResponseDTO = customerController.saveCustomer(registerRequestDTO);
-        } else if (role.equalsIgnoreCase("DeliveryPerson")) {
-            registerResponseDTO = deliveryPersonController.saveDeliveryPerson(registerRequestDTO);
-        } else if (role.equalsIgnoreCase("Restaurant")) {
-            registerResponseDTO = restaurantController.saveRestaurant(registerRequestDTO);
+        ResponseDTO registerResponseDTO;
+
+        switch (role.toLowerCase()) {
+            case "customer":
+                registerResponseDTO = customerController.saveCustomer(registerRequestDTO);
+                break;
+            case "deliveryperson":
+                registerResponseDTO = deliveryPersonController.saveDeliveryPerson(registerRequestDTO);
+                break;
+            case "restaurant":
+                registerResponseDTO = restaurantController.saveRestaurant(registerRequestDTO);
+                break;
+            default:
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid role specified.");
         }
+
         return registerResponseDTO != null && registerResponseDTO.getStatus() ?
-                ResponseEntity.ok(registerResponseDTO) : new ResponseEntity<>("Registration Successful", HttpStatus.UNPROCESSABLE_ENTITY);
+                ResponseEntity.ok(registerResponseDTO) :
+                new ResponseEntity<>("Registration unsuccessful", HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @ResponseBody
     @PostMapping(path = "api/v1/login")
-    public ResponseEntity<?> loginCustomer(@RequestBody LoginRequestDTO loginRequestDTO) {
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequestDTO loginRequestDTO) {
         String role = loginRequestDTO.getRole();
-        ResponseDTO loginResponseDTO = null;
-        if (role.equalsIgnoreCase("Customer")) {
-            loginResponseDTO = customerController.loginCustomer(loginRequestDTO);
-        } else if (role.equalsIgnoreCase("DeliveryPerson")) {
-            loginResponseDTO = deliveryPersonController.loginDeliveryPerson(loginRequestDTO);
-        } else if (role.equalsIgnoreCase("Restaurant")) {
-            loginResponseDTO = restaurantController.loginRestaurant(loginRequestDTO);
+        ResponseDTO loginResponseDTO;
+
+        switch (role.toLowerCase()) {
+            case "customer":
+                loginResponseDTO = customerController.loginCustomer(loginRequestDTO);
+                break;
+            case "deliveryperson":
+                loginResponseDTO = deliveryPersonController.loginDeliveryPerson(loginRequestDTO);
+                break;
+            case "restaurant":
+                loginResponseDTO = restaurantController.loginRestaurant(loginRequestDTO);
+                break;
+            default:
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid role specified.");
         }
+
         return loginResponseDTO != null && loginResponseDTO.getStatus() ?
-                ResponseEntity.ok(loginResponseDTO) : new ResponseEntity<>("Invalid email or password", HttpStatus.UNAUTHORIZED);
+                ResponseEntity.ok(loginResponseDTO) :
+                new ResponseEntity<>("Invalid email or password", HttpStatus.UNAUTHORIZED);
     }
 }

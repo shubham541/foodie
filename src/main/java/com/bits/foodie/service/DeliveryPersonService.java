@@ -22,4 +22,7 @@ public interface DeliveryPersonService {
     DeliveryPerson manageDeliveryAvailability(int deliveryPersonId, boolean availability);
 
     void deactivateDeliveryPerson(int userId);
+
+    DeliveryPerson findById(int id);
+
 }

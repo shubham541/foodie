@@ -4,6 +4,7 @@ import com.bits.foodie.dto.*;
 import com.bits.foodie.dto.payload.LoginRequestDTO;
 import com.bits.foodie.dto.payload.RegisterRequestDTO;
 import com.bits.foodie.dto.response.ResponseDTO;
+import com.bits.foodie.exception.ResourceNotFoundException;
 import com.bits.foodie.model.DeliveryPerson;
 import com.bits.foodie.model.Order;
 import com.bits.foodie.service.DeliveryPersonService;
@@ -20,20 +21,34 @@ public class DeliveryPersonController {
     DeliveryPersonService deliveryPersonService;
 
     public ResponseDTO saveDeliveryPerson(@RequestBody RegisterRequestDTO registerRequestDTO) {
-        DeliveryPersonDTO deliveryPersonDTO = new DeliveryPersonDTO(registerRequestDTO.getDeliveryPersonEmail(),
-                registerRequestDTO.getDeliveryPersonName(), registerRequestDTO.getPassword(),
-                registerRequestDTO.getContactDetails(), registerRequestDTO.getVehicleType(),
-                registerRequestDTO.getRole());
-        return deliveryPersonService.addDeliveryPerson(deliveryPersonDTO);
+        try{
+            DeliveryPersonDTO deliveryPersonDTO = new DeliveryPersonDTO(registerRequestDTO.getDeliveryPersonEmail(),
+                    registerRequestDTO.getDeliveryPersonName(), registerRequestDTO.getPassword(),
+                    registerRequestDTO.getContactDetails(), registerRequestDTO.getVehicleType(),
+                    registerRequestDTO.getRole());
+            return deliveryPersonService.addDeliveryPerson(deliveryPersonDTO);
+        } catch (Exception e){
+            throw new IllegalArgumentException("Failed to register delivery person: " + e.getMessage());
+        }
     }
 
     public ResponseDTO loginDeliveryPerson(@RequestBody LoginRequestDTO loginRequestDTO) {
         return deliveryPersonService.loginDeliveryPerson(loginRequestDTO);
     }
 
-    @PatchMapping(path = "/{deliveryPersonId}")
-    public DeliveryPerson updateDeliveryPerson(@PathVariable("deliveryPersonId") int deliveryPersonId, @RequestBody DeliveryPersonDTO deliveryPersonDTO) {
-        return deliveryPersonService.updateDeliveryPerson(deliveryPersonId, deliveryPersonDTO);
+    @PatchMapping("/{id}")
+    public DeliveryPerson updateDeliveryPerson(@PathVariable int id, @RequestBody DeliveryPersonDTO deliveryPersonDTO) {
+        try {
+            DeliveryPerson updatedPerson = deliveryPersonService.updateDeliveryPerson(id, deliveryPersonDTO);
+            if (updatedPerson == null) {
+                throw new ResourceNotFoundException("Delivery person not found for update with ID: " + id);
+            }
+            return updatedPerson;
+        } catch (ResourceNotFoundException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Failed to update delivery person: " + ex.getMessage());
+        }
     }
 
     @GetMapping(path = "/viewAvailableDeliveries")
@@ -55,5 +70,14 @@ public class DeliveryPersonController {
 
     public void deactivateDeliveryPerson(int userId) {
         deliveryPersonService.deactivateDeliveryPerson(userId);
+    }
+
+    @GetMapping("/{id}")
+    public DeliveryPerson getDeliveryPersonById(@PathVariable int id) {
+        DeliveryPerson deliveryPerson = deliveryPersonService.findById(id);
+        if (deliveryPerson == null) {
+            throw new ResourceNotFoundException("Delivery person not found with ID: " + id);
+        }
+        return deliveryPerson;
     }
 }

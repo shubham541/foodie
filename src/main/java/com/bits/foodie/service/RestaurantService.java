@@ -32,4 +32,6 @@ public interface RestaurantService {
     Order updateOrderStatus(int restaurantId, int orderId, String status);
 
     void deactivateRestaurant(int userId);
+
+    Menu updateMenu(int restaurantId, MenuDTO menuDTO);
 }

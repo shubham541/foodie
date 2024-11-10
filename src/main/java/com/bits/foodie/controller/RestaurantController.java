@@ -18,59 +18,79 @@ import java.util.List;
 public class RestaurantController {
 
     @Autowired
-    RestaurantService restaurantService;
+    private RestaurantService restaurantService;
 
-    public ResponseDTO saveRestaurant(@RequestBody RegisterRequestDTO registerRequestDTO) {
-        RestaurantDTO restaurantDTO = new RestaurantDTO(registerRequestDTO.getRestaurantName(), registerRequestDTO.getRestaurantEmail(), registerRequestDTO.getPassword(),
-                registerRequestDTO.getRestaurantAdd(), registerRequestDTO.getRole(), registerRequestDTO.getCuisineType(), registerRequestDTO.isVegOnly(),
-                registerRequestDTO.getOpeningHours(), registerRequestDTO.getClosingHours(), registerRequestDTO.getDeliveryZones());
+    // Internal use by HomeController for registering a restaurant
+    public ResponseDTO saveRestaurant(RegisterRequestDTO registerRequestDTO) {
+        RestaurantDTO restaurantDTO = new RestaurantDTO(registerRequestDTO.getRestaurantName(),
+                registerRequestDTO.getRestaurantEmail(), registerRequestDTO.getPassword(),
+                registerRequestDTO.getRestaurantAdd(), registerRequestDTO.getRole(),
+                registerRequestDTO.getCuisineType(), registerRequestDTO.isVegOnly(),
+                registerRequestDTO.getOpeningHours(), registerRequestDTO.getClosingHours(),
+                registerRequestDTO.getDeliveryZones());
         return restaurantService.addRestaurant(restaurantDTO);
     }
 
-    public ResponseDTO loginRestaurant(@RequestBody LoginRequestDTO loginRequestDTO) {
+    // Internal use by HomeController for restaurant login
+    public ResponseDTO loginRestaurant(LoginRequestDTO loginRequestDTO) {
         return restaurantService.loginRestaurant(loginRequestDTO);
     }
 
+    // Fetch all restaurants
+    @GetMapping
     public List<Restaurant> fetchAllRestaurants() {
         return restaurantService.fetchAllRestaurants();
     }
 
-    @PatchMapping(path = "/{restaurantId}")
-    public Restaurant updateRestaurant(@PathVariable("restaurantId") int restaurantId,@RequestBody RestaurantDTO restaurantDTO) {
-        return restaurantService.updateRestaurant(restaurantId,restaurantDTO);
+    // Update restaurant details by ID
+    @PatchMapping("/{restaurantId}")
+    public Restaurant updateRestaurant(@PathVariable int restaurantId, @RequestBody RestaurantDTO restaurantDTO) {
+        return restaurantService.updateRestaurant(restaurantId, restaurantDTO);
     }
 
-    @GetMapping(path = "/id/{restaurantId}")
-    public Restaurant fetchRestaurantById(@PathVariable("restaurantId") int restaurantId) {
+    // Fetch restaurant by ID
+    @GetMapping("/{restaurantId}")
+    public Restaurant fetchRestaurantById(@PathVariable int restaurantId) {
         return restaurantService.fetchRestaurantById(restaurantId);
     }
 
-    @GetMapping(path = "/id/{restaurantId}/menu")
-    public Menu fetchAllMenuByRestaurantId(@PathVariable("restaurantId") int restaurantId) {
+    // Fetch menu by restaurant ID
+    @GetMapping("/{restaurantId}/menu")
+    public Menu fetchAllMenuByRestaurantId(@PathVariable int restaurantId) {
         return restaurantService.fetchMenu(restaurantId);
     }
 
-    @PatchMapping(path = "/id/{restaurantId}/menu")
-    public Menu updateMenuByRestaurantId(@PathVariable("restaurantId") int restaurantId, @RequestBody MenuDTO menuDTO) {
-        return restaurantService.UpdateMenu(restaurantId, menuDTO);
+    // Update menu by restaurant ID
+    @PatchMapping("/{restaurantId}/menu")
+    public Menu updateMenuByRestaurantId(@PathVariable int restaurantId, @RequestBody MenuDTO menuDTO) {
+        return restaurantService.updateMenu(restaurantId, menuDTO);
     }
 
-    @GetMapping(path = "/id/{restaurantId}/viewOrders")
-    public List<Order> viewOrders(@PathVariable("restaurantId") int restaurantId) {
+    // View orders by restaurant ID
+    @GetMapping("/{restaurantId}/viewOrders")
+    public List<Order> viewOrders(@PathVariable int restaurantId) {
         return restaurantService.viewOrders(restaurantId);
     }
 
-    @PatchMapping(path = "/id/{restaurantId}/order/{orderId}/updateOrderStatus")
-    public Order updateOrderStatus(@PathVariable("restaurantId") int restaurantId,
-                                         @PathVariable("orderId") int orderId, @RequestParam(required = true) String status) {
+    // Update order status
+    @PatchMapping("/{restaurantId}/order/{orderId}/updateOrderStatus")
+    public Order updateOrderStatus(@PathVariable int restaurantId, @PathVariable int orderId,
+                                   @RequestParam String status) {
         return restaurantService.updateOrderStatus(restaurantId, orderId, status);
     }
 
-    public List<Restaurant> searchRestaurants(String restaurantName, String cuisineType, Boolean isVegOnly, String foodItemName) {
+    // Search restaurants based on multiple parameters
+    @GetMapping("/search")
+    public List<Restaurant> searchRestaurants(@RequestParam(required = false) String restaurantName,
+                                              @RequestParam(required = false) String cuisineType,
+                                              @RequestParam(required = false) Boolean isVegOnly,
+                                              @RequestParam(required = false) String foodItemName) {
         return restaurantService.searchRestaurant(restaurantName, cuisineType, isVegOnly, foodItemName);
     }
 
-    public void deactivateRestaurant(int userId) {
-        restaurantService.deactivateRestaurant(userId);
+    // Deactivate restaurant by ID
+    @DeleteMapping("/{restaurantId}/deactivate")
+    public void deactivateRestaurant(@PathVariable int restaurantId) {
+        restaurantService.deactivateRestaurant(restaurantId);
     }
 }

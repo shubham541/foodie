@@ -5,6 +5,7 @@ import com.bits.foodie.dto.payload.LoginRequestDTO;
 import com.bits.foodie.dto.payload.RegisterRequestDTO;
 import com.bits.foodie.dto.response.PlatformActivityDTO;
 import com.bits.foodie.dto.response.ResponseDTO;
+import com.bits.foodie.exception.ResourceNotFoundException;
 import com.bits.foodie.model.Order;
 import com.bits.foodie.service.AdminService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,14 +42,22 @@ public class AdminController {
 
     @PostMapping(path = "/save")
     public ResponseDTO saveAdmin(@RequestBody RegisterRequestDTO registerRequestDTO) {
-        AdminDTO adminDTO = new AdminDTO(registerRequestDTO.getAdminEmail(), registerRequestDTO.getAdminName(),
-                registerRequestDTO.getPassword(), registerRequestDTO.getRole());
-        return adminService.addAdmin(adminDTO);
+        try {
+            AdminDTO adminDTO = new AdminDTO(registerRequestDTO.getAdminEmail(), registerRequestDTO.getAdminName(),
+                    registerRequestDTO.getPassword(), registerRequestDTO.getRole());
+            return adminService.addAdmin(adminDTO);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Failed to save admin: " + e.getMessage());  // Throwing exception
+        }
     }
 
     @PostMapping(path = "/login")
     public ResponseDTO loginAdmin(@RequestBody LoginRequestDTO loginRequestDTO) {
-        return adminService.loginAdmin(loginRequestDTO);
+        try {
+            return adminService.loginAdmin(loginRequestDTO);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Login failed: " + e.getMessage());  // Throwing exception
+        }
     }
 
     @PostMapping(path = "/createUser")
@@ -110,12 +119,28 @@ public class AdminController {
 
     @GetMapping(path = "/viewAllOrders")
     public List<Order> viewAllOrders() {
-        return adminService.viewAllOrders();
+        try {
+            List<Order> orders = adminService.viewAllOrders();
+            if (orders.isEmpty()) {
+                throw new ResourceNotFoundException("No orders found.");
+            }
+            return orders;
+        } catch (ResourceNotFoundException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Failed to fetch orders: " + ex.getMessage());
+        }
     }
 
     @PatchMapping(path = "/cancelOrder/{orderId}")
     public Order cancelOrder(@PathVariable int orderId) {
-        return adminService.cancelOrder(orderId);
+        try {
+            return adminService.cancelOrder(orderId);
+        } catch (ResourceNotFoundException ex) {
+            throw new ResourceNotFoundException("Order not found for cancellation: " + orderId);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Failed to cancel order: " + ex.getMessage());
+        }
     }
 
     @PatchMapping(path = "/rescheduleOrder/{orderId}")

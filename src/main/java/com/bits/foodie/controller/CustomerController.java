@@ -4,6 +4,7 @@ import com.bits.foodie.dto.*;
 import com.bits.foodie.dto.payload.LoginRequestDTO;
 import com.bits.foodie.dto.payload.RegisterRequestDTO;
 import com.bits.foodie.dto.response.ResponseDTO;
+import com.bits.foodie.exception.ResourceNotFoundException;
 import com.bits.foodie.model.Customer;
 import com.bits.foodie.model.Order;
 import com.bits.foodie.model.Restaurant;
@@ -35,12 +36,26 @@ public class CustomerController {
 
     @PatchMapping(path = "/")
     public Customer updateCustomer(@RequestBody CustomerDTO customerDTO) {
-        return customerService.updateCustomer(customerDTO);
+        try {
+            Customer customer = customerService.updateCustomer(customerDTO);
+            if (customer == null) {
+                throw new ResourceNotFoundException("Customer not found for update.");
+            }
+            return customer;
+        } catch (ResourceNotFoundException ex) {
+            throw ex;  // Re-throwing exception to be handled globally
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Failed to update customer: " + ex.getMessage());
+        }
     }
 
     @GetMapping(path = "/id/{customerId}")
     public Customer fetchCustomerById(@PathVariable("customerId") int customerId) {
-        return customerService.fetchCustomerById(customerId);
+        Customer customer = customerService.fetchCustomerById(customerId);
+        if (customer == null) {
+            throw new ResourceNotFoundException("Customer not found with ID: " + customerId);
+        }
+        return customer;
     }
 
     @GetMapping(path = "/restaurants")
