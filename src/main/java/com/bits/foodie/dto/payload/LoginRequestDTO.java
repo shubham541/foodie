@@ -33,4 +33,7 @@ public class LoginRequestDTO {
 
     public LoginRequestDTO() {
     }
+
+    public LoginRequestDTO(String mail, String password) {
+    }
 }

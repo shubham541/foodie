@@ -11,4 +11,14 @@ public class PlatformActivityDTO {
     private int totalOrdersCount;
     private int pendingOrdersCount;
     private int completedOrdersCount;
+
+    public PlatformActivityDTO(int activeUsersCount, int ongoingDeliveriesCount, int totalOrdersCount) {
+        this.activeUsersCount = activeUsersCount;
+        this.ongoingDeliveriesCount = ongoingDeliveriesCount;
+        this.totalOrdersCount = totalOrdersCount;
+    }
+
+    public PlatformActivityDTO() {
+
+    }
 }
