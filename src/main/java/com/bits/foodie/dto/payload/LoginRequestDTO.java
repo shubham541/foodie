@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+import static com.bits.foodie.utility.FoodieConstants.*;
+
 @Getter
 @Setter
 public class LoginRequestDTO {
@@ -35,5 +37,26 @@ public class LoginRequestDTO {
     }
 
     public LoginRequestDTO(String mail, String password) {
+    }
+
+    public LoginRequestDTO(String mail, String password, String role) {
+        this.role=role;
+        this.password=password;
+        switch (role.toLowerCase()){
+            case CUSTOMER: {this.customerEmail=mail;
+                break;
+            }
+            case ADMIN:{
+                this.adminEmail=mail;
+                break;
+            }
+            case RESTAURANT:{
+                this.restaurantEmail=mail;
+                break;
+            }case DELIVERY_PERSON:{
+                this.deliveryPersonEmail=mail;
+                break;
+            }
+        }
     }
 }

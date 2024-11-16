@@ -1,4 +1,4 @@
-package com.bits.foodie;
+package com.bits.foodie.test.controller;
 
 import com.bits.foodie.controller.RestaurantController;
 import com.bits.foodie.dto.MenuDTO;

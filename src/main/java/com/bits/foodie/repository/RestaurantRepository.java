@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
     Optional<Restaurant> findOneByRestaurantEmailAndPassword(String restaurantEmail, String password);
 
-    Restaurant findByRestaurantEmail(String adminEmail);
+    Restaurant findByRestaurantEmail(String restEmail);
 
     Restaurant findByRestaurantId(int restaurantId);
 
