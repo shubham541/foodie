@@ -21,7 +21,7 @@ public interface RestaurantService {
 
     Menu fetchMenu(int restaurantId);
 
-    Menu UpdateMenu(int restaurantId, MenuDTO menuDTO);
+    Menu updateMenu(int restaurantId, MenuDTO menuDTO);
 
     List<Restaurant> fetchAllRestaurants();
 
@@ -32,6 +32,4 @@ public interface RestaurantService {
     Order updateOrderStatus(int restaurantId, int orderId, String status);
 
     void deactivateRestaurant(int userId);
-
-    Menu updateMenu(int restaurantId, MenuDTO menuDTO);
 }

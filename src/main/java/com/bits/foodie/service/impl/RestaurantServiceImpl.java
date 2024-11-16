@@ -90,6 +90,7 @@ public class RestaurantServiceImpl implements RestaurantService {
             restaurant.setHoursOfOperation(restaurantDTO.getHoursOfOperation());
             restaurant.setOpeningHours(restaurantDTO.getOpeningHours());
             restaurant.setDeliveryZones(restaurantDTO.getDeliveryZones());
+            restaurant.setCuisineType(restaurantDTO.getCuisineType());
             restaurantRepository.save(restaurant);
         }
         return restaurant;
@@ -107,7 +108,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public Menu UpdateMenu(int restaurantId, MenuDTO menuDTO) {
+    public Menu updateMenu(int restaurantId, MenuDTO menuDTO) {
         Restaurant restaurant = restaurantRepository.findByRestaurantId(restaurantId);
         if (restaurant != null) {
             restaurant.setMenu(menuMapper.mapMenuDTOtoMenu(menuDTO));
@@ -151,18 +152,5 @@ public class RestaurantServiceImpl implements RestaurantService {
             restaurantRepository.save(restaurant);
         }
     }
-
-    @Override
-    public Menu updateMenu(int restaurantId, MenuDTO menuDTO) { // Change to 'updateMenu'
-        Restaurant restaurant = restaurantRepository.findByRestaurantId(restaurantId);
-        if (restaurant != null) {
-            restaurant.setMenu(menuMapper.mapMenuDTOtoMenu(menuDTO));
-            restaurantRepository.save(restaurant);
-            return restaurant.getMenu();
-        }
-        return null;
-    }
-
-
 
 }

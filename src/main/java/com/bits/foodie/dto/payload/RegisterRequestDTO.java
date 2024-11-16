@@ -76,7 +76,7 @@ public class RegisterRequestDTO {
     private String restaurantAdd;
     private Menu menu;
 
-    private String CuisineType;
+    private String cuisineType;
 
     private boolean isVegOnly;
     private double hoursOfOperation;

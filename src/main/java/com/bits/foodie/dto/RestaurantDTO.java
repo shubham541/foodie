@@ -35,7 +35,7 @@ public class RestaurantDTO {
     @NotNull(message = "Role is required")
     private String role;
 
-    private String CuisineType;
+    private String cuisineType;
 
     private boolean isVegOnly;
 
@@ -64,7 +64,7 @@ public class RestaurantDTO {
         this.restaurantEmail = restaurantEmail;
         this.restaurantAdd = restaurantAdd;
         this.role = role;
-        this.CuisineType = cuisineType;
+        this.cuisineType = cuisineType;
         this.isVegOnly = isVegOnly;
         this.openingHours = openingHours;
         this.closingHours = closingHours;
