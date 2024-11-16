@@ -4,6 +4,8 @@ import com.bits.foodie.dto.AdminDTO;
 import com.bits.foodie.dto.payload.LoginRequestDTO;
 import com.bits.foodie.dto.response.PlatformActivityDTO;
 import com.bits.foodie.model.Admin;
+import com.bits.foodie.model.CartItem;
+import com.bits.foodie.model.Item;
 import com.bits.foodie.model.Order;
 import com.bits.foodie.repository.*;
 import com.bits.foodie.dto.response.ResponseDTO;
@@ -12,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.bits.foodie.utility.FoodieConstants.*;
@@ -122,8 +121,19 @@ public class AdminServiceImpl implements AdminService {
 
         // 3. Order Trends (Max Item Ordered)
         Map<Integer, Long> itemFrequencyMap = orders.stream()
-                .flatMap(order -> order.getCart().getCartItems().stream()) // Get all items in all orders
-                .collect(Collectors.groupingBy(cartItem -> cartItem.getItem().getItemId(), Collectors.counting())); // Count occurrences of each item
+                .filter(Objects::nonNull) // Ensure orders are not null
+                .map(Order::getCart) // Get the cart
+                .filter(Objects::nonNull) // Ensure cart is not null
+                .flatMap(cart -> Optional.ofNullable(cart.getCartItems()) // Get cart items
+                        .orElse(Collections.emptyList()) // Handle null cart items with an empty list
+                        .stream())
+                .filter(Objects::nonNull) // Ensure cart items are not null
+                .map(CartItem::getItem) // Get the item
+                .filter(Objects::nonNull) // Ensure item is not null
+                .collect(Collectors.groupingBy(
+                        Item::getItemId, // Group by item ID
+                        Collectors.counting() // Count occurrences of each item
+                ));
 
         Integer mostOrderedItemId = itemFrequencyMap.entrySet().stream()
                 .max(Map.Entry.comparingByValue()) // Get item with max occurrences
