@@ -9,6 +9,7 @@ import com.bits.foodie.exception.ResourceNotFoundException;
 import com.bits.foodie.model.Order;
 import com.bits.foodie.service.AdminService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,7 +42,7 @@ public class AdminController {
     private ObjectMapper objectMapper;
 
     @PostMapping(path = "/save")
-    public ResponseDTO saveAdmin(@RequestBody RegisterRequestDTO registerRequestDTO) {
+    public ResponseDTO saveAdmin(@Valid @RequestBody RegisterRequestDTO registerRequestDTO) {
         try {
             AdminDTO adminDTO = new AdminDTO(registerRequestDTO.getAdminEmail(), registerRequestDTO.getAdminName(),
                     registerRequestDTO.getPassword(), registerRequestDTO.getRole());
@@ -52,7 +53,7 @@ public class AdminController {
     }
 
     @PostMapping(path = "/login")
-    public ResponseDTO loginAdmin(@RequestBody LoginRequestDTO loginRequestDTO) {
+    public ResponseDTO loginAdmin(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
         try {
             return adminService.loginAdmin(loginRequestDTO);
         } catch (Exception e) {
@@ -61,13 +62,13 @@ public class AdminController {
     }
 
     @PostMapping(path = "/createUser")
-    public ResponseEntity<?> createUser(@RequestBody RegisterRequestDTO registerRequestDTO) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody RegisterRequestDTO registerRequestDTO) {
         return homeController.saveUser(registerRequestDTO);
     }
 
     @PatchMapping(path = "/updateUser/{userRole}/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable String userRole, @PathVariable int userId,
-                                        @RequestBody(required = false) Map<String, Object> dtoData) {
+                                        @Valid @RequestBody(required = false) Map<String, Object> dtoData) {
         try {
             switch (userRole.toLowerCase()) {
                 case "customer" -> {

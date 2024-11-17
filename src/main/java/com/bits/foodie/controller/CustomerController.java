@@ -9,6 +9,7 @@ import com.bits.foodie.model.Customer;
 import com.bits.foodie.model.Order;
 import com.bits.foodie.model.Restaurant;
 import com.bits.foodie.service.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,18 +25,18 @@ public class CustomerController {
     @Autowired
     RestaurantController restaurantController;
 
-    public ResponseDTO saveCustomer(@RequestBody RegisterRequestDTO registerRequestDTO) {
+    public ResponseDTO saveCustomer(@Valid @RequestBody RegisterRequestDTO registerRequestDTO) {
         CustomerDTO customerDTO = new CustomerDTO(registerRequestDTO.getCustomerEmail(), registerRequestDTO.getCustomerName(),
                 registerRequestDTO.getPassword(), registerRequestDTO.getRole());
         return customerService.addCustomer(customerDTO);
     }
 
-    public ResponseDTO loginCustomer(@RequestBody LoginRequestDTO loginRequestDTO) {
+    public ResponseDTO loginCustomer(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
         return customerService.loginCustomer(loginRequestDTO);
     }
 
     @PatchMapping(path = "/")
-    public Customer updateCustomer(@RequestBody CustomerDTO customerDTO) {
+    public Customer updateCustomer(@Valid @RequestBody CustomerDTO customerDTO) {
         try {
             Customer customer = customerService.updateCustomer(customerDTO);
             if (customer == null) {
@@ -77,7 +78,7 @@ public class CustomerController {
     }
 
     @PostMapping(path = "/id/{customerId}/updateCart")
-    public Customer updateCart(@PathVariable("customerId") int customerId, @RequestBody CartDTO cartDTO) {
+    public Customer updateCart(@PathVariable("customerId") int customerId, @Valid @RequestBody CartDTO cartDTO) {
         return customerService.updateCart(customerId, cartDTO);
     }
 

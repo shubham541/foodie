@@ -3,6 +3,7 @@ package com.bits.foodie.controller;
 import com.bits.foodie.dto.payload.LoginRequestDTO;
 import com.bits.foodie.dto.payload.RegisterRequestDTO;
 import com.bits.foodie.dto.response.ResponseDTO;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +43,7 @@ public class HomeController {
 
     @ResponseBody
     @PostMapping(path = "api/v1/save")
-    public ResponseEntity<?> saveUser(@RequestBody RegisterRequestDTO registerRequestDTO) {
+    public ResponseEntity<?> saveUser(@Valid @RequestBody RegisterRequestDTO registerRequestDTO) {
         String role = registerRequestDTO.getRole();
         ResponseDTO registerResponseDTO;
 
@@ -67,7 +68,7 @@ public class HomeController {
 
     @ResponseBody
     @PostMapping(path = "api/v1/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequestDTO loginRequestDTO) {
+    public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
         String role = loginRequestDTO.getRole();
         ResponseDTO loginResponseDTO;
 

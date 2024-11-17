@@ -8,6 +8,7 @@ import com.bits.foodie.exception.ResourceNotFoundException;
 import com.bits.foodie.model.DeliveryPerson;
 import com.bits.foodie.model.Order;
 import com.bits.foodie.service.DeliveryPersonService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class DeliveryPersonController {
     @Autowired
     DeliveryPersonService deliveryPersonService;
 
-    public ResponseDTO saveDeliveryPerson(@RequestBody RegisterRequestDTO registerRequestDTO) {
+    public ResponseDTO saveDeliveryPerson(@Valid @RequestBody RegisterRequestDTO registerRequestDTO) {
         try{
             DeliveryPersonDTO deliveryPersonDTO = new DeliveryPersonDTO(registerRequestDTO.getDeliveryPersonEmail(),
                     registerRequestDTO.getDeliveryPersonName(), registerRequestDTO.getPassword(),
@@ -32,12 +33,12 @@ public class DeliveryPersonController {
         }
     }
 
-    public ResponseDTO loginDeliveryPerson(@RequestBody LoginRequestDTO loginRequestDTO) {
+    public ResponseDTO loginDeliveryPerson(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
         return deliveryPersonService.loginDeliveryPerson(loginRequestDTO);
     }
 
     @PatchMapping("/{id}")
-    public DeliveryPerson updateDeliveryPerson(@PathVariable int id, @RequestBody DeliveryPersonDTO deliveryPersonDTO) {
+    public DeliveryPerson updateDeliveryPerson(@PathVariable int id, @Valid @RequestBody DeliveryPersonDTO deliveryPersonDTO) {
         try {
             DeliveryPerson updatedPerson = deliveryPersonService.updateDeliveryPerson(id, deliveryPersonDTO);
             if (updatedPerson == null) {

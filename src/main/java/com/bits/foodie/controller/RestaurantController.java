@@ -8,6 +8,7 @@ import com.bits.foodie.model.Menu;
 import com.bits.foodie.model.Order;
 import com.bits.foodie.model.Restaurant;
 import com.bits.foodie.service.RestaurantService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +45,7 @@ public class RestaurantController {
 
     // Update restaurant details by ID
     @PatchMapping("/{restaurantId}")
-    public Restaurant updateRestaurant(@PathVariable int restaurantId, @RequestBody RestaurantDTO restaurantDTO) {
+    public Restaurant updateRestaurant(@PathVariable int restaurantId, @Valid @RequestBody RestaurantDTO restaurantDTO) {
         return restaurantService.updateRestaurant(restaurantId, restaurantDTO);
     }
 
@@ -62,7 +63,7 @@ public class RestaurantController {
 
     // Update menu by restaurant ID
     @PatchMapping("/{restaurantId}/menu")
-    public Menu updateMenuByRestaurantId(@PathVariable int restaurantId, @RequestBody MenuDTO menuDTO) {
+    public Menu updateMenuByRestaurantId(@PathVariable int restaurantId, @Valid @RequestBody MenuDTO menuDTO) {
         return restaurantService.updateMenu(restaurantId, menuDTO);
     }
 
