@@ -34,9 +34,14 @@
     </section>
 
     <section id="tab-menu" class="hidden">
-        <p class="muted">Mark dishes unavailable when you run out, or change a price. Prices exclude GST.</p>
+        <p class="muted">Flip a switch to mark a dish sold out (it greys out for customers straight away) and back in stock. Prices exclude GST.</p>
+        <div class="toolbar" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:10px 0">
+            <input id="menu-search" type="search" placeholder="Search dishes..." aria-label="Search dishes" style="flex:1;min-width:180px">
+            <label class="switch"><input type="checkbox" id="menu-soldout-only"> <span>Sold out only</span></label>
+            <span id="menu-count" class="muted"></span>
+        </div>
         <div class="table-wrap"><table>
-            <thead><tr><th>Dish</th><th>Category</th><th>Price (&#8377;)</th><th>Available</th><th></th></tr></thead>
+            <thead><tr><th>Dish</th><th>Category</th><th>Price (&#8377;)</th><th>Stock</th><th></th></tr></thead>
             <tbody id="menu-rows"></tbody>
         </table></div>
     </section>

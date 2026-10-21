@@ -73,7 +73,23 @@
         <td>${u.active ? '<span class="badge COLLECTED">Active</span>' : '<span class="badge CANCELLED">Deactivated</span>'}</td>
         <td><button class="btn ghost small" data-toggle="${u.id}" data-active="${u.active}" type="button">${u.active ? 'Deactivate' : 'Activate'}</button></td></tr>`).join('')
         || '<tr><td colspan="5" class="muted">No customers yet.</td></tr>';
+      filterMenu();
     } catch (e) { rows.innerHTML = `<tr><td colspan="5">${F.esc(e.message)}</td></tr>`; }
+  }
+
+  /** Search box + "sold out only" filter; rows are hidden, not re-rendered, so unsaved price edits survive. */
+  function filterMenu() {
+    const q = document.getElementById('menu-search').value.trim().toLowerCase();
+    const soldOnly = document.getElementById('menu-soldout-only').checked;
+    let out = 0, shown = 0;
+    document.querySelectorAll('#menu-rows tr[data-id]').forEach((tr) => {
+      const sold = !tr.querySelector('input[type=checkbox]').checked;
+      if (sold) out++;
+      const show = (!q || tr.textContent.toLowerCase().includes(q)) && (!soldOnly || sold);
+      tr.classList.toggle('hidden', !show);
+      if (show) shown++;
+    });
+    document.getElementById('menu-count').textContent = `${out} sold out - showing ${shown}`;
   }
 
   async function loadReports() {
@@ -90,10 +106,10 @@
     const rows = document.getElementById('menu-rows');
     try {
       const items = await F.api('/restaurant-admin/menu');
-      rows.innerHTML = items.map((i) => `<tr data-id="${i.id}">
+      rows.innerHTML = items.map((i) => `<tr data-id="${i.id}" class="${i.available ? '' : 'is-out'}">
         <td>${F.esc(i.name)}</td><td class="muted">${F.esc(i.category)}</td>
         <td><input type="number" min="1" step="1" value="${i.price}" aria-label="Price of ${F.esc(i.name)}"></td>
-        <td><label class="switch"><input type="checkbox" ${i.available ? 'checked' : ''} aria-label="Available"> <span>${i.available ? 'Yes' : 'Sold out'}</span></label></td>
+        <td><label class="switch toggle"><input type="checkbox" ${i.available ? 'checked' : ''} aria-label="${F.esc(i.name)} in stock"><span class="slider"></span><span class="state">${i.available ? 'In stock' : 'Sold out'}</span></label></td>
         <td><button class="btn ghost small" data-save type="button">Save price</button></td></tr>`).join('');
     } catch (e) { rows.innerHTML = `<tr><td colspan="5">${F.esc(e.message)}</td></tr>`; }
   }
@@ -153,9 +169,13 @@
     rows.addEventListener('change', (e) => {
       if (e.target.type !== 'checkbox') return;
       const tr = e.target.closest('tr');
-      tr.querySelector('.switch span').textContent = e.target.checked ? 'Yes' : 'Sold out';
+      tr.querySelector('.state').textContent = e.target.checked ? 'In stock' : 'Sold out';
+      tr.classList.toggle('is-out', !e.target.checked);
+      filterMenu();
       patch(tr, { available: e.target.checked }, e.target.checked ? 'Marked available.' : 'Marked sold out.');
     });
+    document.getElementById('menu-search').addEventListener('input', filterMenu);
+    document.getElementById('menu-soldout-only').addEventListener('change', filterMenu);
     rows.addEventListener('click', (e) => {
       if (!e.target.closest('[data-save]')) return;
       const tr = e.target.closest('tr');

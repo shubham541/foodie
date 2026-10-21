@@ -208,3 +208,13 @@ td input { padding: 6px 8px; width: 100px; }
 .tag.best { color: var(--gold); border-color: var(--gold); }
 .tag.spicy { color: #ff7a59; border-color: #ff7a59; }
 .tag.healthy { color: var(--ok); border-color: var(--ok); }
+
+.toggle { position: relative; }
+.toggle input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.toggle .slider { width: 42px; height: 24px; border-radius: 999px; background: var(--danger); position: relative; transition: background .15s; flex: none; }
+.toggle .slider::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform .15s; }
+.toggle input:checked + .slider { background: var(--ok); }
+.toggle input:checked + .slider::after { transform: translateX(18px); }
+.toggle input:focus-visible + .slider { outline: 2px solid var(--gold); outline-offset: 2px; }
+.toggle .state { min-width: 62px; font-weight: 600; }
+tr.is-out td:first-child { text-decoration: line-through; opacity: .7; }
