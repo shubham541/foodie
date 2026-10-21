@@ -202,3 +202,9 @@ td input { padding: 6px 8px; width: 100px; }
   .nav a, .nav button.link { padding: 8px; }
   .brand div { display: none; }
 }
+
+.dish .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: .72rem; font-weight: 700; border: 1px solid var(--line); background: var(--panel-2); }
+.tag.best { color: var(--gold); border-color: var(--gold); }
+.tag.spicy { color: #ff7a59; border-color: #ff7a59; }
+.tag.healthy { color: var(--ok); border-color: var(--ok); }

@@ -2,7 +2,8 @@
 (function () {
   'use strict';
   const F = window.Foodie;
-  const state = { restaurant: null, menu: [], byId: new Map(), category: null, query: '', vegOnly: false };
+  const state = { restaurant: null, menu: [], byId: new Map(), category: null, tag: null, query: '', vegOnly: false };
+  const TAGS = [{ key: 'bestseller', label: '⭐ Bestsellers' }, { key: 'spicy', label: '🌶 Spicy' }, { key: 'healthy', label: '🥗 Healthy picks' }];
 
   const $ = (id) => document.getElementById(id);
 
@@ -43,11 +44,13 @@
   function renderChips() {
     const chips = [{ name: null, label: 'All' }].concat(state.menu.map((c) => ({ name: c.name, label: c.name })));
     $('chips').innerHTML = chips.map((c) =>
-      `<button type="button" class="chip ${state.category === c.name ? 'active' : ''}" data-cat="${F.esc(c.name ?? '')}">${F.esc(c.label)}</button>`).join('');
+      `<button type="button" class="chip ${!state.tag && state.category === c.name ? 'active' : ''}" data-cat="${F.esc(c.name ?? '')}">${F.esc(c.label)}</button>`).join('')
+      + TAGS.map((t) => `<button type="button" class="chip tag ${state.tag === t.key ? 'active' : ''}" data-tag="${t.key}">${t.label}</button>`).join('');
   }
 
   function matches(item) {
     if (state.vegOnly && item.veg !== true) return false;
+    if (state.tag && !item[state.tag]) return false;
     if (state.query) {
       const q = state.query.toLowerCase();
       if (!(item.name.toLowerCase().includes(q) || (item.description || '').toLowerCase().includes(q) || item.category.toLowerCase().includes(q))) return false;
@@ -67,8 +70,11 @@
     else if (!canOrder) action = '';
     else if (q > 0) action = `<span class="stepper" data-id="${i.id}"><button type="button" data-act="dec" aria-label="Remove one">&minus;</button><span>${q}</span><button type="button" data-act="inc" aria-label="Add one">+</button></span>`;
     else action = `<button type="button" class="btn small" data-act="add" data-id="${i.id}">Add</button>`;
+    const tags = [i.bestseller ? '<span class="tag best">⭐ Bestseller</span>' : '', i.spicy ? '<span class="tag spicy">🌶 Spicy</span>' : '',
+      i.healthy ? '<span class="tag healthy">🥗 Healthy</span>' : ''].join('');
     return `<article class="dish ${i.available ? '' : 'unavailable'}">${pic}<div class="body">
       <div class="name">${dot}<span>${F.esc(i.name)}</span></div>
+      ${tags ? `<div class="tags">${tags}</div>` : ''}
       ${i.description ? `<div class="desc">${F.esc(i.description)}</div>` : ''}
       <div class="foot"><span class="price">${F.money(i.price)}</span>${action}</div></div></article>`;
   }
@@ -78,15 +84,21 @@
       .filter((c) => !state.category || c.name === state.category)
       .map((c) => ({ name: c.name, items: c.items.filter(matches) }))
       .filter((c) => c.items.length);
+    const star = !state.category && !state.tag && !state.query && !state.vegOnly
+      ? state.menu.flatMap((c) => c.items).filter((i) => i.bestseller && i.available) : [];
+    const strip = star.length
+      ? `<section class="menu-section" id="cat-bestsellers"><h2>⭐ Bestsellers</h2><div class="grid cols-3">${star.map(dishCard).join('')}</div></section>` : '';
     $('menu').innerHTML = sections.length
-      ? sections.map((c) => `<section class="menu-section" id="cat-${F.esc(c.name.replace(/\W+/g, '-'))}"><h2>${F.esc(c.name)}</h2><div class="grid cols-3">${c.items.map(dishCard).join('')}</div></section>`).join('')
+      ? strip + sections.map((c) => `<section class="menu-section" id="cat-${F.esc(c.name.replace(/\W+/g, '-'))}"><h2>${F.esc(c.name)}</h2><div class="grid cols-3">${c.items.map(dishCard).join('')}</div></section>`).join('')
       : '<div class="empty">No dishes match your search.</div>';
   }
 
   document.addEventListener('DOMContentLoaded', () => {
     $('chips').addEventListener('click', (e) => {
-      const b = e.target.closest('[data-cat]'); if (!b) return;
-      state.category = b.dataset.cat || null; renderChips(); renderMenu();
+      const b = e.target.closest('[data-cat],[data-tag]'); if (!b) return;
+      if (b.dataset.tag) { state.tag = state.tag === b.dataset.tag ? null : b.dataset.tag; state.category = null; }
+      else { state.category = b.dataset.cat || null; state.tag = null; }
+      renderChips(); renderMenu();
     });
     $('search').addEventListener('input', (e) => { state.query = e.target.value.trim(); renderMenu(); });
     $('veg-only').addEventListener('change', (e) => { state.vegOnly = e.target.checked; renderMenu(); });

@@ -19,7 +19,8 @@ public final class CatalogDtos {
     }
 
     public record MenuItemDTO(Long id, String name, String description, String category, BigDecimal price,
-                              Boolean veg, String imageUrl, boolean available) {
+                              Boolean veg, String imageUrl, boolean available,
+                              boolean spicy, boolean bestseller, boolean healthy) {
     }
 
     public record MenuCategoryDTO(String name, List<MenuItemDTO> items) {

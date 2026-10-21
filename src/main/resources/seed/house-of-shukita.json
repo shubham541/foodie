@@ -9,74 +9,23 @@
   },
   "items": [
     {
-      "category": "Parathas",
-      "name": "Butter Paratha",
-      "price": 69,
+      "category": "Maggi",
+      "name": "Spicy veg Fried Maggi",
+      "price": 159,
       "veg": true,
-      "image": "butter-paratha.jpg"
+      "image": "fried-maggi.jpg",
+      "spicy": true,
+      "bestseller": true
     },
     {
-      "category": "Parathas",
-      "name": "Plain Paratha",
-      "price": 79,
-      "veg": true,
-      "image": "plain-paratha.jpg"
-    },
-    {
-      "category": "Parathas",
-      "name": "Paneer Paratha",
-      "price": 199,
-      "veg": true,
-      "image": "paneer-paratha-combo.jpg"
-    },
-    {
-      "category": "Parathas",
-      "name": "Sattu Raja Paratha",
+      "category": "Maggi",
+      "name": "Spicy Veg Fried Atta Maggi",
       "price": 169,
       "veg": true,
-      "image": "sattu-paratha.jpg"
-    },
-    {
-      "category": "Parathas",
-      "name": "Ghee Paratha",
-      "price": 69,
-      "veg": true,
-      "image": "ghee-paratha.jpg"
-    },
-    {
-      "category": "Rotis",
-      "name": "Plain Roti",
-      "price": 59,
-      "veg": true,
-      "image": "plain-roti.jpg"
-    },
-    {
-      "category": "Rotis",
-      "name": "Ghee Roti",
-      "price": 69,
-      "veg": true,
-      "image": "ghee-roti.jpg"
-    },
-    {
-      "category": "Rotis",
-      "name": "Butter Roti",
-      "price": 69,
-      "veg": true,
-      "image": "butter-roti.jpg"
-    },
-    {
-      "category": "Maggi",
-      "name": "O.G. Soupy Maggi",
-      "price": 129,
-      "veg": true,
-      "image": "soupy-maggi.jpg"
-    },
-    {
-      "category": "Maggi",
-      "name": "Loaded Veggie Soupy Maggi",
-      "price": 149,
-      "veg": true,
-      "image": "soupy-maggi.jpg"
+      "image": "fried-maggi.jpg",
+      "spicy": true,
+      "bestseller": true,
+      "healthy": true
     },
     {
       "category": "Maggi",
@@ -87,6 +36,14 @@
     },
     {
       "category": "Maggi",
+      "name": "Veg Fried Atta Maggi",
+      "price": 159,
+      "veg": true,
+      "image": "fried-maggi.jpg",
+      "healthy": true
+    },
+    {
+      "category": "Maggi",
       "name": "Cheesy Melted Veg Maggi",
       "price": 169,
       "veg": true,
@@ -94,10 +51,10 @@
     },
     {
       "category": "Maggi",
-      "name": "Spicy veg Fried Maggi",
-      "price": 159,
+      "name": "Cheese Fried Atta Maggi",
+      "price": 169,
       "veg": true,
-      "image": "fried-maggi.jpg"
+      "image": "veg-maggi-2.jpg"
     },
     {
       "category": "Maggi",
@@ -115,45 +72,42 @@
     },
     {
       "category": "Maggi",
-      "name": "Veg Soupy Atta Maggi",
-      "price": 119,
+      "name": "Egg Atta Maggi",
+      "price": 139,
+      "veg": false,
+      "image": "egg-maggi.jpg",
+      "healthy": true
+    },
+    {
+      "category": "Maggi",
+      "name": "Loaded Veggie Soupy Maggi",
+      "price": 149,
       "veg": true,
       "image": "soupy-maggi.jpg"
     },
     {
       "category": "Maggi",
-      "name": "Veg Fried Atta Maggi",
-      "price": 159,
+      "name": "Veg Soupy Atta Maggi",
+      "price": 119,
       "veg": true,
-      "image": "fried-maggi.jpg"
+      "image": "soupy-maggi.jpg",
+      "healthy": true
     },
     {
       "category": "Maggi",
-      "name": "Spicy Veg Fried Atta Maggi",
-      "price": 169,
+      "name": "O.G. Soupy Maggi",
+      "price": 129,
       "veg": true,
-      "image": "fried-maggi.jpg"
-    },
-    {
-      "category": "Maggi",
-      "name": "Egg Atta Maggi",
-      "price": 139,
-      "veg": false,
-      "image": "egg-maggi.jpg"
-    },
-    {
-      "category": "Maggi",
-      "name": "Cheese Fried Atta Maggi",
-      "price": 169,
-      "veg": true,
-      "image": "veg-maggi-2.jpg"
+      "image": "soupy-maggi.jpg"
     },
     {
       "category": "Wai Wai",
-      "name": "Loaded Veggie Soupy Wai Wai",
+      "name": "Devil Spicy Wai Wai",
       "price": 149,
       "veg": true,
-      "image": "soupy-wai-wai.jpg"
+      "image": "wai-wai-fried.jpg",
+      "spicy": true,
+      "bestseller": true
     },
     {
       "category": "Wai Wai",
@@ -164,10 +118,10 @@
     },
     {
       "category": "Wai Wai",
-      "name": "O.G. Soupy Wai Wai",
-      "price": 129,
+      "name": "Cheesy Melted Wai Wai",
+      "price": 169,
       "veg": true,
-      "image": "soupy-wai-wai.jpg"
+      "image": "wai-wai-fried.jpg"
     },
     {
       "category": "Wai Wai",
@@ -178,114 +132,17 @@
     },
     {
       "category": "Wai Wai",
-      "name": "Cheesy Melted Wai Wai",
-      "price": 169,
+      "name": "Loaded Veggie Soupy Wai Wai",
+      "price": 149,
       "veg": true,
-      "image": "wai-wai-fried.jpg"
+      "image": "soupy-wai-wai.jpg"
     },
     {
       "category": "Wai Wai",
-      "name": "Devil Spicy Wai Wai",
-      "price": 149,
-      "veg": true,
-      "image": "wai-wai-fried.jpg"
-    },
-    {
-      "category": "Sandwiches",
-      "name": "Cheese Pull Veg Sandwich",
-      "price": 169,
-      "veg": true,
-      "image": "cheese-sandwich.jpg"
-    },
-    {
-      "category": "Sandwiches",
-      "name": "Garden Crunch Veg Sandwich",
-      "price": 149,
-      "veg": true,
-      "image": "veg-sandwich.jpg"
-    },
-    {
-      "category": "Sandwiches",
-      "name": "Paneer Boss Sandwich",
-      "price": 179,
-      "veg": true,
-      "image": "paneer-sandwich.jpg"
-    },
-    {
-      "category": "Sandwiches",
-      "name": "Cheese Loaded Paneer Sandwich",
-      "price": 139,
-      "veg": true,
-      "image": "paneer-sandwich.jpg"
-    },
-    {
-      "category": "Eggs",
-      "name": "Clean Boiled Eggs",
-      "description": "2 eggs",
-      "price": 99,
-      "veg": false,
-      "image": "boiled-eggs.jpg"
-    },
-    {
-      "category": "Eggs",
-      "name": "Street Egg Bhurji",
-      "description": "2 eggs",
-      "price": 149,
-      "veg": false,
-      "image": "egg-bhurji.jpg"
-    },
-    {
-      "category": "Eggs",
-      "name": "Masala Omelette",
-      "description": "2 eggs",
-      "price": 149,
-      "veg": false,
-      "image": "masala-omelette.jpg"
-    },
-    {
-      "category": "Eggs",
-      "name": "Boiled Egg Bhurji",
-      "description": "2 eggs",
+      "name": "O.G. Soupy Wai Wai",
       "price": 129,
-      "veg": false,
-      "image": "boiled-egg-bhurji.jpg"
-    },
-    {
-      "category": "Eggs",
-      "name": "Butter Bread Omelette",
-      "description": "2 eggs",
-      "price": 169,
-      "veg": false,
-      "image": "bread-omelette.jpg"
-    },
-    {
-      "category": "Breakfast & Bowls",
-      "name": "No-Skip Poha",
-      "price": 149,
       "veg": true,
-      "image": "poha.jpg"
-    },
-    {
-      "category": "Breakfast & Bowls",
-      "name": "Fruit Oats Bowl",
-      "price": 219,
-      "veg": true,
-      "image": "oats-fruit-bowl.jpg"
-    },
-    {
-      "category": "Breakfast & Bowls",
-      "name": "Protein Besan Chila",
-      "description": "2 pcs",
-      "price": 199,
-      "veg": true,
-      "image": "besan-chilla.jpg"
-    },
-    {
-      "category": "Breakfast & Bowls",
-      "name": "Paneer Bhurji",
-      "price": 179,
-      "veg": true,
-      "image": "paneer-bhurji.jpg"
+      "image": "soupy-wai-wai.jpg"
     },
     {
       "category": "Combos",
@@ -293,11 +150,63 @@
       "description": "4 eggs",
       "price": 199,
       "veg": false,
-      "image": "combo-egg-protein.jpg"
+      "image": "combo-egg-protein.jpg",
+      "healthy": true
     },
     {
       "category": "Combos",
-      "name": "Paneer Sandwich + Egg Bhurji",
+      "name": "Paneer Protein Plate",
+      "price": 339,
+      "veg": true,
+      "image": "combo-paneer-plate.jpg",
+      "healthy": true
+    },
+    {
+      "category": "Combos",
+      "name": "Gym Bro Combo",
+      "price": 259,
+      "healthy": true
+    },
+    {
+      "category": "Combos",
+      "name": "The Full House Breakfast",
+      "price": 299
+    },
+    {
+      "category": "Combos",
+      "name": "Sattu Raja Combo",
+      "description": "2 pcs",
+      "price": 299,
+      "veg": true,
+      "image": "paneer-paratha-combo.jpg",
+      "healthy": true
+    },
+    {
+      "category": "Combos",
+      "name": "Paneer King Combo",
+      "description": "2 pcs",
+      "price": 349,
+      "veg": true,
+      "image": "paneer-paratha-combo.jpg"
+    },
+    {
+      "category": "Combos",
+      "name": "Paratha + Paneer Bhurji Combo",
+      "price": 269,
+      "veg": true,
+      "image": "paratha-egg-combo.jpg"
+    },
+    {
+      "category": "Combos",
+      "name": "Paratha + Egg Bhurji Combo",
+      "description": "2 pcs",
+      "price": 249,
+      "veg": false,
+      "image": "paratha-egg-combo.jpg"
+    },
+    {
+      "category": "Combos",
+      "name": "Paneer Sandwich + Boiled Egg Bhurji",
       "price": 229,
       "veg": false,
       "image": "combo-sandwich-bhurji.jpg"
@@ -311,41 +220,10 @@
     },
     {
       "category": "Combos",
-      "name": "Paneer Sandwich + Boiled Egg Bhurji",
+      "name": "Paneer Sandwich + Egg Bhurji",
       "price": 229,
       "veg": false,
       "image": "combo-sandwich-bhurji.jpg"
-    },
-    {
-      "category": "Combos",
-      "name": "Sattu Raja Combo",
-      "description": "2 pcs",
-      "price": 299,
-      "veg": true,
-      "image": "paneer-paratha-combo.jpg"
-    },
-    {
-      "category": "Combos",
-      "name": "Paneer King Combo",
-      "description": "2 pcs",
-      "price": 349,
-      "veg": true,
-      "image": "paneer-paratha-combo.jpg"
-    },
-    {
-      "category": "Combos",
-      "name": "Paratha + Egg Bhurji Combo",
-      "description": "2 pcs",
-      "price": 249,
-      "veg": false,
-      "image": "paratha-egg-combo.jpg"
-    },
-    {
-      "category": "Combos",
-      "name": "Paratha + Paneer Bhurji Combo",
-      "price": 269,
-      "veg": true,
-      "image": "paratha-egg-combo.jpg"
     },
     {
       "category": "Combos",
@@ -355,27 +233,173 @@
     },
     {
       "category": "Combos",
-      "name": "The Full House Breakfast",
-      "price": 299
-    },
-    {
-      "category": "Combos",
-      "name": "Gym Bro Combo",
-      "price": 259
-    },
-    {
-      "category": "Combos",
-      "name": "Paneer Protein Plate",
-      "price": 339,
-      "veg": true,
-      "image": "combo-paneer-plate.jpg"
-    },
-    {
-      "category": "Combos",
       "name": "Egg Everything Combo",
       "price": 369,
       "veg": false,
       "image": "combo-egg-protein.jpg"
+    },
+    {
+      "category": "Breakfast & Bowls",
+      "name": "Protein Besan Chila",
+      "description": "2 pcs",
+      "price": 199,
+      "veg": true,
+      "image": "besan-chilla.jpg",
+      "healthy": true
+    },
+    {
+      "category": "Breakfast & Bowls",
+      "name": "Fruit Oats Bowl",
+      "price": 219,
+      "veg": true,
+      "image": "oats-fruit-bowl.jpg",
+      "healthy": true
+    },
+    {
+      "category": "Breakfast & Bowls",
+      "name": "No-Skip Poha",
+      "price": 149,
+      "veg": true,
+      "image": "poha.jpg",
+      "healthy": true
+    },
+    {
+      "category": "Breakfast & Bowls",
+      "name": "Paneer Bhurji",
+      "price": 179,
+      "veg": true,
+      "image": "paneer-bhurji.jpg",
+      "healthy": true
+    },
+    {
+      "category": "Eggs",
+      "name": "Clean Boiled Eggs",
+      "description": "2 eggs",
+      "price": 99,
+      "veg": false,
+      "image": "boiled-eggs.jpg",
+      "healthy": true
+    },
+    {
+      "category": "Eggs",
+      "name": "Boiled Egg Bhurji",
+      "description": "2 eggs",
+      "price": 129,
+      "veg": false,
+      "image": "boiled-egg-bhurji.jpg",
+      "healthy": true
+    },
+    {
+      "category": "Eggs",
+      "name": "Masala Omelette",
+      "description": "2 eggs",
+      "price": 149,
+      "veg": false,
+      "image": "masala-omelette.jpg",
+      "healthy": true
+    },
+    {
+      "category": "Eggs",
+      "name": "Street Egg Bhurji",
+      "description": "2 eggs",
+      "price": 149,
+      "veg": false,
+      "image": "egg-bhurji.jpg"
+    },
+    {
+      "category": "Eggs",
+      "name": "Butter Bread Omelette",
+      "description": "2 eggs",
+      "price": 169,
+      "veg": false,
+      "image": "bread-omelette.jpg"
+    },
+    {
+      "category": "Sandwiches",
+      "name": "Garden Crunch Veg Sandwich",
+      "price": 149,
+      "veg": true,
+      "image": "veg-sandwich.jpg",
+      "healthy": true
+    },
+    {
+      "category": "Sandwiches",
+      "name": "Paneer Boss Sandwich",
+      "price": 179,
+      "veg": true,
+      "image": "paneer-sandwich.jpg"
+    },
+    {
+      "category": "Sandwiches",
+      "name": "Cheese Pull Veg Sandwich",
+      "price": 169,
+      "veg": true,
+      "image": "cheese-sandwich.jpg"
+    },
+    {
+      "category": "Sandwiches",
+      "name": "Cheese Loaded Paneer Sandwich",
+      "price": 139,
+      "veg": true,
+      "image": "paneer-sandwich.jpg"
+    },
+    {
+      "category": "Parathas",
+      "name": "Sattu Raja Paratha",
+      "price": 169,
+      "veg": true,
+      "image": "sattu-paratha.jpg",
+      "healthy": true
+    },
+    {
+      "category": "Parathas",
+      "name": "Paneer Paratha",
+      "price": 199,
+      "veg": true,
+      "image": "paneer-paratha-combo.jpg"
+    },
+    {
+      "category": "Parathas",
+      "name": "Butter Paratha",
+      "price": 69,
+      "veg": true,
+      "image": "butter-paratha.jpg"
+    },
+    {
+      "category": "Parathas",
+      "name": "Ghee Paratha",
+      "price": 69,
+      "veg": true,
+      "image": "ghee-paratha.jpg"
+    },
+    {
+      "category": "Parathas",
+      "name": "Plain Paratha",
+      "price": 79,
+      "veg": true,
+      "image": "plain-paratha.jpg"
+    },
+    {
+      "category": "Rotis",
+      "name": "Plain Roti",
+      "price": 59,
+      "veg": true,
+      "image": "plain-roti.jpg",
+      "healthy": true
+    },
+    {
+      "category": "Rotis",
+      "name": "Ghee Roti",
+      "price": 69,
+      "veg": true,
+      "image": "ghee-roti.jpg"
+    },
+    {
+      "category": "Rotis",
+      "name": "Butter Roti",
+      "price": 69,
+      "veg": true,
+      "image": "butter-roti.jpg"
     }
   ]
 }

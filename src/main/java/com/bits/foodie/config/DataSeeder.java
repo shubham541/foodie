@@ -26,7 +26,8 @@ import java.util.List;
  * Idempotent start-up seeding of the House of Shukita restaurant, its menu (seed/house-of-shukita.json)
  * and the restaurant-owner account (the owner manages everything). Safe to run on every boot: existing rows
  * (including prices or availability changed by the owner) are never overwritten; only missing dishes are added
- * and dishes that still have no photo get the one from the seed file.
+ * dishes that still have no photo get the one from the seed file, and the menu order and the
+ * spicy/bestseller/healthy tags always follow the seed file.
  */
 @Component
 public class DataSeeder implements ApplicationRunner {
@@ -133,6 +134,8 @@ public class DataSeeder implements ApplicationRunner {
                 if (known.getImageUrl() == null && n.hasNonNull("image")) {
                     known.setImageUrl(IMAGE_BASE + n.get("image").asText()); // photos added after the first seed
                 }
+                known.setSortOrder(order); // menu arrangement and tags follow the seed file
+                applyTags(known, n);
                 continue;
             }
             MenuItem m = new MenuItem();
@@ -144,12 +147,19 @@ public class DataSeeder implements ApplicationRunner {
             m.setVeg(n.hasNonNull("veg") ? n.get("veg").asBoolean() : null);
             m.setImageUrl(n.hasNonNull("image") ? IMAGE_BASE + n.get("image").asText() : null);
             m.setSortOrder(order);
+            applyTags(m, n);
             menuItems.save(m);
             added++;
         }
         if (added > 0) {
             log.info("Seeded {} menu item(s) for {}", added, restaurant.getName());
         }
+    }
+
+    private static void applyTags(MenuItem m, JsonNode n) {
+        m.setSpicy(n.path("spicy").asBoolean(false));
+        m.setBestseller(n.path("bestseller").asBoolean(false));
+        m.setHealthy(n.path("healthy").asBoolean(false));
     }
 
     private static String text(JsonNode n, String field) {

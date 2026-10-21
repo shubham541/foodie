@@ -47,4 +47,14 @@ public class MenuItem {
 
     @Column(nullable = false)
     private int sortOrder;
+
+    /** Curation tags set from the seed file (the owner does not edit them). */
+    @Column(nullable = false)
+    private boolean spicy;
+
+    @Column(nullable = false)
+    private boolean bestseller;
+
+    @Column(nullable = false)
+    private boolean healthy;
 }

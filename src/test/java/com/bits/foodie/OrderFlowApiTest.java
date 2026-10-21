@@ -24,6 +24,19 @@ class OrderFlowApiTest extends ApiTestSupport {
     }
 
     @Test
+    void menuLeadsWithSpicyMaggiAndWaiWaiAndTagsHealthyPicks() throws Exception {
+        JsonNode cats = call("GET", "/api/v1/restaurants/1/menu", null, null).body().get("categories");
+        assertThat(cats.get(0).get("name").asText()).isEqualTo("Maggi");
+        assertThat(cats.get(1).get("name").asText()).isEqualTo("Wai Wai");
+        assertThat(cats.get(0).get("items").get(0).get("name").asText()).isEqualTo("Spicy veg Fried Maggi");
+        assertThat(cats.get(1).get("items").get(0).get("name").asText()).isEqualTo("Devil Spicy Wai Wai");
+        assertThat(menuItem("Devil Spicy Wai Wai").get("bestseller").asBoolean()).isTrue();
+        assertThat(menuItem("Devil Spicy Wai Wai").get("spicy").asBoolean()).isTrue();
+        assertThat(menuItem("Fruit Oats Bowl").get("healthy").asBoolean()).isTrue();
+        assertThat(menuItem("Ghee Paratha").get("healthy").asBoolean()).isFalse();
+    }
+
+    @Test
     void ordersArePricedByTheServerWithGst() throws Exception {
         String customer = registerCustomer();
         JsonNode paneer = menuItem("Paneer Paratha");

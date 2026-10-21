@@ -5,7 +5,7 @@ A pickup-only ordering platform for **House of Shukita**, built for our society:
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.4-brightgreen)
 ![MySQL](https://img.shields.io/badge/DB-MySQL%20%7C%20H2-blue)
-![Tests](https://img.shields.io/badge/tests-26%20passing-success)
+![Tests](https://img.shields.io/badge/tests-27%20passing-success)
 
 ---
 
@@ -133,12 +133,13 @@ Interactive docs (dev): **http://localhost:8080/swagger-ui.html**. All errors lo
 ```bash
 ./mvnw test
 ```
-26 tests: unit tests (JWT, order state machine) and full-stack integration tests on in-memory H2 covering auth, validation, lockout, RBAC, server-side pricing, the complete order lifecycle, cancellation rules, sold-out dishes, paused ordering, the legacy-delivery database migration, owner summary/reports/customer management and page/asset serving.
+27 tests: unit tests (JWT, order state machine) and full-stack integration tests on in-memory H2 covering auth, validation, lockout, RBAC, server-side pricing, the complete order lifecycle, cancellation rules, sold-out dishes, paused ordering, the legacy-delivery database migration, owner summary/reports/customer management and page/asset serving.
 
 ## 📝 Notes for the restaurant owner
 - **Veg / non-veg labels**: dishes with egg are marked non-veg. *The Full House Breakfast* and *Gym Bro Combo* have no label because their contents aren't in the price list – set `"veg": true/false` for them in the seed JSON (or tell us).
 - **Photos**: most dishes use the restaurant's own photos. Where none existed, a similar stock photo from Wikimedia Commons is used (credited on the `/credits` page, source list in `docs/house-of-shukita/IMAGE_CREDITS.md`) – replace them with your own whenever you like. Three combos still show the logo placeholder. Drop new images into `static/images/menu/` and reference them in the seed JSON (`"image": "file.jpg"`); dishes that have no photo yet pick it up on the next start.
-- **Seed behaviour**: on every start only *missing* dishes are added; prices/availability changed from the dashboard are never overwritten.
+- **Menu arrangement**: Maggi and Wai Wai lead (spicy versions first, tagged ⭐ Bestseller), then combos, healthy breakfast/bowls, eggs, sandwiches, parathas and rotis. Dishes carry `spicy`, `bestseller` and `healthy` tags in the seed JSON, shown as badges, a Bestsellers strip and filter chips. Order and tags always follow the seed file.
+- **Seed behaviour**: on every start only *missing* dishes are added; prices/availability changed from the dashboard are never overwritten (menu order and tags are re-applied from the seed file).
 - **Opening hours and the shop address** are not in the price list, so no hours are enforced – use the *Accepting orders* switch.
 
 ## 🔄 Upgrading an older database

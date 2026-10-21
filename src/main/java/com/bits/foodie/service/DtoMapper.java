@@ -24,7 +24,7 @@ public final class DtoMapper {
 
     public static MenuItemDTO menuItem(MenuItem i) {
         return new MenuItemDTO(i.getId(), i.getName(), i.getDescription(), i.getCategory(), i.getPrice(),
-                i.getVeg(), i.getImageUrl(), i.isAvailable());
+                i.getVeg(), i.getImageUrl(), i.isAvailable(), i.isSpicy(), i.isBestseller(), i.isHealthy());
     }
 
     public static String orderNumber(Long orderId) {
