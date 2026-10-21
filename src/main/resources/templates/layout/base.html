@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0c0c0e">
+    <title th:text="${title} + ' | House of Shukita'">House of Shukita</title>
+    <link rel="icon" type="image/jpeg" th:href="@{/images/brand/logo.jpg}">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <script th:src="@{/js/foodie.js}" defer></script>
+</head>
+<body>
+<header class="site-header" th:fragment="header">
+    <div class="bar">
+        <a class="brand" th:href="@{/}">
+            <img th:src="@{/images/brand/logo.jpg}" alt="House of Shukita logo">
+            <div>House of <span>Shukita</span></div>
+        </a>
+        <nav class="nav" id="nav" aria-label="Main"></nav>
+    </div>
+</header>
+<footer class="site-footer" th:fragment="footer">
+    &copy; House of Shukita &middot; Order ahead, pick up fresh. &middot; <a th:href="@{/credits}">Photo credits</a>
+</footer>
+</body>
+</html>

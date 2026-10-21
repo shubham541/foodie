@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/base :: head('My orders')}"></head>
+<body>
+<div th:replace="~{layout/base :: header}"></div>
+<main>
+    <div class="row spread wrap mb">
+        <h1 style="margin:0">My orders</h1>
+        <a class="btn ghost small" th:href="@{/}">Order more</a>
+    </div>
+    <div id="orders"><div class="loader">Loading your orders&hellip;</div></div>
+</main>
+<div th:replace="~{layout/base :: footer}"></div>
+<script th:src="@{/js/orders.js}" defer></script>
+</body>
+</html>

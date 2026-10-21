@@ -1,0 +1,32 @@
+# docker compose up --build   (copy .env.example to .env and set real secrets first)
+services:
+  db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${FOODIE_DB_PASSWORD:?set FOODIE_DB_PASSWORD in .env}
+      MYSQL_DATABASE: shukita_foodie
+    volumes:
+      - dbdata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${FOODIE_DB_PASSWORD}"]
+      interval: 10s
+      retries: 10
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      FOODIE_DB_URL: jdbc:mysql://db:3306/shukita_foodie?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      FOODIE_DB_USER: root
+      FOODIE_DB_PASSWORD: ${FOODIE_DB_PASSWORD}
+      FOODIE_JWT_SECRET: ${FOODIE_JWT_SECRET:?set FOODIE_JWT_SECRET in .env}
+      FOODIE_RESTAURANT_PASSWORD: ${FOODIE_RESTAURANT_PASSWORD:?set FOODIE_RESTAURANT_PASSWORD in .env}
+
+volumes:
+  dbdata:

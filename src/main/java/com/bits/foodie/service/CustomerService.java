@@ -1,32 +1,27 @@
 package com.bits.foodie.service;
 
-import com.bits.foodie.dto.CartDTO;
-import com.bits.foodie.dto.CustomerDTO;
-import com.bits.foodie.dto.payload.LoginRequestDTO;
-import com.bits.foodie.dto.response.ResponseDTO;
-import com.bits.foodie.model.Customer;
-import com.bits.foodie.model.Order;
+import com.bits.foodie.domain.User;
+import com.bits.foodie.dto.AuthDtos.UserDTO;
+import com.bits.foodie.dto.CustomerDtos.ProfileUpdate;
+import com.bits.foodie.exception.ApiException;
+import com.bits.foodie.repository.UserRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
+@Service
+public class CustomerService {
 
+    private final UserRepository users;
 
-public interface CustomerService {
-    ResponseDTO addCustomer(CustomerDTO customerDTO);
+    public CustomerService(UserRepository users) {
+        this.users = users;
+    }
 
-    ResponseDTO loginCustomer(LoginRequestDTO loginRequestDTO);
-
-    Customer updateCustomer(CustomerDTO customerDTO);
-
-    Customer fetchCustomerById(int customerId);
-
-    Customer updateCart(int customerId, CartDTO cartDTO);
-
-    Order placeOrder(int customerId);
-
-    Map<Integer, String> trackOrders(int customerId);
-
-    List<Order> viewOrderHistory(int customerId);
-
-    void deactivateCustomer(int userId);
+    @Transactional
+    public UserDTO updateProfile(Long userId, ProfileUpdate update) {
+        User u = users.findById(userId).orElseThrow(() -> ApiException.unauthorized("Please log in again."));
+        if (update.name() != null && !update.name().isBlank()) u.setName(update.name().trim());
+        if (update.phone() != null) u.setPhone(update.phone());
+        return DtoMapper.user(u);
+    }
 }

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/base :: head('Restaurant dashboard')}"></head>
+<body>
+<div th:replace="~{layout/base :: header}"></div>
+<main>
+    <div class="row spread wrap mb">
+        <div>
+            <h1 style="margin:0" id="r-title">Restaurant dashboard</h1>
+            <div class="muted" id="r-sub"></div>
+        </div>
+        <label class="switch" style="margin:0"><input type="checkbox" id="accepting"> Accepting orders</label>
+    </div>
+
+    <div class="grid cols-4 mb" id="stats"></div>
+
+    <div class="tabs" role="tablist">
+        <button class="chip active" data-tab="orders" type="button">Live orders</button>
+        <button class="chip" data-tab="history" type="button">All orders</button>
+        <button class="chip" data-tab="menu" type="button">Menu</button>
+        <button class="chip" data-tab="customers" type="button">Customers</button>
+        <button class="chip" data-tab="reports" type="button">Reports</button>
+    </div>
+
+    <section id="tab-orders">
+        <div class="board" id="board"><div class="loader">Loading orders&hellip;</div></div>
+    </section>
+
+    <section id="tab-history" class="hidden">
+        <div class="table-wrap"><table>
+            <thead><tr><th>#</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Placed</th><th></th></tr></thead>
+            <tbody id="history-rows"></tbody>
+        </table></div>
+    </section>
+
+    <section id="tab-menu" class="hidden">
+        <p class="muted">Mark dishes unavailable when you run out, or change a price. Prices exclude GST.</p>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Dish</th><th>Category</th><th>Price (&#8377;)</th><th>Available</th><th></th></tr></thead>
+            <tbody id="menu-rows"></tbody>
+        </table></div>
+    </section>
+
+    <section id="tab-customers" class="hidden">
+        <p class="muted">Deactivated customers cannot log in or order.</p>
+        <div class="table-wrap"><table>
+            <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Status</th><th></th></tr></thead>
+            <tbody id="customer-rows"></tbody>
+        </table></div>
+    </section>
+
+    <section id="tab-reports" class="hidden"><div class="grid cols-3" id="reports"></div></section>
+</main>
+<div th:replace="~{layout/base :: footer}"></div>
+<script th:src="@{/js/restaurant.js}" defer></script>
+</body>
+</html>

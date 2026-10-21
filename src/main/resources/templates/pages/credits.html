@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/base :: head('Photo credits')}"></head>
+<body>
+<div th:replace="~{layout/base :: header}"></div>
+<main>
+    <h1>Photo credits</h1>
+    <p class="muted">Some dish photos on the menu are stock photographs from Wikimedia Commons, used under the licences below. They show the same kind of dish and may not be House of Shukita's own preparation. The restaurant's own photos and logo are not listed here.</p>
+    <div class="card" style="overflow-x:auto">
+        <table>
+            <thead><tr><th></th><th>Photo</th><th>Author</th><th>Licence</th></tr></thead>
+            <tbody>
+            <tr>
+                <td><img th:src="@{/images/menu/butter-paratha.jpg}" alt="" width="64" height="48" style="object-fit:cover;border-radius:6px"></td>
+                <td><a href="https://commons.wikimedia.org/wiki/File:Aloo_Paratha_with_Butter_from_India.jpg" rel="noopener" target="_blank">Aloo Paratha with Butter from India</a></td>
+                <td>Barthateslisa</td>
+                <td><a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener" target="_blank">CC BY-SA 4.0</a></td>
+            </tr>
+            <tr>
+                <td><img th:src="@{/images/menu/plain-paratha.jpg}" alt="" width="64" height="48" style="object-fit:cover;border-radius:6px"></td>
+                <td><a href="https://commons.wikimedia.org/wiki/File:Paratha_is_a_dough_fried_flatbread_native_to_India_and_Pakistan.jpg" rel="noopener" target="_blank">Paratha is a dough fried flatbread native to India and Pakistan</a></td>
+                <td>Shahzaib Damn Cruze</td>
+                <td><a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener" target="_blank">CC BY-SA 4.0</a></td>
+            </tr>
+            <tr>
+                <td><img th:src="@{/images/menu/ghee-paratha.jpg}" alt="" width="64" height="48" style="object-fit:cover;border-radius:6px"></td>
+                <td><a href="https://commons.wikimedia.org/wiki/File:Ghee_paratha.jpg" rel="noopener" target="_blank">Ghee paratha</a></td>
+                <td>Kdilshan228</td>
+                <td><a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener" target="_blank">CC BY-SA 4.0</a></td>
+            </tr>
+            <tr>
+                <td><img th:src="@{/images/menu/sattu-paratha.jpg}" alt="" width="64" height="48" style="object-fit:cover;border-radius:6px"></td>
+                <td><a href="https://commons.wikimedia.org/wiki/File:Picture_of_tasty_Gobi_paratha.JPG" rel="noopener" target="_blank">Picture of tasty Gobi paratha</a></td>
+                <td>Nithyasrm</td>
+                <td><a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener" target="_blank">CC BY-SA 4.0</a></td>
+            </tr>
+            <tr>
+                <td><img th:src="@{/images/menu/veg-maggi-1.jpg}" alt="" width="64" height="48" style="object-fit:cover;border-radius:6px"></td>
+                <td><a href="https://commons.wikimedia.org/wiki/File:Vegetable_Maggi_3.jpg" rel="noopener" target="_blank">Vegetable Maggi 3</a></td>
+                <td>Ganesh Mohan T</td>
+                <td><a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener" target="_blank">CC BY-SA 4.0</a></td>
+            </tr>
+            <tr>
+                <td><img th:src="@{/images/menu/veg-maggi-2.jpg}" alt="" width="64" height="48" style="object-fit:cover;border-radius:6px"></td>
+                <td><a href="https://commons.wikimedia.org/wiki/File:Veg_Maggi_2.jpg" rel="noopener" target="_blank">Veg Maggi 2</a></td>
+                <td>Gannu03</td>
+                <td><a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener" target="_blank">CC BY-SA 4.0</a></td>
+            </tr>
+            <tr>
+                <td><img th:src="@{/images/menu/wai-wai-fried.jpg}" alt="" width="64" height="48" style="object-fit:cover;border-radius:6px"></td>
+                <td><a href="https://commons.wikimedia.org/wiki/File:Wai_wai_noodles_(7758285274).jpg" rel="noopener" target="_blank">Wai wai noodles (7758285274)</a></td>
+                <td>Devika</td>
+                <td><a href="https://creativecommons.org/licenses/by-sa/2.0" rel="noopener" target="_blank">CC BY-SA 2.0</a></td>
+            </tr>
+            <tr>
+                <td><img th:src="@{/images/menu/cheese-sandwich.jpg}" alt="" width="64" height="48" style="object-fit:cover;border-radius:6px"></td>
+                <td><a href="https://commons.wikimedia.org/wiki/File:Grilled_cheese_sandwich_on_white_plate.jpg" rel="noopener" target="_blank">Grilled cheese sandwich on white plate</a></td>
+                <td>Senator2029</td>
+                <td><a href="https://creativecommons.org/licenses/by-sa/3.0" rel="noopener" target="_blank">CC BY-SA 3.0</a></td>
+            </tr>
+            <tr>
+                <td><img th:src="@{/images/menu/veg-sandwich.jpg}" alt="" width="64" height="48" style="object-fit:cover;border-radius:6px"></td>
+                <td><a href="https://commons.wikimedia.org/wiki/File:Vegetable_Sandwich_Mumbai-Style.jpg" rel="noopener" target="_blank">Vegetable Sandwich Mumbai-Style</a></td>
+                <td>Nags Viswanathan</td>
+                <td><a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener" target="_blank">CC BY-SA 4.0</a></td>
+            </tr>
+            <tr>
+                <td><img th:src="@{/images/menu/boiled-eggs.jpg}" alt="" width="64" height="48" style="object-fit:cover;border-radius:6px"></td>
+                <td><a href="https://commons.wikimedia.org/wiki/File:Hard_boiled_egg_2.jpg" rel="noopener" target="_blank">Hard boiled egg 2</a></td>
+                <td>3steph14</td>
+                <td><a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener" target="_blank">CC BY-SA 4.0</a></td>
+            </tr>
+            <tr>
+                <td><img th:src="@{/images/menu/masala-omelette.jpg}" alt="" width="64" height="48" style="object-fit:cover;border-radius:6px"></td>
+                <td><a href="https://commons.wikimedia.org/wiki/File:Masala_Omelette.jpg" rel="noopener" target="_blank">Masala Omelette</a></td>
+                <td>Shubham2007chaudhary</td>
+                <td><a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener" target="_blank">CC BY-SA 4.0</a></td>
+            </tr>
+            <tr>
+                <td><img th:src="@{/images/menu/bread-omelette.jpg}" alt="" width="64" height="48" style="object-fit:cover;border-radius:6px"></td>
+                <td><a href="https://commons.wikimedia.org/wiki/File:Bread-Omelette_%26_Tea.jpg" rel="noopener" target="_blank">Bread-Omelette &amp; Tea</a></td>
+                <td>Twit Rajat</td>
+                <td><a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener" target="_blank">CC BY-SA 4.0</a></td>
+            </tr>
+            <tr>
+                <td><img th:src="@{/images/menu/oats-fruit-bowl.jpg}" alt="" width="64" height="48" style="object-fit:cover;border-radius:6px"></td>
+                <td><a href="https://commons.wikimedia.org/wiki/File:Oatmeal_porridge_with_fruits.jpg" rel="noopener" target="_blank">Oatmeal porridge with fruits</a></td>
+                <td>Shisma</td>
+                <td><a href="https://creativecommons.org/licenses/by/4.0" rel="noopener" target="_blank">CC BY 4.0</a></td>
+            </tr>
+            <tr>
+                <td><img th:src="@{/images/menu/besan-chilla.jpg}" alt="" width="64" height="48" style="object-fit:cover;border-radius:6px"></td>
+                <td><a href="https://commons.wikimedia.org/wiki/File:Besan_chilla.jpg" rel="noopener" target="_blank">Besan chilla</a></td>
+                <td>Patelaahil</td>
+                <td><a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener" target="_blank">CC BY-SA 4.0</a></td>
+            </tr>
+            <tr>
+                <td><img th:src="@{/images/menu/paneer-bhurji.jpg}" alt="" width="64" height="48" style="object-fit:cover;border-radius:6px"></td>
+                <td><a href="https://commons.wikimedia.org/wiki/File:Paneer_Bhurji.jpg" rel="noopener" target="_blank">Paneer Bhurji</a></td>
+                <td>Mradulkapoor</td>
+                <td><a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener" target="_blank">CC BY-SA 4.0</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<div th:replace="~{layout/base :: footer}"></div>
+</body>
+</html>

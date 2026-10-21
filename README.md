@@ -1,335 +1,148 @@
-# 🍔 Foodie – Food Delivery Platform
+# 🍔 Foodie – House of Shukita
 
-Foodie is a Spring Boot backend (with a few server-rendered Thymeleaf pages) for an online food-delivery platform. It supports four user roles – **Customer**, **Restaurant**, **Delivery Person** and **Admin** – covering registration/login, restaurant discovery, cart & ordering, order fulfilment and platform administration.
+A pickup-only ordering platform for **House of Shukita**, built for our society: a customer storefront with the real menu and photos, and a dashboard where the restaurant owner runs everything, all backed by a secure Spring Boot API. Customers order ahead and collect from the restaurant; there is no home delivery.
 
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.4-brightgreen)
-![MySQL](https://img.shields.io/badge/DB-MySQL-blue)
-![Build](https://img.shields.io/badge/Build-Maven-red)
+![MySQL](https://img.shields.io/badge/DB-MySQL%20%7C%20H2-blue)
+![Tests](https://img.shields.io/badge/tests-26%20passing-success)
 
 ---
 
-## 📑 Table of Contents
-1. [Tech Stack](#-tech-stack)
-2. [Features Implemented](#-features-implemented)
-3. [Architecture & Project Structure](#-architecture--project-structure)
-4. [Data Model](#-data-model)
-5. [Order Lifecycle](#-order-lifecycle)
-6. [REST API Reference](#-rest-api-reference)
-7. [Validation & Error Handling](#-validation--error-handling)
-8. [Security](#-security)
-9. [Getting Started](#-getting-started)
-10. [Testing](#-testing)
-11. [Known Limitations / Roadmap](#-known-limitations--roadmap)
+## ✨ What it does
 
----
+| Who | What they can do |
+|-----|------------------|
+| **Customer** | Browse the 52-item menu with photos, search, filter by category and veg-only, build a cart, check out with just a contact number (cash / UPI at pickup), track the order live, get a "ready for pickup" notice, cancel before it is accepted |
+| **Restaurant owner (the boss)** | Runs everything from one dashboard: live order board (New → In the kitchen → Ready for pickup → Done), accept/reject, advance orders, mark orders handed over, cancel any open order, full order history, mark dishes sold out, change prices, pause/resume incoming orders, see summary numbers and reports (average time to pickup, average order value, top dishes), activate/deactivate customers |
 
-## 🧰 Tech Stack
+The restaurant, its menu, prices, photos and logo come from `src/main/resources/seed/house-of-shukita.json` and `static/images/` (source: the *Menu_21stOct* price list in `docs/house-of-shukita/`).
 
-| Layer | Technology |
-|-------|-----------|
-| Language / Runtime | Java 21 |
-| Framework | Spring Boot 3.3.4 (Web, Data JPA, Security, Thymeleaf) |
-| Database | MySQL (via `mysql-connector-j`), Hibernate ORM |
-| API Docs | springdoc-openapi 2.2.0 (Swagger UI) |
-| Validation | Jakarta Bean Validation 3.0.2 |
-| Boilerplate | Lombok |
-| Password hashing | BCrypt (`BCryptPasswordEncoder`) |
-| Testing | JUnit 5, Mockito 5, Spring Boot Test, Surefire |
-| Build | Maven (wrapper included) |
+## 🚀 Quick start
 
----
+**Prerequisites:** JDK 21 and either a local MySQL 8 *or* nothing (use the H2 profile).
 
-## ✅ Features Implemented
+```bash
+# Option A – zero setup (embedded H2 database stored in ./data)
+./mvnw spring-boot:run -Dspring-boot.run.profiles=h2
 
-### 👤 Customer
-- Register and log in (BCrypt-hashed passwords)
-- Update profile, saved addresses and saved payment cards
-- Fetch customer by ID
-- Browse all restaurants
-- Search restaurants by **name**, **cuisine type**, **veg-only** flag and **food item name**
-- Create/update cart (items + quantities, tied to a restaurant)
-- Place an order from the cart (cart is moved into order history)
-- Track order status (`orderId → status`)
-- View order history
-
-### 🍽️ Restaurant
-- Register and log in
-- Update restaurant details (cuisine, veg-only, opening/closing hours, delivery zones)
-- Fetch restaurant by ID
-- View and update the **menu** (items with price, description, availability)
-- View incoming orders and update order status
-- Deactivate a restaurant
-
-### 🛵 Delivery Person
-- Register and log in
-- Update profile (contact details, vehicle type)
-- Toggle availability
-- View available deliveries (orders in `Order Placed` state)
-- Update the status of an order being delivered
-- Fetch by ID, deactivate
-
-### 🛡️ Admin
-- Register and log in
-- Create users of any role (`/createUser`)
-- Update or deactivate a Customer / Restaurant / Delivery Person
-- View all orders, **cancel** an order, **reschedule** (change status of) an order
-- **Reports** (`/generateReports`): most popular restaurant, fastest-delivery restaurant, most-ordered item
-- **Platform activity dashboard** (`/platformActivity`): active users, ongoing deliveries, total / pending / completed orders
-
-### 🌐 Web Pages (Thymeleaf)
-- Homepage, Login, Register and catalogue templates with shared header/footer fragments and custom CSS
-
-### ⚙️ Cross-cutting
-- Centralised exception handling (`@ControllerAdvice`) with consistent `ResponseDTO` bodies
-- Input validation annotations on request DTOs
-- DTO ↔ entity mapping layer (`mappers`)
-- Swagger / OpenAPI documentation
-- Unit tests for all controllers and service implementations
-
----
-
-## 🏗️ Architecture & Project Structure
-
-Classic layered architecture: **Controller → Service → Repository → Entity**, with DTOs and mappers isolating the API from the persistence model.
-
-```
-foodie
-├── pom.xml
-├── mvnw / mvnw.cmd
-└── src
-    ├── main
-    │   ├── java/com/bits/foodie
-    │   │   ├── FoodieApplication.java
-    │   │   ├── controller/     # Admin, Customer, DeliveryPerson, Restaurant, Home
-    │   │   ├── service/        # Service interfaces + SecurityConfig, SwaggerConfig
-    │   │   │   └── impl/       # Business logic implementations
-    │   │   ├── repository/     # Spring Data JPA repositories
-    │   │   ├── model/          # JPA entities
-    │   │   ├── dto/            # DTOs
-    │   │   │   ├── payload/    # LoginRequestDTO, RegisterRequestDTO
-    │   │   │   └── response/   # ResponseDTO, PlatformActivityDTO
-    │   │   ├── mappers/        # Entity <-> DTO mappers
-    │   │   ├── exception/      # Custom exceptions + GlobalExceptionHandler
-    │   │   └── utility/        # FoodieConstants (roles, order statuses)
-    │   └── resources
-    │       ├── application.properties
-    │       ├── static/css/styles.css
-    │       └── templates/      # Login, Register, homepage, catalogue, fragments/
-    └── test/java/com/bits/foodie
-        ├── FoodieApplicationTests.java
-        └── test
-            ├── controller/     # 4 controller test classes
-            └── service/        # 4 service test classes
+# Option B – MySQL on localhost:3306 (database `shukita_foodie` is created automatically)
+export FOODIE_DB_PASSWORD=your-mysql-root-password
+./mvnw spring-boot:run
 ```
 
-`HomeController` acts as the single entry point for **role-based registration and login** (`/api/v1/save`, `/api/v1/login`) and delegates to the role-specific controllers.
+Windows: use `mvnw.cmd` and `set VAR=value` instead of `export`. Open **http://localhost:8080**.
 
----
+### Demo accounts (development defaults)
 
-## 🗄️ Data Model
+| Role | Email | Password | Lands on |
+|------|-------|----------|----------|
+| Restaurant owner | `houseofshukita@gmail.com` | `Shukita@12345` | `/dashboard/restaurant` |
+| Customer | sign up on `/register` | – | `/orders` |
+
+> These defaults are for local development only. The `prod` profile **refuses to start** until you override them (see below).
+
+### Try the whole flow in two browsers
+1. As a customer, add dishes, check out → order appears as *Order placed*.
+2. As the restaurant: **Accept → Start preparing → Mark ready**.
+3. The customer's *My orders* page (it refreshes itself every few seconds) tells them to collect the order; the restaurant then taps **Handed over**.
+
+## ⚙️ Configuration
+
+Everything is an environment variable with a safe development default (`application.properties`).
+
+| Variable | Purpose | Default |
+|----------|---------|---------|
+| `FOODIE_DB_URL` / `FOODIE_DB_USER` / `FOODIE_DB_PASSWORD` | Database | local MySQL `shukita_foodie`, `root` / `password` |
+| `FOODIE_JWT_SECRET` | JWT signing key (32+ chars) | dev-only value |
+| `FOODIE_JWT_EXPIRY_MINUTES` | Token lifetime | `480` |
+| `FOODIE_RESTAURANT_EMAIL` / `_PASSWORD` | Seeded restaurant owner | dev defaults |
+| `FOODIE_DDL_AUTO` | Hibernate schema mode | `update` |
+| `PORT` | HTTP port | `8080` |
+
+### Production
+```bash
+export SPRING_PROFILES_ACTIVE=prod
+export FOODIE_JWT_SECRET="$(openssl rand -base64 48)"
+export FOODIE_RESTAURANT_PASSWORD=...
+export FOODIE_DB_URL=jdbc:mysql://db-host:3306/shukita_foodie  FOODIE_DB_USER=...  FOODIE_DB_PASSWORD=...
+./mvnw -DskipTests package && java -jar target/foodie-1.0.0.jar
+```
+The `prod` profile disables Swagger and aborts on development secrets. Serve it behind HTTPS (reverse proxy / load balancer). A `Dockerfile` and `docker-compose.yml` are included.
+
+## 🏗️ Architecture
 
 ```
-Customer 1──* Address
-Customer 1──* Card
-Customer 1──1 Cart 1──* CartItem *──1 Item
-Customer 1──* Order 1──1 Cart
-Restaurant 1──1 Menu 1──* Item
-Restaurant *──* deliveryZones (element collection)
-Admin, DeliveryPerson (standalone)
+Browser (Thymeleaf shells + vanilla JS)  ──JWT──▶  REST API (/api/v1)  ──▶  Services  ──▶  JPA  ──▶  MySQL / H2
 ```
 
-| Entity | Key fields |
-|--------|-----------|
-| `Customer` | name, unique email, password, role, isActive, addresses, saved cards, cart, order history |
-| `Restaurant` | name, unique email, address, cuisineType, isVegOnly, opening/closing hours, deliveryZones, menu, isActive, orderCount |
-| `DeliveryPerson` | name, unique email, contactDetails, vehicleType, devAvailable, isActive |
-| `Admin` | name, unique email, role |
-| `Menu` / `Item` | menu → items; item has name, price, description, isAvailable |
-| `Cart` / `CartItem` | restId, total price, items with quantity |
-| `Order` | cart, restaurantId, amount, status, isCancelled, deliveryTimeInMinutes, customer |
-| `Address` / `Card` | customer-owned address and payment card (`YearMonth` expiry) |
-
----
-
-## 🔄 Order Lifecycle
-
-Statuses are defined in `FoodieConstants`:
-
 ```
-Order Placed  →  Preparing  →  Picked Up  →  En Route  →  Delivered
+src/main/java/com/bits/foodie
+├── config/       AppProperties, DataSeeder (menu + accounts), ProductionGuard, OpenApiConfig
+├── security/     SecurityConfig, JwtService, JwtAuthFilter, LoginAttemptService
+├── domain/       User, Restaurant, MenuItem, Order, OrderItem + enums (Role, OrderStatus, PaymentMethod)
+├── repository/   Spring Data repositories
+├── service/      AuthService, CatalogService, OrderService, AdminService, CustomerService
+├── web/          REST controllers + PageController (HTML routes)
+├── dto/          Request/response records with validation
+└── exception/    ApiException + one global handler → uniform JSON errors
+src/main/resources
+├── seed/house-of-shukita.json     restaurant + 52 dishes
+├── static/{css,js,images}         frontend assets (menu photos, logo, hero)
+└── templates/{layout,pages}       Thymeleaf pages
 ```
 
-- **Customer** places the order (`Order Placed`)
-- **Restaurant** / **Delivery Person** / **Admin** advance the status through the update endpoints
-- **Admin** can cancel an order at any time
+### Order lifecycle
+```
+PLACED → ACCEPTED → PREPARING → READY_FOR_PICKUP → COLLECTED
+   └────────────── CANCELLED (rules below) ──────────────┘
+```
 
----
+| Actor | Allowed moves |
+|-------|---------------|
+| Customer (own order) | cancel while `PLACED` |
+| Restaurant owner | next step (accept, prepare, mark ready, mark collected) or cancel any open order, at any stage |
 
-## 📡 REST API Reference
+Steps cannot be skipped, finished orders cannot change, and concurrent updates to the same order are rejected (optimistic locking).
 
-Base path: `/api/v1`. Interactive docs: **http://localhost:8080/swagger-ui.html** (OpenAPI JSON at `/v3/api-docs`).
-
-### Authentication / Registration (`HomeController`)
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/api/v1/save` | Register a `customer`, `deliveryperson` or `restaurant` (by `role`) |
-| `POST` | `/api/v1/login` | Log in as one of those roles |
-
-### Customer – `/api/v1/customer`
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `PATCH` | `/` | Update customer |
-| `GET` | `/id/{customerId}` | Get customer |
-| `GET` | `/restaurants` | List all restaurants |
-| `GET` | `/restaurants/search` | Search (`restaurantName`, `cuisineType`, `isVegOnly`, `foodItemName`) |
-| `POST` | `/id/{customerId}/updateCart` | Update cart |
-| `POST` | `/id/{customerId}/placeOrder` | Place order from cart |
-| `GET` | `/id/{customerId}/trackOrders` | Order id → status map |
-| `GET` | `/id/{customerId}/viewOrderHistory` | Past orders |
-
-### Restaurant – `/api/v1/restaurant`
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/` | List restaurants |
-| `GET` | `/{restaurantId}` | Get restaurant |
-| `PATCH` | `/{restaurantId}` | Update restaurant |
-| `GET` | `/{restaurantId}/menu` | Get menu |
-| `PATCH` | `/{restaurantId}/menu` | Update menu |
-| `GET` | `/{restaurantId}/viewOrders` | View orders |
-| `PATCH` | `/{restaurantId}/order/{orderId}/updateOrderStatus?status=` | Update order status |
-| `GET` | `/search` | Search restaurants |
-| `DELETE` | `/{restaurantId}/deactivate` | Deactivate |
-
-### Delivery Person – `/api/v1/deliveryPerson`
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/{id}` | Get delivery person |
-| `PATCH` | `/{id}` | Update profile |
-| `GET` | `/viewAvailableDeliveries` | Orders awaiting pickup |
-| `PATCH` | `/id/{id}/order/{orderId}/updateOrderStatus?status=` | Update order status |
-| `PATCH` | `/id/{id}/manageDeliveryAvailability?availability=` | Set availability |
-
-### Admin – `/api/v1/admin`
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/save` | Register admin |
-| `POST` | `/login` | Admin login |
-| `POST` | `/createUser` | Create any user |
-| `PATCH` | `/updateUser/{userRole}/{userId}` | Update user |
-| `PATCH` | `/deactivateUser/{userRole}/{userId}` | Deactivate user |
-| `GET` | `/viewAllOrders` | All orders |
-| `PATCH` | `/cancelOrder/{orderId}` | Cancel order |
-| `PATCH` | `/rescheduleOrder/{orderId}?status=` | Change order status |
-| `GET` | `/generateReports` | Performance report |
-| `GET` | `/platformActivity` | Platform activity summary |
-
-### Web pages
-`GET /`, `/home`, `/login`, `/register`
-
----
-
-## 🧯 Validation & Error Handling
-
-- **Validation**: `@NotNull`, `@Email`, `@Size` (password 6–20 chars) on `LoginRequestDTO` and `RegisterRequestDTO`.
-- **Custom exceptions**: `ResourceNotFoundException`, `InvalidInputException`, `OperationFailedException`.
-- **`GlobalExceptionHandler`** maps exceptions to a uniform `ResponseDTO { message, status }`:
-
-| Exception | HTTP status |
-|-----------|-------------|
-| `ResourceNotFoundException`, `NoSuchElementException` | 404 |
-| `InvalidInputException`, `IllegalArgumentException` | 400 |
-| `OperationFailedException`, any other `Exception` | 500 |
-
----
+### Pricing
+Prices are stored **excluding GST** (as in the price list). The server computes `subtotal + 5% GST` from the database on every order; the client never sends prices. Order lines are snapshots, so later menu edits don't alter past orders.
 
 ## 🔐 Security
+- Stateless **JWT** auth (HS256); role and active flag are re-checked from the database on every request, so deactivating a user takes effect immediately.
+- **RBAC** by URL (`/restaurant-admin`, `/customers`) plus ownership checks in services (customers only see their own orders).
+- Passwords hashed with **BCrypt**; policy: 8–72 chars with a letter and a number.
+- Brute-force lockout (5 failures → 15 minutes), identical error for unknown email vs wrong password.
+- Self-registration always creates a customer; the restaurant owner account is provisioned from configuration.
+- Server-side validation on every request; no stack traces or internals in error responses; all HTML output escaped in the UI; open-redirect-safe `next=` handling.
+- No cookies are used, so CSRF is not applicable (documented in `SecurityConfig`).
 
-- Passwords are stored hashed with **BCrypt**.
-- `SecurityConfig` defines a `SecurityFilterChain` (custom `/login` page, logout, CSRF disabled for the API) and the `PasswordEncoder` bean.
-- Admin report/activity endpoints are annotated with `@PreAuthorize("hasRole('Admin')")`.
+## 📡 API
+Interactive docs (dev): **http://localhost:8080/swagger-ui.html**. All errors look like `{timestamp, status, error, message, path, fieldErrors?}`.
 
-> ⚠️ See [Known Limitations](#-known-limitations--roadmap) – the current filter chain permits all requests.
+| Area | Endpoints |
+|------|-----------|
+| Auth | `POST /api/v1/auth/register`, `POST /auth/login`, `GET /auth/me` |
+| Public | `GET /api/v1/restaurants`, `/restaurants/{id}`, `/restaurants/{id}/menu` |
+| Customer | `GET·PATCH /customers/me` |
+| Orders | `POST /orders`, `GET /orders/mine`, `GET /orders/{id}`, `PATCH /orders/{id}/status`, `POST /orders/{id}/cancel` |
+| Restaurant owner | `GET /restaurant-admin/restaurant`, `/orders` (`?filter=ALL` for history), `/menu`, `/summary`, `/reports`, `/customers`; `PATCH /restaurant-admin/menu/{itemId}`, `/settings`, `/customers/{id}/active` |
+| Health | `GET /actuator/health` |
 
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-- JDK 21
-- MySQL running on `localhost:3306`
-- Maven (or use the bundled wrapper)
-
-### Configure
-Edit `src/main/resources/application.properties`:
-
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/foodie?createDatabaseIfNotExist=true
-spring.datasource.username=root
-spring.datasource.password=<your-password>
-```
-
-The `foodie` database is created automatically if it does not exist.
-
-### Run
-```bash
-# Linux / macOS
-./mvnw spring-boot:run
-
-# Windows
-mvnw.cmd spring-boot:run
-```
-
-The app starts at **http://localhost:8080**.
-
-### Example requests
-```bash
-# Register a customer
-curl -X POST http://localhost:8080/api/v1/save \
-  -H "Content-Type: application/json" \
-  -d '{"role":"customer","customerName":"Asha","customerEmail":"asha@example.com","password":"secret123"}'
-
-# Login
-curl -X POST http://localhost:8080/api/v1/login \
-  -H "Content-Type: application/json" \
-  -d '{"role":"customer","customerEmail":"asha@example.com","password":"secret123"}'
-
-# Search restaurants
-curl "http://localhost:8080/api/v1/customer/restaurants/search?cuisineType=Italian&isVegOnly=true"
-```
-
----
-
-## 🧪 Testing
-
-Unit tests use **JUnit 5 + Mockito** and cover every controller and service implementation (76 test methods across 8 classes).
-
+## 🧪 Tests
 ```bash
 ./mvnw test
 ```
+26 tests: unit tests (JWT, order state machine) and full-stack integration tests on in-memory H2 covering auth, validation, lockout, RBAC, server-side pricing, the complete order lifecycle, cancellation rules, sold-out dishes, paused ordering, the legacy-delivery database migration, owner summary/reports/customer management and page/asset serving.
 
-| Area | Test classes |
-|------|--------------|
-| Controllers | `AdminControllerTest`, `CustomerControllerTest`, `DeliveryPersonControllerTest`, `RestaurantControllerTest` |
-| Services | `AdminServiceImplTest`, `CustomerServiceImplTest`, `DeliveryPersonServiceImplTest`, `RestaurantServiceImplTest` |
-| Context | `FoodieApplicationTests` |
+## 📝 Notes for the restaurant owner
+- **Veg / non-veg labels**: dishes with egg are marked non-veg. *The Full House Breakfast* and *Gym Bro Combo* have no label because their contents aren't in the price list – set `"veg": true/false` for them in the seed JSON (or tell us).
+- **Photos**: most dishes use the restaurant's own photos. Where none existed, a similar stock photo from Wikimedia Commons is used (credited on the `/credits` page, source list in `docs/house-of-shukita/IMAGE_CREDITS.md`) – replace them with your own whenever you like. Three combos still show the logo placeholder. Drop new images into `static/images/menu/` and reference them in the seed JSON (`"image": "file.jpg"`); dishes that have no photo yet pick it up on the next start.
+- **Seed behaviour**: on every start only *missing* dishes are added; prices/availability changed from the dashboard are never overwritten.
+- **Opening hours and the shop address** are not in the price list, so no hours are enforced – use the *Accepting orders* switch.
 
----
+## 🔄 Upgrading an older database
+On start-up the app migrates a database created by the earlier delivery/admin version: delivery-partner and admin accounts, the address book and the delivery columns are removed, and old orders are mapped onto the pickup statuses (`DELIVERED` → `COLLECTED`, `OUT_FOR_DELIVERY` → `READY_FOR_PICKUP`). It is a no-op on a fresh or already-migrated database.
 
-## 🚧 Known Limitations / Roadmap
-
-These are observations from the current codebase, listed so they can be tackled next:
-
-- **Security is not enforced**: `SecurityConfig` permits `/**`, and the `spring.security.enabled=false` properties are not real Spring Boot 3 settings. There is no JWT/session auth, so `@PreAuthorize` has no effect in practice. Role-based authorization should be added.
-- **Validation is declared but not triggered**: controllers don't use `@Valid` on request bodies.
-- **Database config**: `ddl-auto=create` wipes the schema on every start, and DB credentials are committed in `application.properties` – move to environment variables / profiles and use `update` or migrations (Flyway/Liquibase).
-- **Entities returned directly** from several endpoints (including password hashes) – return DTOs instead.
-- `placeOrder` returns `null` for an empty/invalid cart rather than a proper 4xx error.
-- Placeholder methods on some entities (e.g. `Admin.generateReports()`) are unused stubs.
-- Order-status transitions are not validated against the lifecycle.
-- The `catalogue.html` page is a stub; the UI is not yet wired to the REST API.
-
----
-
-## 📄 License
-No license specified yet – add one (e.g. MIT) before publishing publicly.
+## 🗺️ Not included yet
+Online payment gateway (payment is at pickup), SMS/email notifications, multiple restaurants in the UI (the data model already supports them), password reset, restaurant onboarding screen.
