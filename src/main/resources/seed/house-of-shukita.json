@@ -46,15 +46,13 @@
       "category": "Maggi",
       "name": "Cheesy Melted Veg Maggi",
       "price": 169,
-      "veg": true,
-      "image": "veg-maggi-1.jpg"
+      "veg": true
     },
     {
       "category": "Maggi",
       "name": "Cheese Fried Atta Maggi",
       "price": 169,
-      "veg": true,
-      "image": "veg-maggi-2.jpg"
+      "veg": true
     },
     {
       "category": "Maggi",
@@ -105,7 +103,6 @@
       "name": "Devil Spicy Wai Wai",
       "price": 149,
       "veg": true,
-      "image": "wai-wai-fried.jpg",
       "spicy": true,
       "bestseller": true
     },
@@ -113,15 +110,13 @@
       "category": "Wai Wai",
       "name": "Street Fried Wai Wai",
       "price": 149,
-      "veg": true,
-      "image": "wai-wai-fried.jpg"
+      "veg": true
     },
     {
       "category": "Wai Wai",
       "name": "Cheesy Melted Wai Wai",
       "price": 169,
-      "veg": true,
-      "image": "wai-wai-fried.jpg"
+      "veg": true
     },
     {
       "category": "Wai Wai",
@@ -244,7 +239,6 @@
       "description": "2 pcs",
       "price": 199,
       "veg": true,
-      "image": "besan-chilla.jpg",
       "healthy": true
     },
     {
@@ -252,7 +246,6 @@
       "name": "Fruit Oats Bowl",
       "price": 219,
       "veg": true,
-      "image": "oats-fruit-bowl.jpg",
       "healthy": true
     },
     {
@@ -268,7 +261,6 @@
       "name": "Paneer Bhurji",
       "price": 179,
       "veg": true,
-      "image": "paneer-bhurji.jpg",
       "healthy": true
     },
     {
@@ -277,7 +269,6 @@
       "description": "2 eggs",
       "price": 99,
       "veg": false,
-      "image": "boiled-eggs.jpg",
       "healthy": true
     },
     {
@@ -295,7 +286,6 @@
       "description": "2 eggs",
       "price": 149,
       "veg": false,
-      "image": "masala-omelette.jpg",
       "healthy": true
     },
     {
@@ -311,15 +301,13 @@
       "name": "Butter Bread Omelette",
       "description": "2 eggs",
       "price": 169,
-      "veg": false,
-      "image": "bread-omelette.jpg"
+      "veg": false
     },
     {
       "category": "Sandwiches",
       "name": "Garden Crunch Veg Sandwich",
       "price": 149,
       "veg": true,
-      "image": "veg-sandwich.jpg",
       "healthy": true
     },
     {
@@ -333,8 +321,7 @@
       "category": "Sandwiches",
       "name": "Cheese Pull Veg Sandwich",
       "price": 169,
-      "veg": true,
-      "image": "cheese-sandwich.jpg"
+      "veg": true
     },
     {
       "category": "Sandwiches",
@@ -348,7 +335,6 @@
       "name": "Sattu Raja Paratha",
       "price": 169,
       "veg": true,
-      "image": "sattu-paratha.jpg",
       "healthy": true
     },
     {
@@ -362,22 +348,19 @@
       "category": "Parathas",
       "name": "Butter Paratha",
       "price": 69,
-      "veg": true,
-      "image": "butter-paratha.jpg"
+      "veg": true
     },
     {
       "category": "Parathas",
       "name": "Ghee Paratha",
       "price": 69,
-      "veg": true,
-      "image": "ghee-paratha.jpg"
+      "veg": true
     },
     {
       "category": "Parathas",
       "name": "Plain Paratha",
       "price": 79,
-      "veg": true,
-      "image": "plain-paratha.jpg"
+      "veg": true
     },
     {
       "category": "Rotis",

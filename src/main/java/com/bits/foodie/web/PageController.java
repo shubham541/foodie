@@ -25,11 +25,6 @@ public class PageController {
         return "pages/register";
     }
 
-    @GetMapping("/credits")
-    public String credits() {
-        return "pages/credits";
-    }
-
     @GetMapping("/orders")
     public String orders() {
         return "pages/orders";

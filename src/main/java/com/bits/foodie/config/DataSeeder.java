@@ -26,7 +26,7 @@ import java.util.List;
  * Idempotent start-up seeding of the House of Shukita restaurant, its menu (seed/house-of-shukita.json)
  * and the restaurant-owner account (the owner manages everything). Safe to run on every boot: existing rows
  * (including prices or availability changed by the owner) are never overwritten; only missing dishes are added
- * dishes that still have no photo get the one from the seed file, and the menu order and the
+ * the photos, the menu order and the
  * spicy/bestseller/healthy tags always follow the seed file.
  */
 @Component
@@ -131,9 +131,7 @@ public class DataSeeder implements ApplicationRunner {
             String name = n.get("name").asText();
             MenuItem known = existing.stream().filter(m -> m.getName().equals(name)).findFirst().orElse(null);
             if (known != null) {
-                if (known.getImageUrl() == null && n.hasNonNull("image")) {
-                    known.setImageUrl(IMAGE_BASE + n.get("image").asText()); // photos added after the first seed
-                }
+                known.setImageUrl(n.hasNonNull("image") ? IMAGE_BASE + n.get("image").asText() : null); // photos follow the seed file
                 known.setSortOrder(order); // menu arrangement and tags follow the seed file
                 applyTags(known, n);
                 continue;

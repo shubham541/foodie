@@ -195,7 +195,7 @@ class OrderFlowApiTest extends ApiTestSupport {
 
     @Test
     void pagesAndStaticAssetsAreServed() throws Exception {
-        for (String p : List.of("/", "/login", "/register", "/orders", "/credits", "/dashboard/restaurant",
+        for (String p : List.of("/", "/login", "/register", "/orders", "/dashboard/restaurant",
                 "/images/brand/logo.jpg", "/images/menu/poha.jpg")) {
             assertThat(mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get(p)).andReturn()
                     .getResponse().getStatus()).as(p).isEqualTo(200);
