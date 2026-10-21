@@ -1,6 +1,8 @@
-# 🍔 Foodie – House of Shukita
+# 🍽️ House of Shukita – Online Ordering Platform
 
-A pickup-only ordering platform for **House of Shukita**, built for our society: a customer storefront with the real menu and photos, and a dashboard where the restaurant owner runs everything, all backed by a secure Spring Boot API. Customers order ahead and collect from the restaurant; there is no home delivery.
+A **single-restaurant, own-brand ordering platform** – the model used by Domino's, Pizza Hut or Meghna Biryani's own apps, not an aggregator like Swiggy or Zomato. One restaurant, one menu, one owner who runs everything: customers browse the menu with photos, order ahead and collect it fresh; the owner manages orders, stock, prices and customers from a live dashboard. It is built for **House of Shukita** and runs on a secure Spring Boot API.
+
+> **Fulfilment today:** pickup only (customers order ahead and collect from the restaurant). A delivery option is on the roadmap.
 
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.4-brightgreen)
@@ -9,12 +11,20 @@ A pickup-only ordering platform for **House of Shukita**, built for our society:
 
 ---
 
+## 🎯 Why a single-restaurant platform
+| Aggregator marketplace | This platform |
+|---|---|
+| Many restaurants, commissions on every order | One brand, **no commission** – the restaurant keeps its margin and its customer data |
+| Menu and ranking decided by the marketplace | The owner controls menu order, bestsellers, spicy/healthy tags, prices and stock |
+| Needs restaurant onboarding, admins, riders | **One owner role** runs everything; customers just order |
+| Generic experience | Own branding, own photos, own offers |
+
 ## ✨ What it does
 
 | Who | What they can do |
 |-----|------------------|
-| **Customer** | Browse the 52-item menu with photos, search, filter by category and veg-only, build a cart, check out with just a contact number (cash / UPI at pickup), track the order live, get a "ready for pickup" notice, cancel before it is accepted |
-| **Restaurant owner (the boss)** | Runs everything from one dashboard: live order board (New → In the kitchen → Ready for pickup → Done), accept/reject, advance orders, mark orders handed over, cancel any open order, full order history, mark dishes sold out, change prices, pause/resume incoming orders, see summary numbers and reports (average time to pickup, average order value, top dishes), activate/deactivate customers |
+| **Customer** | Browse the 52-item menu with the restaurant's own photos, ⭐ bestseller / 🌶 spicy / 🥗 healthy tags and filters, search, filter by category and veg-only, build a cart, check out with just a contact number (cash / UPI at pickup), track the order live, get a "ready for pickup" notice, cancel before it is accepted |
+| **Restaurant owner (the boss)** | Runs everything from one dashboard: live order board (New → In the kitchen → Ready for pickup → Done), accept/reject, advance orders, mark orders handed over, cancel any open order, full order history, flip stock switches for sold-out dishes, change prices, pause/resume incoming orders, see summary numbers and reports (average time to pickup, average order value, top dishes), activate/deactivate customers |
 
 The restaurant, its menu, prices, photos and logo come from `src/main/resources/seed/house-of-shukita.json` and `static/images/` (source: the *Menu_21stOct* price list in `docs/house-of-shukita/`).
 
@@ -145,5 +155,10 @@ Interactive docs (dev): **http://localhost:8080/swagger-ui.html**. All errors lo
 ## 🔄 Upgrading an older database
 On start-up the app migrates a database created by the earlier delivery/admin version: delivery-partner and admin accounts, the address book and the delivery columns are removed, and old orders are mapped onto the pickup statuses (`DELIVERED` → `COLLECTED`, `OUT_FOR_DELIVERY` → `READY_FOR_PICKUP`). It is a no-op on a fresh or already-migrated database.
 
-## 🗺️ Not included yet
-Online payment gateway (payment is at pickup), SMS/email notifications, multiple restaurants in the UI (the data model already supports them), password reset, restaurant onboarding screen.
+## 🗺️ Roadmap
+- **Delivery option** (own riders or a partner) alongside pickup, with address book and delivery fee
+- Online payment gateway (UPI/cards) – payment is at pickup today
+- SMS / WhatsApp / email order notifications, pickup time slots
+- Reorder button, add-ons (extra cheese / egg), combo offers and a loyalty scheme
+- Password reset
+- Multiple outlets of the same brand (the data model already supports more than one restaurant; the UI shows one)
