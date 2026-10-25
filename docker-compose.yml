@@ -1,4 +1,7 @@
-# docker compose up --build   (copy .env.example to .env and set real secrets first)
+# Production stack: Caddy (automatic HTTPS) -> app -> MySQL. Only ports 80/443 are exposed.
+#   cp .env.example .env   # set real secrets and DOMAIN first
+#   docker compose up -d --build
+# See docs/DEPLOY.md for the full free-hosting walkthrough.
 services:
   db:
     image: mysql:8.4
@@ -6,12 +9,13 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${FOODIE_DB_PASSWORD:?set FOODIE_DB_PASSWORD in .env}
       MYSQL_DATABASE: shukita_foodie
+    command: ["--innodb-buffer-pool-size=256M", "--max-connections=60", "--character-set-server=utf8mb4"]
     volumes:
       - dbdata:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${FOODIE_DB_PASSWORD}"]
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
       interval: 10s
-      retries: 10
+      retries: 12
 
   app:
     build: .
@@ -19,14 +23,34 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
     environment:
+      SPRING_PROFILES_ACTIVE: prod
+      JAVA_TOOL_OPTIONS: -Xmx512m
       FOODIE_DB_URL: jdbc:mysql://db:3306/shukita_foodie?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       FOODIE_DB_USER: root
       FOODIE_DB_PASSWORD: ${FOODIE_DB_PASSWORD}
       FOODIE_JWT_SECRET: ${FOODIE_JWT_SECRET:?set FOODIE_JWT_SECRET in .env}
+      FOODIE_RESTAURANT_EMAIL: ${FOODIE_RESTAURANT_EMAIL:-houseofshukita@gmail.com}
       FOODIE_RESTAURANT_PASSWORD: ${FOODIE_RESTAURANT_PASSWORD:?set FOODIE_RESTAURANT_PASSWORD in .env}
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN:?set DOMAIN in .env (e.g. shukita.duckdns.org or 1.2.3.4.nip.io)}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddydata:/data
+      - caddyconfig:/config
 
 volumes:
   dbdata:
+  caddydata:
+  caddyconfig:

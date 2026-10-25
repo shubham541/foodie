@@ -1,0 +1,15 @@
+# Optional local database for development only (matches the application.properties defaults):
+#   docker compose -f docker-compose.dev.yml up -d
+# Production never uses this; it runs against the hosted database (see docs/DEPLOY.md).
+services:
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: shukita_foodie
+    ports:
+      - "3306:3306"
+    volumes:
+      - devdata:/var/lib/mysql
+volumes:
+  devdata:

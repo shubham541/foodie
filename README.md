@@ -7,7 +7,7 @@ A **single-restaurant, own-brand ordering platform** – the model used by Domin
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.4-brightgreen)
 ![MySQL](https://img.shields.io/badge/DB-MySQL%20%7C%20H2-blue)
-![Tests](https://img.shields.io/badge/tests-27%20passing-success)
+![Tests](https://img.shields.io/badge/tests-29%20passing-success)
 
 ---
 
@@ -36,7 +36,7 @@ The restaurant, its menu, prices, photos and logo come from `src/main/resources/
 # Option A – zero setup (embedded H2 database stored in ./data)
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=h2
 
-# Option B – MySQL on localhost:3306 (database `shukita_foodie` is created automatically)
+# Option B – local MySQL for development (docker compose -f docker-compose.dev.yml up -d), database `shukita_foodie` is created automatically
 export FOODIE_DB_PASSWORD=your-mysql-root-password
 ./mvnw spring-boot:run
 ```
@@ -71,6 +71,8 @@ Everything is an environment variable with a safe development default (`applicat
 | `PORT` | HTTP port | `8080` |
 
 ### Production
+**Go live for free (always on):** follow **[docs/DEPLOY.md](docs/DEPLOY.md)** – Oracle Cloud Always Free VM + Docker Compose + automatic HTTPS, with backup and update scripts. The manual steps below are for any other host.
+
 ```bash
 export SPRING_PROFILES_ACTIVE=prod
 export FOODIE_JWT_SECRET="$(openssl rand -base64 48)"
@@ -78,7 +80,7 @@ export FOODIE_RESTAURANT_PASSWORD=...
 export FOODIE_DB_URL=jdbc:mysql://db-host:3306/shukita_foodie  FOODIE_DB_USER=...  FOODIE_DB_PASSWORD=...
 ./mvnw -DskipTests package && java -jar target/foodie-1.0.0.jar
 ```
-The `prod` profile disables Swagger and aborts on development secrets. Serve it behind HTTPS (reverse proxy / load balancer). A `Dockerfile` and `docker-compose.yml` are included.
+The `prod` profile disables Swagger and aborts on development secrets. Serve it behind HTTPS (reverse proxy / load balancer). `Dockerfile`, `docker-compose.yml` (app + MySQL + Caddy HTTPS) and `deploy/` scripts are included.
 
 ## 🏗️ Architecture
 
@@ -143,7 +145,7 @@ Interactive docs (dev): **http://localhost:8080/swagger-ui.html**. All errors lo
 ```bash
 ./mvnw test
 ```
-27 tests: unit tests (JWT, order state machine) and full-stack integration tests on in-memory H2 covering auth, validation, lockout, RBAC, server-side pricing, the complete order lifecycle, cancellation rules, sold-out dishes, paused ordering, the legacy-delivery database migration, owner summary/reports/customer management and page/asset serving.
+29 tests: unit tests (JWT, order state machine) and full-stack integration tests on in-memory H2 covering auth, validation, lockout, RBAC, server-side pricing, the complete order lifecycle, cancellation rules, sold-out dishes, paused ordering, the legacy-delivery database migration, owner summary/reports/customer management and page/asset serving.
 
 ## 📝 Notes for the restaurant owner
 - **Veg / non-veg labels**: dishes with egg are marked non-veg. *The Full House Breakfast* and *Gym Bro Combo* have no label because their contents aren't in the price list – set `"veg": true/false` for them in the seed JSON (or tell us).
